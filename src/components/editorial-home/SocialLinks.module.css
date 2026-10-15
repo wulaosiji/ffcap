@@ -1,0 +1,33 @@
+.edSocialLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 20px;
+  color: var(--ed-muted, currentColor);
+}
+
+.edSocialLinks a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.edSocialLinks a:hover {
+  color: var(--ed-accent, currentColor);
+  border-color: currentColor;
+}
+
+.edSocialLinks a:focus-visible {
+  color: var(--ed-accent, currentColor);
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edSocialLinks a { transition: none; }
+}

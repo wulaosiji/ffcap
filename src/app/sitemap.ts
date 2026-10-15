@@ -1,0 +1,18 @@
+import { PRODUCTS, TOPICS } from '@/content/editorial.mjs'
+import type { MetadataRoute } from 'next'
+import { getResearchCatalog } from '@/lib/research'
+import { getEnglishResearchCatalog } from '@/lib/english-research'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    { url: 'https://ffcap.cn', changeFrequency: 'weekly', priority: 1 },
+    { url: 'https://ffcap.cn/about', changeFrequency: 'monthly', priority: .6 },
+    { url: 'https://ffcap.cn/research', changeFrequency: 'weekly', priority: .9 },
+    { url: 'https://ffcap.cn/en/research', changeFrequency: 'weekly', priority: .7 },
+    { url: 'https://ffcap.cn/for-models', changeFrequency: 'monthly', priority: .5 },
+    ...PRODUCTS.map(p => ({ url: `https://ffcap.cn/products/${p.id}`, priority: .6 })),
+    ...TOPICS.map(t => ({ url: `https://ffcap.cn/topics/${t.id}`, priority: .8 })),
+    ...getResearchCatalog().filter(a => !a.sourceIncomplete).map(article => ({ url: `https://ffcap.cn/research/${article.slug}`, priority: .7 })),
+    ...getEnglishResearchCatalog().map(article => ({ url: `https://ffcap.cn/en/research/${article.slug}`, priority: .6 })),
+  ]
+}

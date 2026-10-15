@@ -1,0 +1,65 @@
+{
+  "sourceRelease": "/www/wwwroot/ffcap-releases/20261015-ga4-v1",
+  "sourceBuildId": "EN67UDRMog2Rwij13zFBd",
+  "sourceFiles": 2090,
+  "runtime": {
+    "node": "22.22.2",
+    "host": "47.100.55.67",
+    "pm2": "ffcap"
+  },
+  "preserved": [
+    {
+      "path": "src/app/layout.tsx",
+      "bytes": 967,
+      "sha256": "ca2881dcc4b00e69043f04dc55c59fdf78691218d0a7c63eda19d9e0f6f2bec5"
+    },
+    {
+      "path": "src/components/GoogleAnalytics.tsx",
+      "bytes": 789,
+      "sha256": "d6ad17d81d709e3dc564378470519b08b4db458e74e004952ea108185e22193e"
+    },
+    {
+      "path": "src/content/research/catalog.json",
+      "bytes": 20271759,
+      "sha256": "25c09886563999e33c866924ddd79d1a7905c8cef2699c41c555e0938909a2fa"
+    },
+    {
+      "path": "src/content/research/english-catalog.json",
+      "bytes": 168615,
+      "sha256": "f5bb5ab567874a8b2c27cc9e5338fe3ce35af19f05a75752ccef453079882d60"
+    },
+    {
+      "path": "src/lib/analytics-runtime.js",
+      "bytes": 3293,
+      "sha256": "32f4d9b919b8047028ba122e6335664c26911cb71d0a0efd83353d21cd42ea53"
+    },
+    {
+      "path": "public/world/blender/cloud-courtyard-v2-layout.json",
+      "bytes": 5195861,
+      "sha256": "3567a0834294345e862795fcb6d65dee745f8e5b0f46fed05ecb220e3a83460c"
+    },
+    {
+      "path": "public/world/blender/cloud-courtyard-v2.glb",
+      "bytes": 30636996,
+      "sha256": "43721ec9d54fd73385ffe6e86581ddb1ae266f224d862c2c0de1a97bbb8c4f86"
+    }
+  ],
+  "staticEntries": [
+    {
+      "path": "ops/static-entries/bp.html",
+      "sha256": "5bcb3b1892e00786fb2443441ed8218d47d85c6c14a44c10d624eb75a1e11559"
+    },
+    {
+      "path": "ops/static-entries/open.html",
+      "sha256": "616a57464fe13f7af9c010082bd263342e30b66869bfa1bab3beca9276184e73"
+    },
+    {
+      "path": "ops/static-entries/rankings.html",
+      "sha256": "d0617652b40d01c50af948d087f44521e496d2c552c467dc1cfb00b607d30979"
+    },
+    {
+      "path": "ops/static-entries/report.html",
+      "sha256": "eea8bbfca3868f2cb128bf0f54de1fc7172f19085cdd4ab8059ae3c274467f29"
+    }
+  ]
+}

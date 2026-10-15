@@ -1,0 +1,35 @@
+/* 苹果液态玻璃风格卡片 */
+.glassmorphism-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.6);
+  border-radius: 1.25rem; /* 2xl */
+  border: 1.5px solid rgba(255,255,255,0.6);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.dark .glassmorphism-card {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.18);
+}
+.glassmorphism-card:hover {
+  box-shadow: 0 12px 48px 0 rgba(31,38,135,0.18);
+  transform: scale(1.04) translateY(-2px);
+}
+/* 彩色光晕 */
+.glassmorphism-glow {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 80%;
+  height: 48px;
+  border-radius: 9999px;
+  filter: blur(24px);
+  opacity: 0.38;
+  background: linear-gradient(90deg, #7dd3fc 0%, #a7f3d0 40%, #fef08a 70%, #fca5a5 100%);
+  z-index: 1;
+} 

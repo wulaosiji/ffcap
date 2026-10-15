@@ -1,0 +1,111 @@
+/* Original settlement interface. Input is opt-in; normal browsing stays available. */
+.ed-settlement{position:relative;isolation:isolate;height:100svh;min-height:560px;background:#9fb5b7;color:#fff;overflow:hidden;outline:none!important;font-family:inherit}
+.ed-settlement-poster,.ed-settlement-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ed-settlement-poster{filter:none}
+.ed-settlement-canvas{opacity:0;transition:opacity .8s;touch-action:pan-y}
+/* The opaque scene covers its matching poster; never expose the base color
+   between hiding the image and completing the canvas fade-in. */
+.ed-settlement-ready .ed-settlement-canvas{opacity:1}
+.ed-settlement-playing .ed-settlement-canvas{touch-action:none;cursor:grab}.ed-settlement-playing .ed-settlement-canvas:active{cursor:grabbing}
+.ed-settlement-vignette{position:absolute;inset:0;box-shadow:inset 0 -110px 90px -80px #16251bb3,inset 0 90px 90px -75px #193f6470;pointer-events:none}
+.ed-settlement-browse{position:absolute;top:104px;right:42px;display:flex;gap:11px;align-items:center;min-height:44px;font-size:12px;text-shadow:0 1px 8px #253424}
+.ed-settlement-intro{position:absolute;bottom:73px;left:50%;transform:translateX(-50%);text-align:center;width:min(460px,calc(100% - 36px));pointer-events:none}
+.ed-settlement-intro>p{font-size:13px;letter-spacing:.19em;margin-bottom:18px;text-shadow:0 1px 12px #263729}
+.ed-settlement-enter{display:flex;align-items:center;justify-content:center;gap:14px;min-width:44px;min-height:44px;margin:auto;border:0;border-radius:0;background:none;color:#fff;font-family:inherit;font-size:18px;letter-spacing:normal;box-shadow:none;pointer-events:auto;text-shadow:0 1px 8px #253424}
+.ed-settlement .ed-settlement-enter{color:#fff;font-size:18px}
+.ed-settlement-intro small{display:block;margin-top:13px;font-size:10px;letter-spacing:.05em;color:#f6f5e9;text-shadow:0 1px 9px #263729}
+.ed-settlement-loading{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 19px;font-size:14px;letter-spacing:.06em}
+.ed-settlement-bottom{position:absolute;left:42px;right:42px;bottom:max(22px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:end;pointer-events:none}
+.ed-settlement-bottom>div:first-child{display:flex;flex-direction:column;gap:8px;font-size:12px;letter-spacing:.09em;text-shadow:0 1px 7px #16372c}
+.ed-settlement-bottom small{font-size:8px;letter-spacing:.08em;color:#f3f4e5}
+.ed-settlement-utilities{display:flex;gap:12px;align-items:center;pointer-events:auto}
+.ed-settlement-utilities button{width:44px;height:44px;flex-shrink:0}
+.ed-settlement-utilities button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.ed-settlement-audio-error{position:absolute;bottom:76px;right:24px;max-width:260px;font-size:11px;color:#fff;background:#233731d9;padding:8px 12px;border-radius:8px}
+.ed-settlement-utilities button{border:0;background:#2c3a3538;border-radius:22px;color:#fff;min-height:44px;min-width:44px;padding:0 12px;font:inherit;font-size:10px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.ed-settlement-playbar{position:absolute;top:105px;left:42px;right:42px;display:flex;justify-content:space-between;pointer-events:none;align-items:center;font-size:12px;letter-spacing:.05em;text-shadow:0 1px 8px #253424}
+.ed-settlement-playbar button{pointer-events:auto;display:grid;place-items:center;width:44px;height:44px;color:white;border:1px solid #ffffff60;border-radius:50%;background:#23373140}
+.ed-settlement-playing .ed-settlement-browse{top:160px}
+.ed-settlement-help{position:absolute;bottom:138px;left:50%;transform:translateX(-50%);font-size:10px;line-height:1.8;background:#2c3c3660;border-radius:20px;padding:7px 17px;white-space:nowrap;pointer-events:none}
+.ed-settlement-actions{position:absolute;bottom:82px;left:50%;transform:translateX(-50%);display:flex;gap:9px}
+.ed-settlement-actions button{display:flex;gap:10px;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 17px;background:#f6efd6e8;color:#484b3e;border:1px solid #fff8da98;border-radius:28px;font-size:12px;white-space:nowrap}
+.ed-settlement-destination select{min-height:44px;max-width:190px;padding:0 28px 0 16px;background:#f6efd6ed;color:#484b3e;border:1px solid #fff8da98;border-radius:24px;font:inherit;font-size:12px;cursor:pointer}
+.ed-settlement-actions :is(button,select):focus-visible{outline:2px solid #fffdf0;outline-offset:3px}
+.ed-settlement-dpad{position:absolute;bottom:105px;left:40px;display:grid;grid-template-columns:repeat(3,46px);grid-template-rows:repeat(2,44px);gap:5px;opacity:.88}
+.ed-settlement-dpad button{width:46px;height:44px;background:#30433965;color:white;border:1px solid #f6efd28a;border-radius:12px;display:grid;place-items:center;touch-action:none;user-select:none}
+.ed-settlement-dpad button:active{background:#e4e4cb;color:#384632}
+.ed-move-up{grid-column:2;grid-row:1}.ed-move-left{grid-column:1;grid-row:2}.ed-move-down{grid-column:2;grid-row:2}.ed-move-right{grid-column:3;grid-row:2}
+.ed-settlement-room{position:absolute;right:42px;top:230px;width:280px;padding:25px;background:#eeebdfe8;color:#40493f;border:1px solid #fdf8eb;box-shadow:0 10px 50px #23372b17;backdrop-filter:blur(14px)}
+.ed-settlement-room>p:first-child{font-size:9px;letter-spacing:.15em;color:#74776d}.ed-settlement-room h2{font-size:25px;margin:14px 0;font-weight:500;letter-spacing:-.02em}.ed-settlement-room>p{font-size:12px;line-height:1.9}
+.ed-settlement-room>a{display:flex;gap:20px;align-items:center;min-height:44px;margin-top:12px;border-top:1px solid #656c513b;font-size:12px}
+.ed-settlement-paused{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);padding:24px 32px;background:#eeebddf0;color:#354432;border-radius:8px;display:flex;align-items:center;gap:25px;font-size:13px}.ed-settlement-paused button{display:flex;align-items:center;gap:15px;border:0;background:none;min-height:44px;font-size:13px;color:inherit}
+@media(max-width:760px){.ed-settlement{min-height:560px}.ed-settlement-browse{top:89px;right:20px;font-size:10px}.ed-settlement-intro{bottom:94px}.ed-settlement-intro>p{font-size:11px}.ed-settlement-enter{min-width:218px;min-height:56px;font-size:16px}.ed-settlement-bottom{left:21px;right:21px;bottom:max(15px,env(safe-area-inset-bottom))}.ed-settlement-bottom>div:first-child{font-size:10px;gap:5px;max-width:55%}.ed-settlement-bottom small{font-size:7px;line-height:1.7;max-width:160px}.ed-settlement-utilities{gap:5px}.ed-settlement-utilities button{font-size:9px;padding:0 10px}.ed-settlement-playbar{left:21px;right:21px;top:93px;font-size:11px}.ed-settlement-playing .ed-settlement-browse{top:143px}.ed-settlement-help{bottom:234px;max-width:calc(100% - 35px);white-space:normal;text-align:center;width:310px;font-size:9px;padding:6px 12px}.ed-settlement-actions{bottom:79px;left:auto;right:20px;transform:none;flex-direction:column;align-items:end;gap:8px}.ed-settlement-actions button{font-size:10px;min-height:44px;padding:0 13px}.ed-settlement-dpad{bottom:107px;left:20px;grid-template-columns:repeat(3,45px);grid-template-rows:repeat(2,45px);gap:5px}.ed-settlement-dpad button{width:45px;height:45px}.ed-settlement-room{right:20px;left:20px;top:200px;width:auto;padding:16px 20px}.ed-settlement-room h2{font-size:21px;margin:9px 0}.ed-settlement-room>p{font-size:11px}.ed-settlement-room>a{margin-top:7px}.ed-settlement-room>p:first-child{font-size:8px}.ed-settlement-paused{padding:17px 23px;white-space:nowrap}}
+@media(max-height:600px) and (min-width:761px){.ed-settlement{min-height:min(430px,100svh)}.ed-settlement-intro{bottom:53px}.ed-settlement-intro>p,.ed-settlement-intro small{display:none}.ed-settlement-bottom{bottom:max(15px,env(safe-area-inset-bottom))}.ed-settlement-browse,.ed-settlement-playbar{top:87px}.ed-settlement-help{bottom:102px}.ed-settlement-actions{bottom:52px}.ed-settlement-dpad{bottom:80px}.ed-settlement-room{top:145px;padding:15px;width:250px}}
+@media(prefers-reduced-motion:reduce){.ed-settlement *{transition:none!important;animation:none!important}}
+.ed-settlement-mobile-help{display:none}
+.ed-settlement-reveal{position:absolute;left:20px;right:20px;bottom:88px;text-align:center;pointer-events:none}
+.ed-settlement-reveal p{font-size:12px;letter-spacing:.08em;text-shadow:0 1px 10px #24392b;margin-bottom:16px}
+.ed-settlement-reveal button{pointer-events:auto;display:inline-flex;align-items:center;gap:14px;min-height:44px;padding:0 8px;border:0;border-radius:0;background:none;color:#fff;font:inherit;font-size:12px;text-shadow:0 1px 8px #253424}
+.ed-settlement[data-phase="reveal"] .ed-settlement-canvas{touch-action:pan-y;cursor:default}
+.ed-settlement-weather-preview{position:absolute;left:42px;top:158px;z-index:2;max-width:175px;background:#f4efdbeb;color:#354438;border:1px solid #fffae499;border-radius:12px;padding:0 12px;font-size:11px;box-shadow:0 4px 24px #25372b15}
+.ed-settlement-weather-preview summary{min-height:44px;display:flex;align-items:center;cursor:pointer;list-style:none}
+.ed-settlement-weather-preview summary::-webkit-details-marker{display:none}
+.ed-settlement-weather-preview label{display:block;padding-bottom:12px;font-size:9px}
+.ed-settlement-weather-preview select{display:block;margin-top:7px;min-height:44px;width:148px;background:#fffdf1;border:1px solid #8a967f;border-radius:7px;padding:0 9px;font:inherit;font-size:12px;color:#354438}
+.ed-settlement-poster-tools{position:absolute;left:42px;top:158px;z-index:3;width:352px;padding:16px;background:#f4efdb;color:#354438;border-radius:12px;font-size:12px}
+.ed-settlement-poster-tools :is(button,a){display:block;min-height:44px;padding:12px 0;color:inherit;background:none;border:0;text-decoration:underline;cursor:pointer}
+.ed-settlement-poster-tools img{width:320px;height:90px;object-fit:contain}
+@media(max-width:760px){.ed-settlement-reveal{bottom:110px}.ed-settlement-reveal p{font-size:10px}}
+@media(max-width:760px){
+  .ed-settlement-destination select{width:142px;font-size:11px;padding-left:12px;padding-right:20px}
+  .ed-settlement-actions:has(.ed-settlement-destination){bottom:79px}
+  .ed-settlement-weather-preview{left:20px;top:143px}
+  .ed-settlement-desktop-help{display:none}.ed-settlement-mobile-help{display:inline}
+  .ed-settlement-room{top:176px;padding:14px 18px;max-width:280px}
+  .ed-settlement-room>p:not(:first-child){display:none}
+}
+/* Short landscape phones must keep controls inside the playable viewport. */
+@media(max-width:760px) and (max-height:600px){
+  .ed-settlement{min-height:100svh}
+  .ed-settlement-intro{bottom:62px}
+  .ed-settlement-intro>p,.ed-settlement-intro small,.ed-settlement-help{display:none}
+  .ed-settlement-browse{top:76px;right:20px}
+  .ed-settlement-playbar{top:72px;left:20px;right:20px}
+  .ed-settlement-playing .ed-settlement-browse{top:119px}
+  .ed-settlement-dpad{bottom:77px;left:20px}
+  .ed-settlement-actions{bottom:68px;right:20px;flex-direction:row;gap:7px}
+  .ed-settlement-room{top:116px;left:auto;right:20px;width:235px;padding:12px 15px}
+  .ed-settlement-room h2{font-size:17px;margin:5px 0}
+  .ed-settlement-room>p:not(:first-child){display:none}
+  .ed-settlement-room>a{margin-top:5px;min-height:44px}
+  .ed-settlement-playing:has(.ed-settlement-room) .ed-settlement-browse{display:none}
+  .ed-settlement-bottom{bottom:max(12px,env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){
+  .ed-settlement-dpad{grid-template-columns:repeat(3,41px);gap:5px}
+  .ed-settlement-dpad button{width:41px}
+  .ed-settlement-destination select{width:134px}
+}
+@media(max-width:480px) and (max-height:600px){
+  .ed-settlement-actions:has(.ed-settlement-destination){flex-direction:column;bottom:68px}
+}
+/* Guided-only mode leaves the landscape unobstructed; keep old manual styles
+   dormant for the retained prototypes, without rendering their controls. */
+.ed-settlement[data-navigation="guided"] .ed-settlement-actions{left:50%;right:auto;transform:translateX(-50%);flex-direction:row;align-items:center}
+.ed-settlement-characters{position:absolute;z-index:4;left:clamp(20px,4vw,64px);bottom:116px;display:flex;gap:7px}
+.ed-settlement-characters button{width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25);border-radius:50%;color:#fff;background:rgba(18,25,27,.48);backdrop-filter:blur(12px);cursor:pointer}
+.ed-settlement-characters button[aria-pressed="true"]{background:rgba(231,211,162,.94);color:#292b29;border-color:#f0ddb5}
+.ed-settlement-characters button:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.ed-settlement :is(.ed-settlement-characters button,.ed-settlement-actions button):disabled{opacity:.45;cursor:wait}
+@media(max-width:760px){.ed-settlement-characters{bottom:185px;left:20px;gap:6px}}
+@media(max-height:600px){.ed-settlement-characters{bottom:70px;left:20px}}
+/* Text entrances keep button semantics for scene actions, but no button shell.
+   Only the underline appears on hover; keyboard focus remains clearly visible. */
+.ed-settlement :is(.ed-settlement-enter,.ed-settlement-reveal button){text-decoration-line:underline;text-decoration-color:transparent;text-decoration-thickness:1px;text-underline-offset:.3em;transition:text-decoration-color .18s;cursor:pointer}
+.ed-settlement :is(.ed-settlement-enter,.ed-settlement-reveal button):is(:hover,:focus-visible){text-decoration-color:currentColor}
+.ed-settlement :is(.ed-settlement-enter,.ed-settlement-reveal button):focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(max-width:760px){
+  .ed-settlement .ed-settlement-enter{min-width:44px;min-height:44px;font-size:18px}
+  .ed-settlement-reveal button{font-size:12px}
+  .ed-settlement[data-navigation="guided"] .ed-settlement-help{bottom:137px}
+}

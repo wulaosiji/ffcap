@@ -1,0 +1,1 @@
+export function sampleCloudPresence(idleSeconds:number,options:{x:number;z:number;heading?:number;manualSeconds?:number;reducedMotion?:boolean}):{yaw:number;pitch:number;amount:number;cameraYaw:number;cameraDolly:number;target:string}

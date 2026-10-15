@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "sha256": "7e30d590e48da69679044a5f5c7346cb134f42e48edd23bec3ede60bd5ef1f93",
+  "bytes": 3169120,
+  "revision": "r03",
+  "kind": "robot",
+  "source": "Original Blender geometry; generated reference 16-robot-turnaround-r01.png",
+  "license": "Original project asset",
+  "coordinateSystem": "Y-up",
+  "forward": "-Z"
+}

@@ -1,0 +1,2 @@
+import type {CloudCharacterKind} from './cloudCharacterProfile.mjs'
+export function createEntranceSelection<C extends {dispose():void}>(options:{allowedKinds?:readonly CloudCharacterKind[];phase():string;prepare(kind:CloudCharacterKind):Promise<C>;commit(candidate:C,kind:CloudCharacterKind):void;onBusy?(busy:boolean):void;onError?(error:unknown):void}):{select(kind:CloudCharacterKind):Promise<boolean>;cancel():void;dispose():void}

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unique Research - 打开研报</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #6425D0 0%, #7948EA 50%, #A855F7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    
+    /* 背景动画 - 星云效果 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05) 0%, transparent 40%);
+      animation: nebula 25s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes nebula {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      50% { transform: translate(-2%, 2%) rotate(5deg); opacity: 0.8; }
+    }
+    
+    .container {
+      position: relative;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 48px 36px;
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 
+        0 25px 80px rgba(100, 37, 208, 0.4),
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .logo {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6425D0 0%, #7948EA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+    
+    .status {
+      font-size: 14px;
+      color: #7948EA;
+      margin-bottom: 28px;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .status.loading::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border: 2px solid #7948EA;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px 28px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-decoration: none;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+    
+    .btn:active::after {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #6425D0 0%, #7948EA 100%);
+      color: white;
+      box-shadow: 0 8px 24px rgba(100, 37, 208, 0.4);
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 16px rgba(100, 37, 208, 0.4);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      box-shadow: none;
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .btn-secondary:active {
+      transform: scale(0.97);
+      background: linear-gradient(135deg, #e4e8f0 0%, #d4d8e0 100%);
+    }
+    
+    .btn-icon {
+      margin-right: 8px;
+    }
+    
+    .success-message {
+      color: #52c41a;
+      font-size: 14px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tips {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(100, 37, 208, 0.15);
+    }
+    
+    .tips-title {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .tips-content {
+      font-size: 13px;
+      color: #888;
+      line-height: 2;
+      text-align: left;
+      background: rgba(100, 37, 208, 0.05);
+      padding: 16px;
+      border-radius: 12px;
+    }
+    
+    .tips-content span {
+      color: #6425D0;
+      font-weight: 500;
+    }
+    
+    /* 微信环境特殊样式 */
+    .wechat-tip {
+      display: none;
+      background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+      color: white;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(7, 193, 96, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(7, 193, 96, 0); }
+    }
+    
+    .wechat-tip.show {
+      display: block;
+    }
+    
+    /* 研报信息卡片 */
+    .report-preview {
+      display: none;
+      background: linear-gradient(135deg, rgba(100, 37, 208, 0.08) 0%, rgba(121, 72, 234, 0.08) 100%);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    
+    .report-preview.show {
+      display: block;
+    }
+    
+    .report-preview-label {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+    
+    .report-preview-id {
+      font-size: 14px;
+      color: #333;
+      font-family: 'SF Mono', Monaco, monospace;
+      word-break: break-all;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 400px) {
+      .container {
+        padding: 36px 24px;
+        border-radius: 20px;
+      }
+      
+      .logo {
+        font-size: 48px;
+      }
+      
+      .title {
+        font-size: 20px;
+      }
+    }
+  </style>
+
+<!-- FFCAP GA4: manual page views, query-free -->
+<script>
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.FFCAPAnalytics = factory();
+})(typeof window === 'undefined' ? globalThis : window, function () {
+  'use strict';
+
+  var STATE_KEY = '__ffcapAnalyticsV1';
+  var ORIGIN = 'https://ffcap.cn';
+
+  function safeLocation(pathname) {
+    try {
+      var url = new URL(pathname || '/', ORIGIN);
+      return url.origin === ORIGIN ? ORIGIN + url.pathname : ORIGIN + '/';
+    } catch (_) { return ORIGIN + '/'; }
+  }
+
+  function safeReferrer(value) {
+    if (!value) return '';
+    try {
+      var url = new URL(value);
+      return /^(https?:)$/.test(url.protocol) ? url.origin + url.pathname : '';
+    } catch (_) { return ''; }
+  }
+
+  function getAnalytics(measurementId, suppliedWindow) {
+    var win = suppliedWindow || (typeof window !== 'undefined' ? window : null);
+    if (!win || !/^G-[A-Z0-9]+$/.test(measurementId)) return null;
+    if (win.location.hostname !== 'ffcap.cn' && win.location.hostname !== 'www.ffcap.cn') return null;
+
+    var states = win[STATE_KEY] || (win[STATE_KEY] = Object.create(null));
+    if (states[measurementId]) return states[measurementId];
+
+    var state = { lastLocation: '', track: track };
+    states[measurementId] = state;
+    try {
+      win.dataLayer = win.dataLayer || [];
+      win.gtag = win.gtag || function () { win.dataLayer.push(arguments); };
+      var initial = {
+        page_location: safeLocation(win.location.pathname),
+        page_referrer: safeReferrer(win.document.referrer),
+        page_title: win.document.title
+      };
+      win.gtag('js', new Date());
+      win.gtag('set', initial);
+      win.gtag('config', measurementId, Object.assign({}, initial, {
+        send_page_view: false,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
+      }));
+
+      // Added after initialization; no tag load or network result is awaited.
+      var scriptId = 'ffcap-google-tag-' + measurementId;
+      if (!win.document.getElementById(scriptId)) {
+        var script = win.document.createElement('script');
+        script.id = scriptId;
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
+        script.onerror = function () {};
+        win.document.head.appendChild(script);
+      }
+    } catch (_) {
+      delete states[measurementId];
+      return null;
+    }
+
+    return state;
+
+    function track(pathname, title) {
+      var location = safeLocation(pathname || win.location.pathname);
+      if (location === state.lastLocation) return false;
+      var parameters = {
+        page_location: location,
+        page_referrer: state.lastLocation || safeReferrer(win.document.referrer),
+        page_title: typeof title === 'string' ? title : win.document.title
+      };
+      try {
+        // Shared defaults also keep later automatic engagement events query-free.
+        win.gtag('set', parameters);
+        win.gtag('event', 'page_view', Object.assign({ send_to: measurementId }, parameters));
+        state.lastLocation = location;
+        return true;
+      } catch (_) { return false; }
+    }
+  }
+
+  return { getAnalytics: getAnalytics, safeLocation: safeLocation, safeReferrer: safeReferrer };
+});
+
+window.addEventListener("load", function () {
+  try { var tracker = window.FFCAPAnalytics.getAnalytics("G-JP9FNSTQYM");
+    if (tracker) tracker.track(window.location.pathname, document.title);
+  } catch (_) {}
+});
+</script>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">📊</div>
+    <div class="title">Unique Research</div>
+    <div class="subtitle" id="subtitleText">正在打开研究报告...</div>
+    
+    <!-- 微信环境提示 -->
+    <div class="wechat-tip" id="wechatTip">
+      🎉 检测到微信环境，即将自动跳转...
+    </div>
+    
+    <!-- 研报ID预览 -->
+    <div class="report-preview" id="reportPreview">
+      <div class="report-preview-label">报告 ID</div>
+      <div class="report-preview-id" id="reportIdDisplay">-</div>
+    </div>
+    
+    <div class="status loading" id="status">正在跳转微信小程序...</div>
+    
+    <button class="btn btn-primary" id="openBtn" onclick="openReport()">
+      <span class="btn-icon">📱</span>打开小程序
+    </button>
+    
+    <button class="btn btn-secondary" id="copyBtn" onclick="copyLink()">
+      <span class="btn-icon">📋</span>复制当前网页链接
+    </button>
+
+    <a class="btn btn-secondary" id="webBtn" href="https://unique.superun.yun/reports">
+      <span class="btn-icon">🌐</span>使用网页版查看
+    </a>
+    
+    <div id="copySuccess" class="success-message" style="display: none;">
+      <span>✅</span> 已复制，可粘贴到微信中打开
+    </div>
+    
+    <div class="tips">
+      <div class="tips-title">💡 打开失败？试试这样做</div>
+      <div class="tips-content">
+        <strong>1.</strong> 点击「<span>打开小程序</span>」再次尝试<br>
+        <strong>2.</strong> 也可以复制当前网页链接后在微信中打开<br>
+        <strong>3.</strong> 仍无法打开时，使用网页版查看
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const REPORT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const UNIQUE_RESEARCH_ORIGIN = 'https://unique.superun.yun';
+    const REDIRECT_ORIGIN = 'https://ffcap.cn';
+    const ENTRY_LINK_ENDPOINT = 'https://o3t5cl6dq2ewq8ibkszx.db.superun.com/functions/v1/wechat-report-entry-link';
+    const ALLOWED_LINK_HOSTS = new Set(['wxaurl.cn', 'wxmpurl.cn']);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const reportIdValues = urlParams.getAll('id').concat(urlParams.getAll('reportId'));
+    const duplicateReportId = reportIdValues.length > 1;
+    const rawReportId = reportIdValues.length === 1 ? reportIdValues[0].trim() : '';
+    const reportId = !duplicateReportId && REPORT_ID_PATTERN.test(rawReportId)
+      ? rawReportId.toLowerCase()
+      : '';
+    const invalidReportId = duplicateReportId || Boolean(rawReportId && !reportId);
+    const reportPath = reportId ? '/reports/' + encodeURIComponent(reportId) : '/reports';
+    const webUrl = UNIQUE_RESEARCH_ORIGIN + reportPath;
+    const canonicalUrl = new URL('/report.html', REDIRECT_ORIGIN);
+    if (reportId) canonicalUrl.searchParams.set('id', reportId);
+
+    const isWechat = /MicroMessenger/i.test(navigator.userAgent);
+    const statusEl = document.getElementById('status');
+    const openBtn = document.getElementById('openBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const webBtn = document.getElementById('webBtn');
+    const subtitleEl = document.getElementById('subtitleText');
+    let opening = false;
+
+    webBtn.href = webUrl;
+
+    if (reportId) {
+      document.getElementById('reportPreview').classList.add('show');
+      document.getElementById('reportIdDisplay').textContent = reportId;
+      subtitleEl.textContent = '正在打开报告详情...';
+    } else if (invalidReportId) {
+      subtitleEl.textContent = '报告链接无效';
+      statusEl.className = 'status';
+      statusEl.textContent = '报告 ID 格式不正确，请重新获取分享链接';
+      openBtn.disabled = true;
+      copyBtn.disabled = true;
+    } else {
+      subtitleEl.textContent = '正在打开报告列表...';
+    }
+
+    window.addEventListener('load', function() {
+      if (invalidReportId) return;
+      if (isWechat) {
+        document.getElementById('wechatTip').classList.add('show');
+      }
+      window.setTimeout(openReport, 450);
+    });
+
+    async function openReport() {
+      if (invalidReportId || opening) return;
+      opening = true;
+      openBtn.disabled = true;
+      statusEl.className = 'status loading';
+      statusEl.textContent = '正在生成安全报告入口...';
+
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(function() { controller.abort(); }, 12000);
+      try {
+        const response = await fetch(ENTRY_LINK_ENDPOINT, {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'omit',
+          signal: controller.signal,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reportId ? { reportId: reportId } : {})
+        });
+        const result = await response.json().catch(function() { return {}; });
+        if (!response.ok || typeof result.urlLink !== 'string') {
+          const errorCode = result && result.error && result.error.code;
+          throw new Error(errorCode === 'report_not_found' ? 'report_unavailable' : 'entry_unavailable');
+        }
+        const target = new URL(result.urlLink);
+        const authority = result.urlLink.match(/^https:\/\/([^/?#]+)(?:[/?#]|$)/i);
+        if (
+          !authority ||
+          target.protocol !== 'https:' ||
+          !ALLOWED_LINK_HOSTS.has(target.hostname) ||
+          authority[1].toLowerCase() !== target.hostname ||
+          target.username ||
+          target.password ||
+          target.port
+        ) {
+          throw new Error('entry_invalid');
+        }
+        statusEl.textContent = '正在打开小程序...';
+        window.location.replace(target.toString());
+      } catch (error) {
+        statusEl.className = 'status';
+        statusEl.textContent = error && error.message === 'report_unavailable'
+          ? '报告不存在或已停止展示'
+          : '报告入口暂时不可用，可先使用网页版';
+        openBtn.disabled = false;
+        opening = false;
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    }
+
+    function copyLink() {
+      const copyBtn = document.getElementById('copyBtn');
+      const successMsg = document.getElementById('copySuccess');
+      const value = canonicalUrl.toString();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(showCopySuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+
+      function fallbackCopy() {
+        const input = document.createElement('input');
+        input.value = value;
+        input.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+        document.body.appendChild(input);
+        input.select();
+        input.setSelectionRange(0, input.value.length);
+        try {
+          if (!document.execCommand('copy')) throw new Error('copy_failed');
+          showCopySuccess();
+        } catch (error) {
+          window.prompt('请手动复制链接：', value);
+        }
+        document.body.removeChild(input);
+      }
+
+      function showCopySuccess() {
+        successMsg.style.display = 'flex';
+        copyBtn.innerHTML = '<span class="btn-icon">✅</span>已复制';
+        copyBtn.style.background = 'linear-gradient(135deg, #52c41a 0%, #389e0d 100%)';
+        copyBtn.style.color = 'white';
+        window.setTimeout(function() {
+          copyBtn.innerHTML = '<span class="btn-icon">📋</span>复制当前网页链接';
+          copyBtn.style.background = '';
+          copyBtn.style.color = '';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

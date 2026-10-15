@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>有好项目 - 打开项目</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1025 40%, #120e1a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(245, 166, 35, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(100, 37, 208, 0.08) 0%, transparent 40%);
+      animation: nebula 25s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes nebula {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      50% { transform: translate(-2%, 2%) rotate(5deg); opacity: 0.8; }
+    }
+
+    .container {
+      position: relative;
+      background: rgba(20, 18, 28, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(245, 166, 35, 0.15);
+      border-radius: 24px;
+      padding: 48px 36px;
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(245, 166, 35, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .logo {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #F5A623 0%, #F7C948 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 32px;
+    }
+
+    .status {
+      font-size: 14px;
+      color: #F5A623;
+      margin-bottom: 28px;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .status.loading::before {
+      content: '';
+      width: 16px; height: 16px;
+      border: 2px solid #F5A623;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px 28px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-decoration: none;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .btn:active::after { width: 300px; height: 300px; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #F5A623 0%, #E8960F 100%);
+      color: #1a1025;
+      box-shadow: 0 8px 24px rgba(245, 166, 35, 0.35);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 16px rgba(245, 166, 35, 0.35);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 166, 35, 0.25);
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.97);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .success-message {
+      color: #52c41a;
+      font-size: 14px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .wechat-tip {
+      display: none;
+      background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+      color: white;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(7, 193, 96, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(7, 193, 96, 0); }
+    }
+
+    .wechat-tip.show { display: block; }
+
+    .project-preview {
+      display: none;
+      background: rgba(245, 166, 35, 0.06);
+      border: 1px solid rgba(245, 166, 35, 0.12);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .project-preview.show { display: block; }
+
+    .project-preview-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 4px;
+    }
+
+    .project-preview-id {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'SF Mono', Monaco, monospace;
+      word-break: break-all;
+    }
+
+    .tips {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(245, 166, 35, 0.1);
+    }
+
+    .tips-title {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .tips-content {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 2;
+      text-align: left;
+      background: rgba(245, 166, 35, 0.04);
+      border: 1px solid rgba(245, 166, 35, 0.08);
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .tips-content span {
+      color: #F5A623;
+      font-weight: 500;
+    }
+
+    @media (max-width: 400px) {
+      .container { padding: 36px 24px; border-radius: 20px; }
+      .logo { font-size: 48px; }
+      .title { font-size: 20px; }
+    }
+  </style>
+
+<!-- FFCAP GA4: manual page views, query-free -->
+<script>
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.FFCAPAnalytics = factory();
+})(typeof window === 'undefined' ? globalThis : window, function () {
+  'use strict';
+
+  var STATE_KEY = '__ffcapAnalyticsV1';
+  var ORIGIN = 'https://ffcap.cn';
+
+  function safeLocation(pathname) {
+    try {
+      var url = new URL(pathname || '/', ORIGIN);
+      return url.origin === ORIGIN ? ORIGIN + url.pathname : ORIGIN + '/';
+    } catch (_) { return ORIGIN + '/'; }
+  }
+
+  function safeReferrer(value) {
+    if (!value) return '';
+    try {
+      var url = new URL(value);
+      return /^(https?:)$/.test(url.protocol) ? url.origin + url.pathname : '';
+    } catch (_) { return ''; }
+  }
+
+  function getAnalytics(measurementId, suppliedWindow) {
+    var win = suppliedWindow || (typeof window !== 'undefined' ? window : null);
+    if (!win || !/^G-[A-Z0-9]+$/.test(measurementId)) return null;
+    if (win.location.hostname !== 'ffcap.cn' && win.location.hostname !== 'www.ffcap.cn') return null;
+
+    var states = win[STATE_KEY] || (win[STATE_KEY] = Object.create(null));
+    if (states[measurementId]) return states[measurementId];
+
+    var state = { lastLocation: '', track: track };
+    states[measurementId] = state;
+    try {
+      win.dataLayer = win.dataLayer || [];
+      win.gtag = win.gtag || function () { win.dataLayer.push(arguments); };
+      var initial = {
+        page_location: safeLocation(win.location.pathname),
+        page_referrer: safeReferrer(win.document.referrer),
+        page_title: win.document.title
+      };
+      win.gtag('js', new Date());
+      win.gtag('set', initial);
+      win.gtag('config', measurementId, Object.assign({}, initial, {
+        send_page_view: false,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
+      }));
+
+      // Added after initialization; no tag load or network result is awaited.
+      var scriptId = 'ffcap-google-tag-' + measurementId;
+      if (!win.document.getElementById(scriptId)) {
+        var script = win.document.createElement('script');
+        script.id = scriptId;
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
+        script.onerror = function () {};
+        win.document.head.appendChild(script);
+      }
+    } catch (_) {
+      delete states[measurementId];
+      return null;
+    }
+
+    return state;
+
+    function track(pathname, title) {
+      var location = safeLocation(pathname || win.location.pathname);
+      if (location === state.lastLocation) return false;
+      var parameters = {
+        page_location: location,
+        page_referrer: state.lastLocation || safeReferrer(win.document.referrer),
+        page_title: typeof title === 'string' ? title : win.document.title
+      };
+      try {
+        // Shared defaults also keep later automatic engagement events query-free.
+        win.gtag('set', parameters);
+        win.gtag('event', 'page_view', Object.assign({ send_to: measurementId }, parameters));
+        state.lastLocation = location;
+        return true;
+      } catch (_) { return false; }
+    }
+  }
+
+  return { getAnalytics: getAnalytics, safeLocation: safeLocation, safeReferrer: safeReferrer };
+});
+
+window.addEventListener("load", function () {
+  try { var tracker = window.FFCAPAnalytics.getAnalytics("G-JP9FNSTQYM");
+    if (tracker) tracker.track(window.location.pathname, document.title);
+  } catch (_) {}
+});
+</script>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🚀</div>
+    <div class="title">有好项目</div>
+    <div class="subtitle" id="subtitleText">正在打开有好项目...</div>
+
+    <div class="wechat-tip" id="wechatTip">
+      已检测到微信环境，即将打开有好项目小程序。
+    </div>
+
+    <div class="status loading" id="status">正在准备安全入口...</div>
+
+    <button class="btn btn-primary" id="openBtn" onclick="openProject()">
+      <span class="btn-icon">🚀</span><span id="openBtnText">打开有好项目</span>
+    </button>
+
+    <button class="btn btn-secondary" id="copyBtn" onclick="copyLink()">
+      <span class="btn-icon">📋</span>复制当前网页链接
+    </button>
+
+    <div id="copySuccess" class="success-message" style="display: none;">
+      <span>✅</span> 已复制，可发送给已授权投资人
+    </div>
+
+    <div class="tips">
+      <div class="tips-title">💡 打开失败？试试这样做</div>
+      <div class="tips-content">
+        <strong>1.</strong> 点击「<span>打开项目</span>」再次尝试<br>
+        <strong>2.</strong> 复制当前网页链接后可继续转发<br>
+        <strong>3.</strong> 项目详情与 BP 按小程序当前访问设置执行
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PROJECT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const REDIRECT_ORIGIN = 'https://ffcap.cn';
+    const ENTRY_LINK_ENDPOINT = 'https://x8mjn5pcd4b90qirvzar.db.superun.com/functions/v1/wechat-project-entry-link';
+    const ALLOWED_LINK_HOSTS = new Set(['wxaurl.cn', 'wxmpurl.cn']);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectIdValues = urlParams.getAll('id');
+    const rawProjectId = (projectIdValues.length === 1 ? projectIdValues[0] : '').trim();
+    const hasProjectId = Boolean(rawProjectId);
+    const projectId = hasProjectId && PROJECT_ID_PATTERN.test(rawProjectId)
+      ? rawProjectId.toLowerCase()
+      : '';
+    const invalidProjectId = projectIdValues.length > 1 || (hasProjectId && !projectId);
+    const canonicalUrl = new URL('/bp.html', REDIRECT_ORIGIN);
+    if (projectId) canonicalUrl.searchParams.set('id', projectId);
+
+    const statusEl = document.getElementById('status');
+    const openBtn = document.getElementById('openBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const openBtnText = document.getElementById('openBtnText');
+    const subtitleEl = document.getElementById('subtitleText');
+    const isWechat = /MicroMessenger/i.test(navigator.userAgent);
+    let opening = false;
+
+    if (isWechat) {
+      document.getElementById('wechatTip').classList.add('show');
+    }
+
+    if (invalidProjectId) {
+      subtitleEl.textContent = '项目链接无效';
+      statusEl.className = 'status';
+      statusEl.textContent = '项目标识格式不正确，请联系分享者获取新链接';
+      openBtn.disabled = true;
+      copyBtn.disabled = true;
+    } else if (projectId) {
+      subtitleEl.textContent = '正在打开项目详情...';
+      openBtnText.textContent = '打开项目';
+    } else {
+      subtitleEl.textContent = '正在打开小程序首页...';
+      statusEl.textContent = '正在准备小程序首页入口...';
+      openBtnText.textContent = '打开小程序首页';
+    }
+
+    window.addEventListener('load', function() {
+      if (!invalidProjectId) window.setTimeout(openProject, 450);
+    });
+
+    async function openProject() {
+      if (invalidProjectId || opening) return;
+      opening = true;
+      openBtn.disabled = true;
+      statusEl.className = 'status loading';
+      statusEl.textContent = projectId
+        ? '正在生成安全项目入口...'
+        : '正在生成小程序首页入口...';
+
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(function() { controller.abort(); }, 12000);
+      try {
+        const response = await fetch(ENTRY_LINK_ENDPOINT, {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'omit',
+          signal: controller.signal,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(projectId ? { projectId: projectId } : {})
+        });
+        const result = await response.json().catch(function() { return {}; });
+        if (!response.ok || typeof result.urlLink !== 'string') {
+          const errorCode = result && result.error && result.error.code;
+          throw new Error(errorCode === 'project_not_found' ? 'project_unavailable' : 'entry_unavailable');
+        }
+        const target = new URL(result.urlLink);
+        const authority = result.urlLink.match(/^https:\/\/([^/?#]+)(?:[/?#]|$)/i);
+        if (
+          !authority ||
+          target.protocol !== 'https:' ||
+          !ALLOWED_LINK_HOSTS.has(target.hostname) ||
+          authority[1].toLowerCase() !== target.hostname ||
+          target.username ||
+          target.password ||
+          target.port
+        ) {
+          throw new Error('entry_invalid');
+        }
+        statusEl.textContent = '正在打开小程序...';
+        window.location.replace(target.toString());
+      } catch (error) {
+        statusEl.className = 'status';
+        statusEl.textContent = error && error.message === 'project_unavailable'
+          ? '项目不存在或已停止展示'
+          : '项目入口暂时不可用，请稍后重试';
+        openBtn.disabled = false;
+        opening = false;
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    }
+
+    function copyLink() {
+      const copyBtn = document.getElementById('copyBtn');
+      const successMsg = document.getElementById('copySuccess');
+      const value = canonicalUrl.toString();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(showCopySuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+
+      function fallbackCopy() {
+        const input = document.createElement('input');
+        input.value = value;
+        input.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+        document.body.appendChild(input);
+        input.select();
+        input.setSelectionRange(0, input.value.length);
+        try {
+          if (!document.execCommand('copy')) throw new Error('copy_failed');
+          showCopySuccess();
+        } catch (error) {
+          window.prompt('请手动复制链接：', value);
+        }
+        document.body.removeChild(input);
+      }
+
+      function showCopySuccess() {
+        successMsg.style.display = 'flex';
+        copyBtn.innerHTML = '<span class="btn-icon">✅</span>已复制';
+        copyBtn.style.background = 'linear-gradient(135deg, #52c41a 0%, #389e0d 100%)';
+        copyBtn.style.color = 'white';
+        copyBtn.style.border = 'none';
+        window.setTimeout(function() {
+          copyBtn.innerHTML = '<span class="btn-icon">📋</span>复制当前网页链接';
+          copyBtn.style.background = '';
+          copyBtn.style.color = '';
+          copyBtn.style.border = '';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

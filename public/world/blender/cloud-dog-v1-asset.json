@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "asset": "cloud-dog-v1-r04-sit6.glb",
+  "sha256": "9f6c9c1453a8f935f58decbc3991dddc2c5a2bdc7aa2f70579a9e90b7f7a8f8b",
+  "bytes": 7409436,
+  "triangles": 53999,
+  "vertices": 27271,
+  "materials": 10,
+  "bones": 32,
+  "boundsBlender": [
+    [
+      -0.1422056257724762,
+      -0.59833824634552,
+      0.0
+    ],
+    [
+      0.14221984148025513,
+      0.5274712443351746,
+      0.7700625061988831
+    ]
+  ],
+  "maximumAuthoredReachRatio": 0.9901459178813496,
+  "cloudDog": {
+    "schemaVersion": 1,
+    "coordinateSystem": "Y-up",
+    "forward": "-Z",
+    "gait": {
+      "idle": {
+        "duration": 3.6,
+        "speed": 0,
+        "duty": 1
+      },
+      "walk": {
+        "duration": 0.64,
+        "speed": 0.75,
+        "duty": 0.64
+      },
+      "run": {
+        "duration": 0.48,
+        "speed": 1.6,
+        "duty": 0.55
+      },
+      "sit": {
+        "duration": 3.6,
+        "speed": 0,
+        "duty": 1
+      }
+    },
+    "legs": {
+      "FL": {
+        "upper": "FL_upper",
+        "lower": "FL_lower",
+        "paw": "FL_paw",
+        "toe": "FL_toe",
+        "soleOffset": [
+          -7.450580596923828e-09,
+          0.0806322991847992,
+          -0.022078096866607666
+        ],
+        "phaseWalk": 0,
+        "phaseRun": 0
+      },
+      "FR": {
+        "upper": "FR_upper",
+        "lower": "FR_lower",
+        "paw": "FR_paw",
+        "toe": "FR_toe",
+        "soleOffset": [
+          7.450580596923828e-09,
+          0.0806322991847992,
+          -0.022078096866607666
+        ],
+        "phaseWalk": 0.5,
+        "phaseRun": 0.5
+      },
+      "HL": {
+        "upper": "HL_upper",
+        "lower": "HL_lower",
+        "paw": "HL_paw",
+        "toe": "HL_toe",
+        "soleOffset": [
+          0.0,
+          0.1280069649219513,
+          -0.013274788856506348
+        ],
+        "phaseWalk": 0.25,
+        "phaseRun": 0.5
+      },
+      "HR": {
+        "upper": "HR_upper",
+        "lower": "HR_lower",
+        "paw": "HR_paw",
+        "toe": "HR_toe",
+        "soleOffset": [
+          0.0,
+          0.1280069649219513,
+          -0.013274788856506348
+        ],
+        "phaseWalk": 0.75,
+        "phaseRun": 0
+      }
+    }
+  },
+  "source": "Original procedural anatomical meshes and baked PBR; approved private references 13-15; no external mesh or human reuse",
+  "reviewStatus": "local seated/stand/walk/arrival runtime and browser QA verified; reference-level character polish and real-device performance still pending",
+  "derivedFrom": "cloud-dog-v1-r03-gait"
+}
