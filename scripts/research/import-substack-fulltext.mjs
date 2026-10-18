@@ -13,16 +13,22 @@
 
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const sourcePath = path.join(repo, 'src/content/research/english-substack.json');
-const outputDir = path.join(repo, 'src/content/research/english-articles');
-const catalogPath = path.join(repo, 'src/content/research/english-catalog.json');
-const highlightsPath = path.join(repo, 'src/content/research/english-highlights.json');
-const reportPath = process.env.FFCAP_IMPORT_REPORT_PATH || path.join(repo, '.local/reports/fulltext-import-report.json');
+const option = (name, fallback) => {
+  const index = process.argv.indexOf(name);
+  if (index < 0) return fallback;
+  if (!process.argv[index + 1]) throw new Error(`${name} requires a value`);
+  return path.resolve(process.argv[index + 1]);
+};
+const sourcePath = option('--source-path', path.join(repo, 'src/content/research/english-substack.json'));
+const outputDir = option('--output-dir', path.join(repo, 'src/content/research/english-articles'));
+const catalogPath = option('--catalog-path', path.join(repo, 'src/content/research/english-catalog.json'));
+const highlightsPath = option('--highlights-path', path.join(repo, 'src/content/research/english-highlights.json'));
+const reportPath = option('--report-path', process.env.FFCAP_IMPORT_REPORT_PATH || path.join(repo, '.local/reports/fulltext-import-report.json'));
 const session = process.env.FFCAP_IMPORT_BROWSER_SESSION || 'ffcap-fulltext-import';
 const batchSize = 4;
 const limitArgument = process.argv.indexOf('--limit');
@@ -30,6 +36,17 @@ const limit = limitArgument < 0 ? Infinity : Number(process.argv[limitArgument +
 const refresh = process.argv.includes('--refresh');
 const refreshMismatchedTitles = process.argv.includes('--refresh-mismatched-titles');
 const catalogOnly = process.argv.includes('--catalog-only');
+const onlySlugsArgument = process.argv.indexOf('--only-slugs');
+const onlySlugs = onlySlugsArgument < 0 ? null : new Set((process.argv[onlySlugsArgument + 1] || '').split(',').filter(Boolean));
+if (onlySlugs && (!onlySlugs.size || [...onlySlugs].some((slug) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)))) {
+  throw new Error('--only-slugs requires valid comma-separated slugs');
+}
+const atomicJson = async (target, value) => {
+  await mkdir(path.dirname(target), { recursive: true });
+  const pending = `${target}.pending-${process.pid}`;
+  await writeFile(pending, `${JSON.stringify(value, null, 2)}\n`);
+  await rename(pending, target);
+};
 
 if (!Number.isInteger(limit) && limit !== Infinity || limit < 1) {
   throw new Error('--limit must be a positive integer');
@@ -172,7 +189,8 @@ const entries = archive.articles.map((item) => {
 await mkdir(outputDir, { recursive: true });
 await mkdir(path.dirname(reportPath), { recursive: true });
 
-let selected = entries.slice(0, limit);
+if (onlySlugs && [...onlySlugs].some((slug) => !seen.has(slug))) throw new Error('--only-slugs contains unknown source slug');
+let selected = entries.filter((entry) => !onlySlugs || onlySlugs.has(entry.slug)).slice(0, limit);
 if (refreshMismatchedTitles) {
   const mismatched = [];
   for (const entry of selected) {
@@ -186,7 +204,7 @@ if (refreshMismatchedTitles) {
 const pending = [];
 for (const entry of selected) {
   try {
-    if (refresh || refreshMismatchedTitles) throw new Error('refresh');
+    if (refresh || refreshMismatchedTitles || onlySlugs) throw new Error('refresh');
     const existing = JSON.parse(await readFile(path.join(outputDir, `${entry.slug}.json`), 'utf8'));
     if (!existing.contentComplete || existing.sourceAccessFree !== true || existing.sourceUrl !== entry.url) pending.push(entry);
   } catch {
@@ -218,7 +236,14 @@ for (let index = 0; index < fetchQueue.length; index += batchSize) {
   for (const result of results) {
     if (result.contentComplete) {
       const { status, reason, ...article } = result;
-      await writeFile(path.join(outputDir, `${result.slug}.json`), `${JSON.stringify(article, null, 2)}\n`);
+      const existingPath = path.join(outputDir, `${result.slug}.json`);
+      let previous;
+      try { previous = JSON.parse(await readFile(existingPath, 'utf8')); } catch { /* New article. */ }
+      if (previous && (article.text.length < previous.text.length * 0.7 || article.imageCount < previous.imageCount)) {
+        failures.push({ slug: result.slug, reason: 'body_or_image_regression' });
+        continue;
+      }
+      await atomicJson(existingPath, article);
     } else {
       failures.push({ slug: result.slug, url: batch.find((entry) => entry.slug === result.slug)?.url, status: result.status, reason: result.reason, error: result.error });
     }
@@ -241,7 +266,7 @@ for (const entry of entries) {
   const contentSha256 = createHash('sha256').update(article.html).digest('hex');
   if (article.contentSha256 !== contentSha256) {
     article.contentSha256 = contentSha256;
-    await writeFile(articlePath, `${JSON.stringify(article, null, 2)}\n`);
+    await atomicJson(articlePath, article);
   }
   missingSourceImageCount += article.missingSourceImageCount || 0;
   if (article.missingSourceImageCount) {
@@ -251,8 +276,8 @@ for (const entry of entries) {
   const { slug, title, summary, publishedAt, sourceUrl, author, contentComplete, sourceAccessFree, imageCount } = article;
   catalog.push({ slug, title, summary, publishedAt, sourceUrl, author, contentComplete, sourceAccessFree, imageCount });
 }
-await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`);
-await writeFile(highlightsPath, `${JSON.stringify(catalog.slice(0, 12), null, 2)}\n`);
+await atomicJson(catalogPath, catalog);
+await atomicJson(highlightsPath, catalog.slice(0, 12));
 const catalogSlugs = new Set(catalog.map((article) => article.slug));
 const failedSlugs = new Set(failures.map((failure) => failure.slug));
 const exclusionDetails = [
@@ -275,7 +300,7 @@ for (const article of catalog) {
 }
 bodyLengths.sort((a, b) => a - b);
 const percentile = (fraction) => bodyLengths[Math.floor((bodyLengths.length - 1) * fraction)] || null;
-await writeFile(reportPath, `${JSON.stringify({
+await atomicJson(reportPath, {
   source: archive.source,
   sourceCapturedAt: archive.capturedAt,
   checkedAt: new Date().toISOString(),
@@ -295,5 +320,5 @@ await writeFile(reportPath, `${JSON.stringify({
   completenessRule: 'Public guest HTTP 200, available-content body at least 100 text characters, headline/date, no paywall/locked marker, and NewsArticle isAccessibleForFree=true. Every catalog file must retain that explicit metadata proof. Source images that are already /img/missing-image.png do not invalidate full text; they are omitted and counted in the article.',
   authorRule: 'NewsArticle.author name; Unique Research only when the public article has no usable author name.',
   imageRule: 'Preserve public HTTPS image URLs; images are linked, not copied.',
-}, null, 2)}\n`);
+});
 process.stdout.write(`Catalog: ${catalog.length}/${entries.length}; failures this run: ${failures.length}\n`);
