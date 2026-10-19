@@ -10,7 +10,7 @@ import {
 
 test("uses the approved public link contracts", () => {
   assert.equal(SITE_LINKS.report, "https://ffcap.cn/report.html");
-  assert.equal(SITE_LINKS.uniqueClub, "https://uniqueclub.superun.yun/");
+  assert.equal(SITE_LINKS.uniqueBase, "https://uniquebase.ai/");
   assert.equal(SITE_LINKS.uniqueBloom, "https://ffcap.cn/open.html");
   assert.equal(SITE_LINKS.goodProjects, "https://ffcap.cn/bp.html");
   assert.equal(SITE_LINKS.about, "/about");
@@ -32,7 +32,7 @@ test("keeps desktop and mobile navigation on one internal map", () => {
 
 test("publishes only the three approved products", () => {
   assert.deepEqual(PRODUCT_LINKS.map(({ name, href }) => ({ name, href })), [
-    { name: "UniqueClub", href: SITE_LINKS.uniqueClub },
+    { name: "UniqueBase", href: SITE_LINKS.uniqueBase },
     { name: "UniqueBloom", href: SITE_LINKS.uniqueBloom },
     { name: "有好项目", href: SITE_LINKS.goodProjects },
   ]);
@@ -65,5 +65,5 @@ test("removes the retired product and private wiki links from visible navigation
   assert.doesNotMatch(visibleSources, /\/flash-fundraising/);
   assert.doesNotMatch(visibleSources, /uniquecapital\.feishu\.cn\/wiki/);
   assert.doesNotMatch(visibleSources, /href=["{']?\/funding-agent/);
-  assert.match(visibleSources, /UniqueClub/);
+  assert.match(visibleSources, /UniqueBase/);
 });

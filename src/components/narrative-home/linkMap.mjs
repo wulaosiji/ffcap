@@ -1,7 +1,7 @@
 export const SITE_LINKS = Object.freeze({
   report: "https://ffcap.cn/report.html",
   rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
-  uniqueClub: "https://uniqueclub.superun.yun/",
+  uniqueBase: "https://uniquebase.ai/",
   uniqueBloom: "https://ffcap.cn/open.html",
   goodProjects: "https://ffcap.cn/bp.html",
   about: "/about",
@@ -17,11 +17,11 @@ export const HOME_NAV_ITEMS = Object.freeze([
 
 export const PRODUCT_LINKS = Object.freeze([
   {
-    code: "01 / FOUNDER",
-    name: "UniqueClub",
-    description: "面向 AI 创始人，完成 BP 解析、项目主页生成、编辑与分享。",
-    action: "创建项目主页",
-    href: SITE_LINKS.uniqueClub,
+    code: "01 / COMPANY DATA",
+    name: "UniqueBase",
+    description: "可查询、可引用、可交给 AI 的全球 AI 公司与产品公开事实；每条记录带出处与稳定编码。",
+    action: "进入 UniqueBase",
+    href: SITE_LINKS.uniqueBase,
   },
   {
     code: "02 / EVENT",

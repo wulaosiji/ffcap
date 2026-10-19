@@ -7,7 +7,7 @@ export const LINKS = Object.freeze({
   rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
   events: "https://uniquebloom.cn/",
   uniqueResearch: "https://ffcap.cn/rankings.html",
-  uniqueClub: "https://uniqueclub.superun.yun/",
+  uniqueBase: "https://uniquebase.ai/",
   uniqueBloom: "https://ffcap.cn/open.html",
   goodProjects: "https://ffcap.cn/bp.html",
 });
@@ -97,15 +97,15 @@ export const PRODUCTS = [
     href: LINKS.uniqueResearch,
   },
   {
-    id: "uniqueclub",
-    name: { zh: "UniqueClub", en: "UniqueClub" },
-    audience: { zh: "面向 AI 创业者", en: "For AI founders" },
+    id: "uniquebase",
+    name: { zh: "UniqueBase", en: "UniqueBase" },
+    audience: { zh: "面向 AI 产业研究者", en: "For AI industry researchers" },
     description: {
-      zh: "从 BP 解析到项目主页生成、编辑与分享，让创业项目获得清晰表达。",
-      en: "Turn a pitch deck into a project page you can edit and share.",
+      zh: "覆盖各行业、主题与城市的全球 AI 公司与相关实体；每条记录带出处与稳定编码，并提供面向 AI 助手与搜索引擎的机器可读版本。",
+      en: "Global AI companies across sectors, themes and cities. Every record carries a source and a stable code, with machine-readable versions for AI assistants and search engines.",
     },
-    action: { zh: "创建项目主页", en: "Create a project page" },
-    href: LINKS.uniqueClub,
+    action: { zh: "进入 UniqueBase", en: "Explore UniqueBase" },
+    href: LINKS.uniqueBase,
   },
   {
     id: "uniquebloom",
