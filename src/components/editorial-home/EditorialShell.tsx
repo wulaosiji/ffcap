@@ -12,8 +12,8 @@ import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts } from '@/conte
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 
-export function OutLink({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
-  return <a href={href} className={className} target="_blank" rel="noopener noreferrer">{children}</a>
+export function OutLink({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: () => void }) {
+  return <a href={href} className={className} target="_blank" rel="noopener noreferrer" onClick={onClick}>{children}</a>
 }
 
 export function EditorialShell({ children, cinematic = false }: { children: ReactNode; cinematic?: boolean }) {
@@ -54,8 +54,10 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
   }, [cinematic])
   const nav = [
     { label: zh ? '研究与洞察' : 'Research', href: zh ? '/research' : '/en/research' },
+    { label: zh ? 'AI 榜单' : 'Rankings', href: LINKS.uniqueResearch, external: true },
     { label: zh ? '活动与生态' : 'Events', href: '/#ecosystem' },
     { label: zh ? '产品' : 'Products', href: '/#products' },
+    { label: zh ? '给 AI' : 'For AI', href: '/for-models' },
     { label: zh ? '关于我们' : 'About', href: '/about' },
   ]
   const results = filterContent(CONTENT, 'all', query, lang)
@@ -70,7 +72,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
         <span>{zh ? '非凡资本' : 'UniqueCapital'}</span>
       </Link>
       <nav className="ed-desktop-nav" aria-label={zh ? '主导航' : 'Main navigation'}>
-        {nav.map(n => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+        {nav.map(n => n.external ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}
       </nav>
       <div className="ed-header-actions">
         <button className="ed-icon-button ed-language" onClick={switchLanguage} aria-label={zh ? 'Switch to English' : '切换为中文'}>{zh ? 'EN' : '中'}</button>
@@ -102,7 +104,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
             <Dialog.Content className={`ed-dialog ed-menu-dialog ${cinematic ? 'ed-menu-from-left' : ''}`} lang={lang}>
               <div className="ed-dialog-top"><Dialog.Title>{zh ? '非凡资本' : 'UniqueCapital'}</Dialog.Title><Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭导航菜单' : 'Close navigation menu'}><X size={24} strokeWidth={1.4}/></Dialog.Close></div>
               <Dialog.Description className="ed-eyebrow">RESEARCH. CONNECT. BUILD.</Dialog.Description>
-              <nav aria-label={zh ? '完整导航' : 'Full navigation'}>{nav.map((n, i) => <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowRight size={23}/></Link>)}</nav>
+              <nav aria-label={zh ? '完整导航' : 'Full navigation'}>{nav.map((n, i) => n.external ? <OutLink key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowUpRight size={23}/></OutLink> : <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowRight size={23}/></Link>)}</nav>
               <div className="ed-menu-bottom"><p>{zh ? '让研究进入真实世界。' : 'Bring research into the real world.'}</p><Link href={zh ? "/research" : "/en/research"} className="ed-link" onClick={() => setMenuOpen(false)}>{zh ? '非凡产研 · 文章库' : 'UniqueResearch articles'}<ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-link">{zh ? '活动日历' : 'Event calendar'}<ArrowUpRight size={17}/></OutLink></div>
             </Dialog.Content>
           </Dialog.Portal>
@@ -113,7 +115,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
         <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={lang} /></div>
-        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/for-models">{zh ? '公开内容与引用' : 'Public content & citation'}</Link></div>
+        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => n.external ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/llms.txt">{zh ? 'llms.txt' : 'llms.txt'}</Link><Link href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</Link><Link href="/faq">{zh ? '常见问题' : 'FAQ'}</Link></div>
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => <Link href={`/products/${p.id}`} key={p.id}>{p.name[lang]}<ArrowRight size={13}/></Link>)}</div>
       </div>
       <div className="ed-container ed-footer-bottom"><span>© {new Date().getFullYear()} UniqueCapital. {zh ? '非凡资本' : 'All rights reserved.'}</span><span>{zh ? '独立思考 · 长期连接' : 'Independent thinking. Lasting connections.'}</span><a href="#top" className="ed-link">{zh ? '回到顶部' : 'Back to top'}<ArrowUpRight size={16}/></a></div>

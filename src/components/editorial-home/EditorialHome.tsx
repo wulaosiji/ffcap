@@ -1,12 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash } from '@/content/editorial.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
-import { SettlementHero } from './SettlementHero'
 import { ResearchHighlights } from './ResearchHighlights'
 import '@/app/research/research.css'
 const statusLabels = {
@@ -14,7 +13,7 @@ const statusLabels = {
   en: { upcoming: 'UPCOMING', live: 'HAPPENING NOW', past: 'PAST EVENT', publication: 'PUBLISHED', event: 'EVENT' },
 }
 
-export function EditorialHome() {
+export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNode }) {
   const { lang } = useLang()
   const zh = lang === 'zh'
   const [topic, setTopic] = useState('all')
@@ -50,11 +49,10 @@ export function EditorialHome() {
     return () => { window.clearInterval(timer); observer?.disconnect(); window.removeEventListener('hashchange', followLegacyHash) }
   }, [])
 
-  return <EditorialShell cinematic>
+  return <EditorialShell>
     <main id="main-content" ref={mainRef}>
-      <SettlementHero />
-      <div className="ed-container ed-underworld">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">RESEARCH. CONNECT. BUILD.</p><h2>{zh ? '研究下一步，连接构建者。' : 'Research what comes next.'}</h2></div><Link className="ed-link" href="/about">{zh ? '了解非凡资本' : 'Meet UniqueCapital'}<ArrowRight size={21}/></Link></div>
+      {hero}
+      <div className="ed-container ed-underworld ed-underworld-compact">
         <nav className="ed-topic-strip" aria-label={zh ? '选择研究方向' : 'Explore a research focus'}>
           {TOPICS.map((t, i) => <a href={`/topics/${t.id}`} key={t.id}><span className="ed-topic-number">0{i + 1}</span><span><strong>{t.name}</strong><small>{t.title[lang]}</small></span><ArrowRight size={22} strokeWidth={1.3}/></a>)}
         </nav>
@@ -87,6 +85,8 @@ export function EditorialHome() {
         <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><p className="ed-heading-note">{zh ? `${PRODUCTS.length} 款产品，为真实协作而生。` : `${PRODUCTS.length} products. Real collaboration.`}</p></div>
         <div className="ed-products">{PRODUCTS.map((p, i) => <OutLink href={p.href} key={p.id} className="ed-product"><div className="ed-product-top"><span>0{i+1}</span><span>{p.audience[lang]}</span></div><h3>{p.name[lang]}</h3><p>{p.description[lang]}</p><span className="ed-link">{p.action[lang]}<ArrowUpRight size={20}/></span></OutLink>)}</div>
       </section>
+
+      {tail}
 
       <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">THE FUTURE IS A COLLECTIVE EFFORT.</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link></div></section>
     </main>

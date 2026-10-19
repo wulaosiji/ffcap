@@ -27,7 +27,7 @@ function LanguageSetter() {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const immersiveHome = pathname === '/' || pathname === '/about' || pathname === '/research' || pathname.startsWith('/research/') || pathname.startsWith('/products/') || pathname.startsWith('/topics/') || pathname === '/for-models' || pathname === '/en/research' || pathname.startsWith('/en/research/')
+  const immersiveHome = pathname === '/' || pathname === '/about' || pathname === '/world' || pathname === '/faq' || pathname === '/research' || pathname.startsWith('/research/') || pathname.startsWith('/products/') || pathname.startsWith('/topics/') || pathname === '/for-models' || pathname === '/en/research' || pathname.startsWith('/en/research/')
 
   return (
     <LangProvider>

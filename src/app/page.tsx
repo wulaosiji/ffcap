@@ -1,15 +1,46 @@
 import type { Metadata } from "next";
 import { EditorialHome } from "@/components/editorial-home/EditorialHome";
+import { ResearchHero } from "@/components/editorial-home/ResearchHero";
+import { HomeStructuredData } from "@/components/editorial-home/HomeStructuredData";
+import { HomeFaq } from "@/components/editorial-home/HomeFaq";
+import { WorldTeaser } from "@/components/editorial-home/WorldTeaser";
+import { HOME_META_DESCRIPTION, HOME_OG_IMAGE, HOME_TITLE } from "@/content/home-public.mjs";
 import "./editorial-home.css";
-import "./infinite-world.css";
-import "./settlement.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://ffcap.cn/" },
-  title: "非凡资本 UniqueCapital | AI 研究、资本与生态",
-  description: "连接 Agentic AI、Physical AI 与 Entertainment AI 的研究、资本与产业生态。",
+  title: HOME_TITLE,
+  description: HOME_META_DESCRIPTION,
+  openGraph: {
+    title: HOME_TITLE,
+    description: HOME_META_DESCRIPTION,
+    url: "https://ffcap.cn/",
+    siteName: "非凡资本 UniqueCapital",
+    locale: "zh_CN",
+    type: "website",
+    images: [{ url: HOME_OG_IMAGE, width: 1920, height: 1080, alt: "非凡产研 · 非凡资本" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: HOME_META_DESCRIPTION,
+    images: [HOME_OG_IMAGE],
+  },
 };
 
 export default function HomePage() {
-  return <EditorialHome />;
+  return (
+    <>
+      <HomeStructuredData />
+      <EditorialHome
+        hero={<ResearchHero />}
+        tail={
+          <>
+            <HomeFaq />
+            <WorldTeaser />
+          </>
+        }
+      />
+    </>
+  );
 }
