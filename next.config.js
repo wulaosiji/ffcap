@@ -79,6 +79,16 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/products/uniqueclub',
+        destination: '/products/uniquebase',
+        permanent: true,
+      },
+      {
+        source: '/en/products/uniqueclub',
+        destination: '/products/uniquebase',
+        permanent: true,
+      },
     ]
   },
   
