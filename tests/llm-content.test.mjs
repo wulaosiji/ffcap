@@ -2,7 +2,8 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { articleMarkdown, publicResearchEntry, articleWarnings } from '../src/lib/research-formats.mjs'
-import { organizationGraph, serializeStructuredData, breadcrumbs } from '../src/content/site-identity.mjs'
+import { organizationGraph, serializeStructuredData, breadcrumbs, VERIFIED_SAME_AS } from '../src/content/site-identity.mjs'
+import { homeLlmsDataPoints } from '../src/content/home-llms-points.mjs'
 const sample = JSON.parse(fs.readFileSync(new URL('../src/content/research/articles/20260903a098sq00.json', import.meta.url), 'utf8'))
 test('Markdown preserves the archived interview, account, date and source without inventing personal authors', () => {
   const md = articleMarkdown(sample)
@@ -25,11 +26,20 @@ test('public index uses an explicit field allowlist and surfaces source limitati
   assert.ok(!('text' in entry || 'html' in entry || 'internalSecret' in entry))
   for (const warning of articleWarnings(article)) assert.ok(articleMarkdown(article).includes(warning))
 })
-test('identity links only the company account and structured JSON cannot terminate its script', () => {
-  assert.deepEqual(organizationGraph()['@graph'][0].sameAs, ['https://www.linkedin.com/company/uniquecapital'])
+test('identity links only verified official profiles and structured JSON cannot terminate its script', () => {
+  const graph = organizationGraph()
+  assert.deepEqual(graph['@graph'][0].sameAs, VERIFIED_SAME_AS)
+  assert.equal(graph['@graph'][0].logo, 'https://ffcap.cn/globe.svg')
+  assert.equal(graph['@graph'][0].brand.name, '非凡产研')
+  assert.equal(graph['@graph'][1].potentialAction['@type'], 'SearchAction')
   const value = { headline: '</script><script>alert(1)</script>' }
   const serialized = serializeStructuredData(value)
   assert.ok(!serialized.includes('<'))
   assert.deepEqual(JSON.parse(serialized), value)
   assert.equal(breadcrumbs([{ name: '研究', url: '/research' }]).itemListElement[1].item, 'https://ffcap.cn/research')
+})
+test('llms data points follow highlights order and stay within three items', () => {
+  const points = homeLlmsDataPoints()
+  assert.equal(points.length, 3)
+  assert.ok(points.every(p => p.href.startsWith('/research/') && p.date && p.title && p.direction))
 })

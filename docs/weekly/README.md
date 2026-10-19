@@ -19,7 +19,7 @@
 ## 每周流程（摘要）
 1. `scripts/weekly/ffcap-ssh.sh 'pm2 describe ffcap'` 确认线上 release。
 2. 把线上 release 的 `src/content` 打包流式拉到私密目录作为**基线**（`ssh ... "tar czf - src/content" | tar xzf -`；不要逐文件 scp，太慢）。
-3. 中文：完整读取列表到 `hasNext=0`，与基线 catalog 比较；只抓新增/变化正文，合并后用 taxonomy 分类并重建 `highlights.json`（字段：id/slug/title/excerpt/topic/type/tags/publishedAt）。
+3. 中文：完整读取列表到 `hasNext=0`，与基线 catalog 比较；只抓新增/变化正文，合并后用 taxonomy 分类并重建 `highlights.json`（字段：id/slug/title/excerpt/topic/type/tags/publishedAt）。随后运行 `node scripts/weekly/generate-home-hero-stats.mjs --repo <候选根目录>`，在候选内生成 **不入库** 的 `src/content/research/home-hero-stats.local.json`（刷新首页 Hero 融资/订阅数据卡口径；`catalog.length` 与活动卡仍由 classify / 活动同步自动更新）。
 4. 英文：`discover-substack.mjs --previous-archive <基线>/english-substack.json --published-catalog <基线>/english-catalog.json --output <私密>/english-discovery.json`；对新 slug 用 `import-substack-fulltext.mjs` 的隔离参数导入；`build-english-overlay.mjs --baseline-dir <基线根目录，非 research 子目录>` 生成精确白名单。
 5. 活动：`sync-uniquebloom-sxq.mjs <候选>/src/content/editorial.events.mjs`；只比较内容指纹，忽略 `syncedAt`。无实质变化时恢复基线文件，避免空发布。
 6. 三类都无变化：写报告并停止，不构建、不发布、不发消息。

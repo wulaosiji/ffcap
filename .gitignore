@@ -20,3 +20,4 @@ import.env
 __pycache__/
 *.py[cod]
 .local/
+src/content/research/home-hero-stats.local.json
