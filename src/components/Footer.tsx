@@ -30,8 +30,8 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={SITE_LINKS.uniqueClub} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  UniqueClub
+                <a href={SITE_LINKS.uniqueBase} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  {homeTexts[lang].footer.uniqueBase}
                 </a>
               </li>
               <li>

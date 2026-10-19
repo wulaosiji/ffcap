@@ -32,7 +32,7 @@ test("editorial content preserves verified public destinations and three researc
   assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
   assert.deepEqual(PRODUCTS.map(({ href }) => href), [
     "https://ffcap.cn/rankings.html",
-    "https://uniqueclub.superun.yun/",
+    "https://uniquebase.ai/",
     "https://ffcap.cn/open.html",
     "https://ffcap.cn/bp.html",
   ]);
@@ -79,12 +79,12 @@ test("product search matches all normalized terms across bilingual fields", () =
   const original = JSON.stringify(PRODUCTS);
   assert.deepEqual(filterProducts(PRODUCTS), PRODUCTS);
   assert.deepEqual(filterProducts(PRODUCTS, "  \t "), PRODUCTS);
-  assert.deepEqual(filterProducts(PRODUCTS, "UniqueClub page").map(({ id }) => id), ["uniqueclub"]);
-  assert.deepEqual(filterProducts(PRODUCTS, "ｕＮＩＱＵＥｃＬＵＢ　ＰＡＧＥ").map(({ id }) => id), ["uniqueclub"]);
-  assert.deepEqual(filterProducts(PRODUCTS, "UniqueClub 创业者", "en").map(({ id }) => id), ["uniqueclub"]);
+  assert.deepEqual(filterProducts(PRODUCTS, "UniqueBase companies").map(({ id }) => id), ["uniquebase"]);
+  assert.deepEqual(filterProducts(PRODUCTS, "ｕＮＩＱＵＥｂＡＳＥ").map(({ id }) => id), ["uniquebase"]);
+  assert.deepEqual(filterProducts(PRODUCTS, "UniqueBase researchers", "en").map(({ id }) => id), ["uniquebase"]);
   assert.deepEqual(filterProducts(PRODUCTS, "认证投资人", "en").map(({ id }) => id), ["good-projects"]);
   assert.deepEqual(filterProducts(PRODUCTS, "event participants", "zh").map(({ id }) => id), ["uniquebloom"]);
-  assert.deepEqual(filterProducts(PRODUCTS, "UniqueClub investors"), []);
+  assert.deepEqual(filterProducts(PRODUCTS, "UniqueBase investors"), []);
   assert.equal(JSON.stringify(PRODUCTS), original);
 });
 
