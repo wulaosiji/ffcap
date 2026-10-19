@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://ffcap.cn/research', changeFrequency: 'weekly', priority: .9 },
     { url: 'https://ffcap.cn/en/research', changeFrequency: 'weekly', priority: .7 },
     { url: 'https://ffcap.cn/for-models', changeFrequency: 'monthly', priority: .5 },
+    { url: 'https://ffcap.cn/faq', changeFrequency: 'monthly', priority: .5 },
+    { url: 'https://ffcap.cn/world', changeFrequency: 'yearly', priority: .3 },
     ...PRODUCTS.map(p => ({ url: `https://ffcap.cn/products/${p.id}`, priority: .6 })),
     ...TOPICS.map(t => ({ url: `https://ffcap.cn/topics/${t.id}`, priority: .8 })),
     ...getResearchCatalog().filter(a => !a.sourceIncomplete).map(article => ({ url: `https://ffcap.cn/research/${article.slug}`, priority: .7 })),
