@@ -17,7 +17,7 @@ export const FAQ_ITEMS = [
   {
     question: '非凡资本和非凡产研是什么关系？',
     answer:
-      '非凡资本（UniqueCapital）是机构主体；非凡产研（UniqueResearch）是其研究内容使用的品牌与发布署名。本站文章库、主题页与数据榜单均在此品牌下发布，产品入口见 /products/uniqueresearch。',
+      '非凡资本（UniqueCapital）是一家以 AI 研究为基础的产业资本与生态机构；非凡产研（UniqueResearch）是其研究品牌与内容发布署名。本站文章库、主题页与数据榜单在非凡产研品牌下发布，产品入口见 /products/uniqueresearch。',
   },
   {
     question: '非凡产研研究哪些方向？',
@@ -43,16 +43,29 @@ export const FAQ_ITEMS = [
   },
 ]
 
+const FINANCING_CARD_SLUG = '20261016a0disr00'
+
 function pickHighlight(slug) {
   return highlights.find(a => a.slug === slug)
 }
 
-/** Hero data cards — figures from linked articles; 口径待内容侧核对. */
+function pickCatalog(slug) {
+  return catalog.find(a => a.slug === slug)
+}
+
+/** Hero data cards — figures from linked articles; 口径已由内容侧确认（2026-10-19）. */
 export function homeDataCards() {
+  const financing = pickHighlight(FINANCING_CARD_SLUG) || pickCatalog(FINANCING_CARD_SLUG)
   const sub = pickHighlight('20261014a0cmpf00')
-  const traffic = pickHighlight('20261013a0cesd00')
   const upcoming = EVENT_DIRECTORY.find(e => e.status === 'upcoming' && e.date >= '2026-10-01') || EVENT_DIRECTORY[0]
   const cards = []
+  cards.push({
+    kind: 'research',
+    stat: '542 起',
+    label: '2026 年 9 月全球 AI 融资事件（非凡产研盘点）',
+    date: financing?.publishedAt?.slice(0, 10) || '2026-10-16',
+    href: `/research/${FINANCING_CARD_SLUG}`,
+  })
   if (sub) {
     cards.push({
       kind: 'research',
@@ -60,15 +73,6 @@ export function homeDataCards() {
       label: '9 月全球 AI 订阅收入榜 Top100 预估合计',
       date: sub.publishedAt.slice(0, 10),
       href: `/research/${sub.slug}`,
-    })
-  }
-  if (traffic) {
-    cards.push({
-      kind: 'research',
-      stat: '932 万月活',
-      label: '商汤小浣熊 9 月移动端月活（办公智能体观察）',
-      date: traffic.publishedAt.slice(0, 10),
-      href: `/research/${traffic.slug}`,
     })
   }
   cards.push({

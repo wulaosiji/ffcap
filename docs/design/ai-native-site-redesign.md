@@ -18,20 +18,19 @@
 | `/research` | 已有服务端 `?q=` | 未改检索逻辑；首页搜索直连 |
 | `/en/research` | 独立 SSR | 保持（P2：英文首页） |
 
-## 数据卡来源（口径待内容侧核对）
+## 数据卡来源（口径已由内容侧确认，2026-10-19）
 
-| 数字 | 来源 |
-| --- | --- |
-| 61 亿美元/月 | https://ffcap.cn/research/20261014a0cmpf00 |
-| 932 万月活 | https://ffcap.cn/research/20261013a0cesd00 |
-| 1312+ 篇 | 仓库 `catalog.json` 条数 |
-| 活动日期/标题 | UniqueBloom `editorial.events.mjs` 下一场 upcoming |
-
-草稿中的「9 月融资 542 起」尚未出现在本仓库 `catalog.json` / `highlights.json`，故未写入首屏数据卡；待周更入库后可替换其中一张卡。
+| 顺序 | stat | 来源 |
+| --- | --- | --- |
+| 1 | 542 起 | https://ffcap.cn/research/20261016a0disr00 |
+| 2 | 61 亿美元/月 | https://ffcap.cn/research/20261014a0cmpf00 |
+| 3 | 1312+ 篇 | 仓库 `catalog.json` 条数 |
+| 4 | 活动日期/标题 | UniqueBloom `editorial.events.mjs` 下一场 upcoming |
 
 ## 定义句选用说明
 
-采用「跟踪全球 AI 融资、收入与产品数据的研究机构」作为 h1 核心表述，并在 `HOME_LEAD` 中保留「产业资本与生态」关系（以非凡产研为研究基础），与 About/for-models 一致，避免未核实资管规模表述。
+- **HOME_H1**：`非凡产研：以 AI 研究为基础的产业资本与生态机构`
+- **HOME_LEAD**：明确非凡资本为「以 AI 研究为基础的产业资本与生态机构」，非凡产研为研究品牌并持续跟踪融资、订阅收入与产品流量数据；与 FAQ、llms.txt、JSON-LD 的 `IDENTITY.description` 一致。不写未核实资管规模。
 
 ## 主要改动文件
 
@@ -49,4 +48,4 @@
 - 英文首页独立 URL + hreflang
 - 首页 RAG「问非凡产研」对话
 - robots `Content-Signal`（需用户确认 ai-train 策略）
-- 融资盘点 542 起等最新数字随周更自动刷新数据卡
+- 数据卡数字随周更从 `highlights.json` / `catalog.json` 自动刷新（542 起文入库后优先从 catalog 取 `publishedAt`）

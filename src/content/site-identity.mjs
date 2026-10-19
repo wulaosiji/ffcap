@@ -1,10 +1,10 @@
 // Identity wording is grounded in the existing About page and editorial product catalog.
 export const SITE_URL = 'https://ffcap.cn'
 
-export const HOME_H1 = '非凡产研：跟踪全球 AI 融资、收入与产品数据的研究机构'
+export const HOME_H1 = '非凡产研：以 AI 研究为基础的产业资本与生态机构'
 
 export const HOME_LEAD =
-  '非凡资本（UniqueCapital）以非凡产研（UniqueResearch）为研究基础，持续跟踪全球 AI 融资、订阅收入与产品流量数据，覆盖 Agentic AI、Physical AI 与 Entertainment AI 三个方向。'
+  '非凡资本（UniqueCapital）是一家以 AI 研究为基础的产业资本与生态机构；其研究品牌非凡产研（UniqueResearch）持续跟踪全球 AI 融资、订阅收入与产品流量数据，覆盖 Agentic AI、Physical AI 与 Entertainment AI 三个方向。'
 
 export const IDENTITY = {
   name: '非凡资本',
