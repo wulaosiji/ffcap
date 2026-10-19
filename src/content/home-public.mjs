@@ -1,8 +1,22 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import highlights from './research/highlights.json'
 import catalog from './research/catalog.json'
 import { EVENT_DIRECTORY } from './editorial.events.mjs'
 import { LINKS, TOPICS } from './editorial.mjs'
 import { HOME_H1, HOME_LEAD, SITE_URL } from './site-identity.mjs'
+
+const researchDir = path.dirname(fileURLToPath(import.meta.url)) + '/research'
+
+function readLocalHeroStats() {
+  try {
+    const raw = fs.readFileSync(path.join(researchDir, 'home-hero-stats.local.json'), 'utf8')
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
 
 export { HOME_H1, HOME_LEAD }
 
@@ -53,25 +67,28 @@ function pickCatalog(slug) {
   return catalog.find(a => a.slug === slug)
 }
 
-/** Hero data cards — figures from linked articles; 口径已由内容侧确认（2026-10-19）. */
+export { homeLlmsDataPoints } from './home-llms-points.mjs'
+
+/** Hero data cards — dates from catalog/highlights; stats from gitignored local file on weekly host when present. */
 export function homeDataCards() {
+  const local = readLocalHeroStats()
   const financing = pickHighlight(FINANCING_CARD_SLUG) || pickCatalog(FINANCING_CARD_SLUG)
   const sub = pickHighlight('20261014a0cmpf00')
   const upcoming = EVENT_DIRECTORY.find(e => e.status === 'upcoming' && e.date >= '2026-10-01') || EVENT_DIRECTORY[0]
   const cards = []
   cards.push({
     kind: 'research',
-    stat: '542 起',
-    label: '2026 年 9 月全球 AI 融资事件（非凡产研盘点）',
-    date: financing?.publishedAt?.slice(0, 10) || '2026-10-16',
+    stat: local?.financing?.stat || '542 起',
+    label: local?.financing?.label || '2026 年 9 月全球 AI 融资事件（非凡产研盘点）',
+    date: (local?.financing?.publishedAt || financing?.publishedAt)?.slice(0, 10) || '2026-10-16',
     href: `/research/${FINANCING_CARD_SLUG}`,
   })
   if (sub) {
     cards.push({
       kind: 'research',
-      stat: '61 亿美元/月',
-      label: '9 月全球 AI 订阅收入榜 Top100 预估合计',
-      date: sub.publishedAt.slice(0, 10),
+      stat: local?.subscription?.stat || '61 亿美元/月',
+      label: local?.subscription?.label || '9 月全球 AI 订阅收入榜 Top100 预估合计',
+      date: (local?.subscription?.publishedAt || sub.publishedAt).slice(0, 10),
       href: `/research/${sub.slug}`,
     })
   }

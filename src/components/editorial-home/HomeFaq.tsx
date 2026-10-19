@@ -15,7 +15,7 @@ export function HomeFaq() {
         </Link>
       </div>
       <dl className="ed-home-faq__list">
-        {FAQ_ITEMS.slice(0, 5).map(item => (
+        {FAQ_ITEMS.slice(0, 6).map(item => (
           <div key={item.question} className="ed-home-faq__item">
             <dt>{item.question}</dt>
             <dd>{item.answer}</dd>

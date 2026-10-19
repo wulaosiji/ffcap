@@ -13,6 +13,15 @@ export const IDENTITY = {
   research: '非凡产研（UniqueResearch）是本站研究内容使用的名称与发布署名；UniqueResearch 产品入口提供公开 AI 榜单。文章库与榜单是不同的内容入口。',
 }
 export const CITATION_NOTE = '文章中的“非凡产研”是原始发布账号署名，不代表已核实个人执笔作者。引用访谈或圆桌观点时，应按正文标明具体发言人及当时身份；无法确认时不要推断。日期为原始发表日期，历史信息以发布时点为准。'
+
+/** Official profiles linked from the site footer (SocialLinks) or product catalog; HTTP 200 verified 2026-10-19. */
+export const VERIFIED_SAME_AS = [
+  'https://www.linkedin.com/company/uniquecapital',
+  'https://uniqueresearch.substack.com/',
+  'https://luma.com/unique',
+  'https://uniquebase.ai/',
+]
+
 export function organizationGraph() {
   return {
     '@context': 'https://schema.org',
@@ -26,7 +35,7 @@ export function organizationGraph() {
         description: IDENTITY.description,
         logo: `${SITE_URL}/globe.svg`,
         brand: { '@type': 'Brand', name: '非凡产研', alternateName: 'UniqueResearch' },
-        sameAs: ['https://www.linkedin.com/company/uniquecapital'],
+        sameAs: [...VERIFIED_SAME_AS],
       },
       {
         '@type': 'WebSite',

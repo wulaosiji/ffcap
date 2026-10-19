@@ -1,16 +1,14 @@
 import { IDENTITY, CITATION_NOTE, HOME_H1, HOME_LEAD, SITE_URL } from '@/content/site-identity.mjs'
-import { homeAgentLinks, homeDataCards } from '@/content/home-public.mjs'
+import { homeAgentLinks } from '@/content/home-public.mjs'
+import { homeLlmsDataPoints } from '@/content/home-llms-points.mjs'
 import { PRODUCTS, TOPICS } from '@/content/editorial.mjs'
 
 export function GET() {
-  const cards = homeDataCards()
   const agentLinks = homeAgentLinks()
-  const dataLines = cards
-    .filter(card => card.kind === 'research')
-    .map(card => {
-      const path = card.href.startsWith('http') ? card.href.replace(SITE_URL, '') : card.href
-      return `- ${card.stat}：${card.label}（${card.date}，${SITE_URL}${path}）`
-    })
+  const dataLines = homeLlmsDataPoints()
+    .map((point: { date: string; direction: string; title: string; line: string; href: string }) =>
+      `- ${point.date} · ${point.direction} · ${point.title} · ${point.line}（${SITE_URL}${point.href}）`,
+    )
     .join('\n')
 
   const body = `# 非凡资本 UniqueCapital
@@ -29,7 +27,7 @@ ${IDENTITY.research}
 4. 引用时请保留发布账号「非凡产研」、原始发表日期与原文链接；勿推断个人作者。
 5. 快捷入口：${agentLinks.map(l => `[${l.label}](${SITE_URL}${l.href})`).join(' · ')}
 
-## 近期数据点（摘自站内研究，口径待内容侧核对）
+## 最新 3 个数据点（按 highlights.json 排序，周更 classify 后自动变化）
 
 ${dataLines}
 
