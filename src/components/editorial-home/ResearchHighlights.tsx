@@ -34,10 +34,7 @@ function DenseResearchList({
 
   return (
     <div className="ed-research-dense">
-      <p className="ed-result-count">
-        {zh ? '非凡产研 · 研究精选' : 'UNIQUERESEARCH · FEATURED'}
-        <span className="ed-research-dense__count">[{String(total).padStart(2, '0')}]</span>
-      </p>
+      <p className="ed-result-count">{zh ? '非凡产研 · 研究精选' : 'UNIQUERESEARCH · FEATURED'}</p>
       <ol className="ed-research-dense__list">
         {items.map((article, index) => {
           const direction =

@@ -112,15 +112,7 @@ export function homeDataCards() {
   return cards
 }
 
-export function homeLatestAnnouncement() {
-  const latest = highlights[0]
-  if (!latest) return null
-  return {
-    title: latest.title,
-    date: latest.publishedAt.slice(0, 10),
-    href: `/research/${latest.slug}`,
-  }
-}
+export { homeLatestAnnouncement } from './home-announcement.mjs'
 
 export function homeItemListGraph() {
   const items = highlights.slice(0, 6).map((article, index) => ({

@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { SectionIndex } from './SectionIndex'
+import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
 
 export function WorldTeaser() {
   return (
@@ -16,7 +18,7 @@ export function WorldTeaser() {
           />
         </div>
         <div className="ed-world-teaser__copy">
-          <p className="ed-eyebrow">THE CLOUD SETTLEMENT</p>
+          <p className="ed-eyebrow">THE CLOUD SETTLEMENT <SectionIndex index={HOME_SECTION_INDEX.world} /></p>
           <h2 id="world-teaser-title">云上的聚落</h2>
           <p>
             三维导览庭院与协作书院仍保留为可选体验。仅在您主动进入时加载 WebGL 场景，不影响首页阅读与搜索性能。

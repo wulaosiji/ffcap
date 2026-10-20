@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { FAQ_ITEMS } from '@/content/home-public.mjs'
+import { SectionIndex } from './SectionIndex'
+import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
 
 export function HomeFaq() {
   return (
     <section id="faq" className="ed-container ed-section ed-home-faq" aria-labelledby="home-faq-title">
       <div className="ed-section-heading">
         <div>
-          <p className="ed-eyebrow">FAQ</p>
+          <p className="ed-eyebrow">FAQ <SectionIndex index={HOME_SECTION_INDEX.faq} /></p>
           <h2 id="home-faq-title">常见问题</h2>
         </div>
         <Link href="/faq" className="ed-link">
