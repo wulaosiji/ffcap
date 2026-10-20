@@ -188,9 +188,25 @@
 /* AI-native home hero (≤65vh, SSR-visible h1 + data cards) */
 .ed-research-hero{max-height:65vh;min-height:min(65vh,720px);display:flex;flex-direction:column;justify-content:flex-end;padding:18px 0 0;border-bottom:1px solid var(--ed-ink);background:var(--ed-paper);background-image:linear-gradient(#cfcec533 1px,transparent 1px),linear-gradient(90deg,#cfcec533 1px,transparent 1px);background-size:28px 28px}
 .ed-research-hero__announce{display:flex;align-items:center;gap:14px;padding:10px 0 14px;border-bottom:1px solid var(--ed-rule);flex-wrap:wrap}
-.ed-research-hero__announce-link{display:flex;align-items:center;gap:12px;flex:1;min-width:0;font-size:13px;line-height:1.5}
-.ed-research-hero__announce-link span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-research-hero__announce-link{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px 14px;align-items:center;flex:1;min-width:0;font-size:13px;line-height:1.5}
+.ed-research-hero__announce-title{grid-column:1/-1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-research-hero__announce-meta{grid-column:1;color:var(--ed-muted);font-size:12px;line-height:1.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-research-hero__announce-meta strong{color:var(--ed-ink);font-weight:600}
 .ed-research-hero__announce-link time{color:var(--ed-muted);font-size:11px;white-space:nowrap}
+.ed-section-index{margin-left:10px;font-family:Georgia,'Times New Roman',serif;font-size:11px;color:var(--ed-muted);letter-spacing:.04em;font-weight:400}
+.ed-research-hero__search-wrap{position:relative}
+.ed-research-hero__tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px}
+.ed-research-hero__tab{border:1px solid var(--ed-rule);background:transparent;padding:7px 14px;font-size:11px;min-height:36px;transition:background .15s,border-color .15s,color .15s}
+.ed-research-hero__tab[aria-selected=true]{background:var(--ed-ink);color:var(--ed-paper);border-color:var(--ed-ink)}
+.ed-research-hero__tab-hint{font-size:11px;color:var(--ed-muted);line-height:1.6;margin:0 0 8px}
+.ed-research-hero__preview{list-style:none;margin:0;padding:0;border:1px solid var(--ed-rule);background:#fff}
+.ed-research-hero__preview li{border-bottom:1px solid var(--ed-rule)}
+.ed-research-hero__preview li:last-child{border-bottom:0}
+.ed-research-hero__preview a{display:block;padding:10px 14px;font-size:12px;line-height:1.5}
+.ed-research-hero__preview a:hover{background:#eae7de;color:var(--ed-accent)}
+.ed-research-hero__preview-empty{border:1px dashed var(--ed-rule);padding:12px 14px;font-size:12px;color:var(--ed-muted);line-height:1.65}
+.ed-research-hero__preview-empty p{margin:0}
+.ed-research-hero__preview-empty p:first-child{color:var(--ed-ink);font-weight:500;margin-bottom:4px}
 .ed-research-hero__main{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:28px 40px;padding:22px 0 18px;align-items:start}
 .ed-research-hero__copy h1{font-size:clamp(26px,3.2vw,42px);line-height:1.22;letter-spacing:-.04em;margin-bottom:14px}
 .ed-research-hero__lead{font-size:15px;line-height:1.75;color:var(--ed-muted);max-width:38rem}
@@ -198,9 +214,7 @@
 .ed-research-hero__search{display:flex;align-items:stretch;border:1px solid var(--ed-ink);background:#fff;margin-bottom:12px}
 .ed-research-hero__search input{flex:1;border:0;background:transparent;padding:14px 16px;font-size:15px;min-height:48px}
 .ed-research-hero__search button{border:0;border-left:1px solid var(--ed-ink);background:var(--ed-ink);color:var(--ed-paper);min-width:52px;display:grid;place-items:center}
-.ed-research-hero__scopes{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:16px;font-size:12px}
-.ed-research-hero__scopes a{border-bottom:1px solid var(--ed-rule);padding-bottom:2px}
-.ed-research-hero__ctas{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-bottom:12px}
+.ed-research-hero__ctas{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin:14px 0 10px}
 .ed-research-hero__cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;min-height:44px;border-bottom:1px solid currentColor}
 .ed-research-hero__cta-primary{background:var(--ed-ink);color:var(--ed-paper)!important;padding:0 18px;border:0}
 .ed-research-hero__agents{font-size:11px;color:var(--ed-muted);line-height:1.7}
@@ -245,7 +259,7 @@
 @media(max-width:860px){.ed-research-dense__row{grid-template-columns:4rem 1fr 2rem;grid-template-rows:auto auto auto}.ed-research-dense__direction{grid-column:2/3}.ed-research-dense__main{grid-column:1/-2}.ed-research-dense__arrow{grid-row:1/4;grid-column:3}}
 @media(max-width:600px){.ed-research-dense__row{gap:8px 10px;padding:14px 0}.ed-research-dense__title h3{font-size:17px}}
 @media(max-width:1100px){.ed-research-hero{max-height:none;min-height:0}.ed-research-hero__main{grid-template-columns:1fr}.ed-research-hero__cards{grid-template-columns:repeat(2,minmax(0,1fr))}.ed-research-hero__card:nth-child(2){border-right:0}}
-@media(max-width:600px){.ed-research-hero__cards{grid-template-columns:1fr}.ed-research-hero__card{border-right:0}.ed-world-teaser__card{grid-template-columns:1fr}.ed-world-teaser__visual{min-height:140px}}
+@media(max-width:600px){.ed-research-hero{max-height:none;min-height:100svh;min-height:100dvh}.ed-research-hero__main{padding:16px 0 12px}.ed-research-hero__copy h1{font-size:clamp(22px,6.5vw,32px)}.ed-research-hero__lead{font-size:13px;line-height:1.7}.ed-research-hero__scale{font-size:12px}.ed-research-hero__cards{grid-template-columns:1fr;flex:0 0 auto;max-height:28vh}.ed-research-hero__card{border-right:0;min-height:120px}.ed-research-hero__announce-link{grid-template-columns:1fr auto}.ed-research-hero__announce-meta{grid-column:1/-1;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.ed-world-teaser__card{grid-template-columns:1fr}.ed-world-teaser__visual{min-height:140px}}
 
 @media(min-width:601px){
   .ed-products,.ed-about-directions[aria-labelledby="about-products-title"] .ed-about-grid{grid-template-columns:repeat(2,minmax(0,1fr))}

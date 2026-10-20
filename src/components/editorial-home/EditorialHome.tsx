@@ -7,6 +7,8 @@ import { useLang } from '@/context/LangContext'
 import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash } from '@/content/editorial.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 import { ResearchHighlights } from './ResearchHighlights'
+import { SectionIndex } from './SectionIndex'
+import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
 import '@/app/research/research.css'
 const statusLabels = {
   zh: { upcoming: '即将举行', live: '正在举行', past: '活动档案', publication: '正式发布', event: '活动' },
@@ -60,7 +62,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div>
 
       <section id="research" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">OUR PERSPECTIVE</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入完整研究库' : 'Explore the research library'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">OUR PERSPECTIVE {zh && <SectionIndex index={HOME_SECTION_INDEX.research} />}</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入完整研究库' : 'Explore the research library'}<ArrowRight size={19}/></Link></div>
         {zh && <div className="ed-filters" role="group" aria-label="按研究方向筛选">{[{ id: 'all', name: '全部' }, ...TOPICS].map(t => <button key={t.id} aria-pressed={topic === t.id} onClick={() => setTopic(t.id)}>{t.name}</button>)}</div>}
         <div className="ed-research-layout">
           <div>
@@ -72,7 +74,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </section>
 
       <section id="ecosystem" className="ed-events ed-reveal"><div className="ed-container">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">IN GOOD COMPANY</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><OutLink href={LINKS.events} className="ed-link">{zh ? '查看活动日历' : 'View the event calendar'}<ArrowUpRight size={19}/></OutLink></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">IN GOOD COMPANY {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><OutLink href={LINKS.events} className="ed-link">{zh ? '查看活动日历' : 'View the event calendar'}<ArrowUpRight size={19}/></OutLink></div>
         <p className="ed-section-intro">{zh ? '与创业者、创作者和产业伙伴相遇，在现场讨论 AI 的下一步。' : 'Meet founders, creators, and industry partners. Move the conversation forward, together.'}</p>
         <div className="ed-event-list">{visibleEvents.map(event => {
           const status = now === null ? 'event' : eventStatus(event, now)
@@ -82,7 +84,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div></section>
 
       <section id="products" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><p className="ed-heading-note">{zh ? `${PRODUCTS.length} 款产品，为真实协作而生。` : `${PRODUCTS.length} products. Real collaboration.`}</p></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><p className="ed-heading-note">{zh ? `${PRODUCTS.length} 款产品，为真实协作而生。` : `${PRODUCTS.length} products. Real collaboration.`}</p></div>
         <div className="ed-products">{PRODUCTS.map((p, i) => <OutLink href={p.href} key={p.id} className="ed-product"><div className="ed-product-top"><span>0{i+1}</span><span>{p.audience[lang]}</span></div><h3>{p.name[lang]}</h3><p>{p.description[lang]}</p><span className="ed-link">{p.action[lang]}<ArrowUpRight size={20}/></span></OutLink>)}</div>
       </section>
 
