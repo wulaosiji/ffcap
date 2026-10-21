@@ -144,7 +144,8 @@ export function homeFaqGraph() {
 export function homeAgentLinks() {
   return [
     { label: 'llms.txt', href: '/llms.txt' },
-    { label: 'research/index.json', href: '/research/index.json' },
+    { label: 'latest.md', href: '/research/latest.md' },
+    { label: 'index.json', href: '/research/index.json' },
     { label: '引用说明', href: '/for-models' },
   ]
 }
