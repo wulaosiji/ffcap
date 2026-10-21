@@ -8,6 +8,7 @@ import {
   homeSearchDestination,
   previewArticleMatches,
 } from '@/content/home-hero-search.mjs'
+import { AgentCopyBlocks } from './AgentCopyBlocks'
 type IndexArticle = {
   slug: string
   title: string
@@ -17,8 +18,12 @@ type IndexArticle = {
 
 export function ResearchHeroSearch({
   agentLinks,
+  agentPromptText,
+  agentCurlLlms,
 }: {
   agentLinks: { label: string; href: string }[]
+  agentPromptText: string
+  agentCurlLlms: string
 }) {
   const [tab, setTab] = useState('articles')
   const [query, setQuery] = useState('')
@@ -135,15 +140,18 @@ export function ResearchHeroSearch({
         </Link>
       </div>
 
-      <p className="ed-research-hero__agents">
-        <span>给 AI：</span>
-        {agentLinks.map((link, i) => (
-          <span key={link.href}>
-            {i > 0 && ' · '}
-            <Link href={link.href}>{link.label}</Link>
-          </span>
-        ))}
-      </p>
+      <div className="ed-research-hero__agents-wrap">
+        <p className="ed-research-hero__agents">
+          <span>给 AI：</span>
+          {agentLinks.map((link, i) => (
+            <span key={link.href}>
+              {i > 0 && ' · '}
+              <Link href={link.href}>{link.label}</Link>
+            </span>
+          ))}
+        </p>
+        <AgentCopyBlocks promptText={agentPromptText} curlLlms={agentCurlLlms} />
+      </div>
     </div>
   )
 }

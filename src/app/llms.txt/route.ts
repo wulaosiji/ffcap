@@ -23,9 +23,10 @@ ${IDENTITY.research}
 
 1. 先读本文件与 [公开内容与引用说明](${SITE_URL}/for-models)。
 2. 拉取 [公开文章索引 JSON](${SITE_URL}/research/index.json)：含标题、原始日期、发布账号、出处、正文 Markdown 地址及内容缺口标记。
-3. 人类用户站内搜索：\`${SITE_URL}/research?q={关键词}\`（GET，服务端检索）。
-4. 引用时请保留发布账号「非凡产研」、原始发表日期与原文链接；勿推断个人作者。
-5. 快捷入口：${agentLinks.map(l => `[${l.label}](${SITE_URL}${l.href})`).join(' · ')}
+3. 订阅出口：[最新研究 Markdown](${SITE_URL}/research/latest.md)（最近文章标题/日期/链接/一句摘要）、[RSS 2.0](${SITE_URL}/research/rss.xml)。
+4. 人类用户站内搜索：\`${SITE_URL}/research?q={关键词}\`（GET，服务端检索）。
+5. 引用时请保留发布账号「非凡产研」、原始发表日期与原文链接；勿推断个人作者。
+6. 快捷入口：${agentLinks.map(l => `[${l.label}](${SITE_URL}${l.href})`).join(' · ')}
 
 ## 最新 3 个数据点（按 highlights.json 排序，周更 classify 后自动变化）
 
@@ -44,6 +45,7 @@ ${CITATION_NOTE}
 - [中文文章库](${SITE_URL}/research)
 - [English article archive](${SITE_URL}/en/research)：可在本站阅读全文并获取 Markdown，保留 Unique Research Substack 原始来源。
 - [公开文章索引 JSON](${SITE_URL}/research/index.json)：含标题、原始日期、发布账号、出处、正文 Markdown 地址及内容缺口。
+- [最新研究 Markdown](${SITE_URL}/research/latest.md)、[RSS 2.0](${SITE_URL}/research/rss.xml)
 ${TOPICS.map(topic => `- [${topic.name}](${SITE_URL}/topics/${topic.id})：${topic.description.zh}`).join('\n')}
 
 ## 产品

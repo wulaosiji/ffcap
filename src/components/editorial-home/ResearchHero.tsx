@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { HOME_H1, HOME_LEAD } from '@/content/site-identity.mjs'
+import { AGENT_CURL_LLMS, AGENT_PROMPT_TEXT } from '@/content/home-agent-kit.mjs'
 import { homeAgentLinks, homeDataCards, homeLatestAnnouncement } from '@/content/home-public.mjs'
 import { ResearchHeroSearch } from './ResearchHeroSearch'
 
@@ -37,7 +38,11 @@ export function ResearchHero() {
           </p>
         </header>
 
-        <ResearchHeroSearch agentLinks={homeAgentLinks()} />
+        <ResearchHeroSearch
+          agentLinks={homeAgentLinks()}
+          agentPromptText={AGENT_PROMPT_TEXT}
+          agentCurlLlms={AGENT_CURL_LLMS}
+        />
       </div>
 
       <div className="ed-container ed-research-hero__cards" aria-label="最新数据与活动">
