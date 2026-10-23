@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { articleMarkdownLinkHeader } from '@/lib/agent-markdown-routes.mjs'
 
 // 子域名 → 路径映射
 const SUBDOMAIN_MAP: Record<string, string> = {
@@ -42,6 +43,13 @@ export function middleware(request: NextRequest) {
       const baseDomain = hostname.replace(subdomainPrefix, '')
       return NextResponse.redirect(`https://${baseDomain}`)
     }
+  }
+
+  const markdownLink = articleMarkdownLinkHeader(pathname)
+  if (markdownLink) {
+    const response = NextResponse.next()
+    response.headers.append('Link', markdownLink)
+    return response
   }
 
   return NextResponse.next()

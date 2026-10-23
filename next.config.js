@@ -72,6 +72,13 @@ const nextConfig = {
       },
     ]
   },
+  // afterFiles: checked after static routes, so /research/latest.md stays the feed.
+  async rewrites() {
+    return [
+      { source: '/research/:slug.md', destination: '/research/:slug/markdown' },
+      { source: '/en/research/:slug.md', destination: '/en/research/:slug/markdown' },
+    ]
+  },
   async redirects() {
     return [
       {

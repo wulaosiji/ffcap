@@ -21,7 +21,7 @@ export function buildLatestMarkdown(articles, siteUrl = SITE_URL) {
   const lines = [
     '# 非凡产研最新研究',
     '',
-    `> 机器可读摘要：最近 ${articles.length} 篇中文公开研究。完整索引见 ${siteUrl}/research/index.json；引用规则见 ${siteUrl}/for-models。`,
+    `> 机器可读摘要：最近 ${articles.length} 篇中文公开研究。接口目录见 ${siteUrl}/for-ai；完整索引见 ${siteUrl}/research/index.json；引用规则见 ${siteUrl}/for-models。`,
     '',
   ]
   for (const article of articles) {

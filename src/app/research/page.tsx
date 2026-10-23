@@ -25,7 +25,7 @@ export default function ResearchPage({ searchParams }: { searchParams: Params })
   const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])
   const active = Boolean(q || topic || type || tag || year)
   return <main id="main-content" className="ed-container rs-library">
-    <div className="rs-intro"><div><p className="ed-eyebrow">UNIQUERESEARCH / ARCHIVE</p><h1>研究与洞察</h1><p>把分散的行业信号，放回同一张图景。</p><p><Link href="/for-models">引用说明</Link> · <a href="/research/index.json">公开文章索引 JSON</a></p></div><div className="rs-total"><strong>{catalog.length.toLocaleString('zh-CN')}</strong><span>篇文章 · 非凡产研</span></div></div>
+    <div className="rs-intro"><div><p className="ed-eyebrow">UNIQUERESEARCH / ARCHIVE</p><h1>研究与洞察</h1><p>把分散的行业信号，放回同一张图景。</p><p><Link href="/for-ai">给 AI</Link> · <Link href="/for-models">引用说明</Link> · <a href="/research/index.json">公开文章索引 JSON</a></p></div><div className="rs-total"><strong>{catalog.length.toLocaleString('zh-CN')}</strong><span>篇文章 · 非凡产研</span></div></div>
     <nav className="rs-directions" aria-label="研究方向">
       <Link href={researchUrl({ ...filters, topic: '' })} aria-current={!topic ? 'page' : undefined}>全部方向<span>{catalog.length}</span></Link>
       {DIRECTIONS.map(d => <Link key={d.id} href={researchUrl({ ...filters, topic: d.id })} aria-current={topic === d.id ? 'page' : undefined}>{d.name}<small>{d.label}</small></Link>)}

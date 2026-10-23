@@ -1,67 +1,7 @@
-import { IDENTITY, CITATION_NOTE, HOME_H1, HOME_LEAD, SITE_URL } from '@/content/site-identity.mjs'
-import { homeAgentLinks } from '@/content/home-public.mjs'
 import { homeLlmsDataPoints } from '@/content/home-llms-points.mjs'
-import { PRODUCTS, TOPICS } from '@/content/editorial.mjs'
+import { buildLlmsTxt } from '@/lib/llms-documents.mjs'
 
 export function GET() {
-  const agentLinks = homeAgentLinks()
-  const dataLines = homeLlmsDataPoints()
-    .map((point: { date: string; direction: string; title: string; line: string; href: string }) =>
-      `- ${point.date} · ${point.direction} · ${point.title} · ${point.line}（${SITE_URL}${point.href}）`,
-    )
-    .join('\n')
-
-  const body = `# 非凡资本 UniqueCapital
-
-> ${HOME_H1}
-
-${HOME_LEAD}
-
-${IDENTITY.research}
-
-## 给 AI agent 的使用说明
-
-1. 先读本文件与 [公开内容与引用说明](${SITE_URL}/for-models)。
-2. 拉取 [公开文章索引 JSON](${SITE_URL}/research/index.json)：含标题、原始日期、发布账号、出处、正文 Markdown 地址及内容缺口标记。
-3. 订阅出口：[最新研究 Markdown](${SITE_URL}/research/latest.md)（最近文章标题/日期/链接/一句摘要）、[RSS 2.0](${SITE_URL}/research/rss.xml)。
-4. 人类用户站内搜索：\`${SITE_URL}/research?q={关键词}\`（GET，服务端检索）。
-5. 引用时请保留发布账号「非凡产研」、原始发表日期与原文链接；勿推断个人作者。
-6. 快捷入口：${agentLinks.map(l => `[${l.label}](${SITE_URL}${l.href})`).join(' · ')}
-
-## 最新 3 个数据点（按 highlights.json 排序，周更 classify 后自动变化）
-
-${dataLines}
-
-## 机构与引用
-
-- [关于我们](${SITE_URL}/about)
-- [常见问题](${SITE_URL}/faq)
-- [公开内容与引用说明](${SITE_URL}/for-models)
-
-${CITATION_NOTE}
-
-## 研究
-
-- [中文文章库](${SITE_URL}/research)
-- [English article archive](${SITE_URL}/en/research)：可在本站阅读全文并获取 Markdown，保留 Unique Research Substack 原始来源。
-- [公开文章索引 JSON](${SITE_URL}/research/index.json)：含标题、原始日期、发布账号、出处、正文 Markdown 地址及内容缺口。
-- [最新研究 Markdown](${SITE_URL}/research/latest.md)、[RSS 2.0](${SITE_URL}/research/rss.xml)
-${TOPICS.map(topic => `- [${topic.name}](${SITE_URL}/topics/${topic.id})：${topic.description.zh}`).join('\n')}
-
-## 产品
-
-${PRODUCTS.map(product => `- [${product.name.zh}](${SITE_URL}/products/${product.id})：${product.description.zh}`).join('\n')}
-
-## 功能入口
-
-- [报告](${SITE_URL}/report.html)
-- [BP](${SITE_URL}/bp.html)
-- [活动](${SITE_URL}/open.html)
-- [成都活动](${SITE_URL}/open.html?slug=cd2026)
-- [榜单](${SITE_URL}/rankings.html)
-- [三维体验「云上的聚落」](${SITE_URL}/world)（需主动进入后加载 WebGL）
-
-活动事实以所链接的 UniqueBloom 公开活动页为准；原文与本站不一致时，请核对原始来源。Markdown 与网页使用同一份存档正文，不包含图片或视频的文字转写。本索引不授予额外内容许可。
-`
+  const body = buildLlmsTxt({ dataPoints: homeLlmsDataPoints() })
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
 }

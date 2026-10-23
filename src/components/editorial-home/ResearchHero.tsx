@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { HOME_H1, HOME_LEAD } from '@/content/site-identity.mjs'
-import { AGENT_CURL_LLMS, AGENT_PROMPT_TEXT } from '@/content/home-agent-kit.mjs'
+import { AGENT_CURL_LATEST, AGENT_CURL_LLMS, AGENT_PROMPT_TEXT } from '@/content/home-agent-kit.mjs'
 import { homeAgentLinks, homeDataCards, homeLatestAnnouncement } from '@/content/home-public.mjs'
 import { ResearchHeroSearch } from './ResearchHeroSearch'
 
@@ -36,6 +36,13 @@ export function ResearchHero() {
           <p className="ed-research-hero__scale">
             已公开 <strong>{cards.find(c => c.kind === 'library')?.stat || '1,300+ 篇'}</strong> 研究与观察，每周更新融资、收入与流量榜单。
           </p>
+          <div className="ed-machine-cta" aria-label="机器读取入口">
+            <Link className="ed-research-hero__cta ed-research-hero__cta-primary" href="/for-ai">给 AI 接口</Link>
+            <div className="ed-machine-cta__cmds">
+              <a className="ed-machine-cta__cmd" href="/llms.txt"><code>{AGENT_CURL_LLMS}</code></a>
+              <a className="ed-machine-cta__cmd" href="/research/latest.md"><code>{AGENT_CURL_LATEST}</code></a>
+            </div>
+          </div>
         </header>
 
         <ResearchHeroSearch

@@ -31,6 +31,8 @@ export default function FaqPage() {
           ))}
         </dl>
         <p style={{ marginTop: '2.5rem' }}>
+          <Link href="/for-ai" className="ed-link">给 AI 的读取接口 →</Link>
+          {' · '}
           <Link href="/for-models" className="ed-link">公开内容与引用说明 →</Link>
           {' · '}
           <Link href="/about" className="ed-link">关于非凡资本 →</Link>
