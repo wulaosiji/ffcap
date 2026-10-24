@@ -127,6 +127,9 @@
 .ed-footer-links a{display:inline-flex;gap:10px;align-items:center;min-height:30px}
 .ed-footer-links a:hover{color:var(--ed-accent)}
 .ed-footer-bottom{border-top:1px solid var(--ed-rule);padding-block:23px;display:flex;align-items:center;justify-content:space-between;gap:25px;color:var(--ed-muted);font-size:10px}
+.ed-footer-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;min-width:0}
+.ed-footer-bottom .ed-footer-icp{color:inherit;white-space:nowrap}
+.ed-footer-bottom .ed-footer-icp:hover{color:var(--ed-accent)}
 .ed-footer-bottom .ed-link{border:0;font-size:10px;min-height:30px}
 .ed-overlay{position:fixed;inset:0;z-index:90;background:rgba(28,29,25,.45);animation:ed-fade-in .18s both}
 .ed-dialog{position:fixed;z-index:100;box-shadow:none;overflow:auto;overscroll-behavior:contain}

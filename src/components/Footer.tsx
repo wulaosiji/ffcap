@@ -7,6 +7,7 @@ import { useLang } from "@/context/LangContext"
 import { LINKS } from "@/content/editorial.mjs"
 import { SITE_LINKS } from "@/components/narrative-home/linkMap.mjs"
 import { SocialLinks } from "@/components/editorial-home/SocialLinks"
+import { IcpFilingLink } from "@/components/IcpFilingLink"
 
 export function Footer() {
   const { lang } = useLang()
@@ -84,6 +85,9 @@ export function Footer() {
         </div>
         <div className="mt-12 pt-8 border-t text-center text-muted-foreground">
           <p>{homeTexts[lang].footer.copyright}</p>
+          <p className="mt-2 text-xs">
+            <IcpFilingLink className="hover:text-foreground transition-colors" />
+          </p>
         </div>
       </div>
     </footer>
