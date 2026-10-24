@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: IDENTITY.description,
   verification: {
     other: {
-      "baidu-site-verification": "codeva-AwRpx0YzMV",
+      "baidu-site-verification": "codeva-0YLvK3GiMy",
     },
   },
 }
