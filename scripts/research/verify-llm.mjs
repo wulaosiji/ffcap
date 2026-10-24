@@ -11,7 +11,7 @@ async function read(path, status = 200) {
   return { response, body: await response.text() }
 }
 const sample = '/research/20260903a098sq00'
-for (const path of ['/', '/about', '/research', '/for-models', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
+for (const path of ['/', '/about', '/research', '/for-models', '/for-ai', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
   const { body } = await read(path)
   assert.match(body, /<html[^>]+lang="zh-CN"/, path)
   const canonical = [...body.matchAll(/<link rel="canonical" href="([^"]+)"/g)]
@@ -27,6 +27,7 @@ for (const path of ['/', '/about', '/research', '/for-models', sample, ...PRODUC
     assert.ok(json.some(node => node['@type'] === 'BreadcrumbList'))
     assert.match(body, /rel="alternate" type="text\/markdown"/)
   }
+  if (path === '/for-ai') assert.match(body, /给 AI 的读取接口/)
   checks.push({ path, status: 200, canonical: canonical[0][1], structuredData: json.length })
 }
 const { body: indexBody, response: indexResponse } = await read('/research/index.json')
@@ -46,13 +47,28 @@ for (const a of sampleEntries) {
   for (const warning of a.warnings) assert.ok(body.includes(warning))
   checks.push({ path, status: 200, warnings: a.warnings.length })
 }
-for (const path of ['/research/notfound/markdown', '/products/notfound', '/topics/notfound']) await read(path, 404)
+for (const path of ['/research/notfound/markdown', '/research/notfound.md', '/products/notfound', '/topics/notfound']) await read(path, 404)
 const { body: llms } = await read('/llms.txt')
 assert.ok(llms.includes('/open.html?slug=cd2026'))
+assert.ok(llms.includes('/for-ai'))
+assert.ok(llms.includes('/llms-full.txt'))
+assert.ok(llms.includes('/research/{slug}.md'))
 assert.ok(!llms.includes('postify.cc'))
+const { body: llmsFull } = await read('/llms-full.txt')
+assert.match(llmsFull, /不是全库正文/)
+assert.ok(llmsFull.includes('/for-ai') && llmsFull.includes('/research/index.json'))
+assert.ok(!llmsFull.includes('去年国内出货量30万台'))
+const { response: articlePage } = await read(sample)
+assert.match(articlePage.headers.get('link') || '', /<https:\/\/ffcap\.cn\/research\/20260903a098sq00\/markdown>; rel="alternate"; type="text\/markdown"/)
+const { response: aliasResponse, body: aliasBody } = await read(`${sample}.md`)
+assert.match(aliasResponse.headers.get('content-type') || '', /text\/markdown/)
+assert.ok(aliasBody.includes('publicationAccount: "非凡产研"'))
+const { response: latestResponse, body: latest } = await read('/research/latest.md')
+assert.match(latestResponse.headers.get('content-type') || '', /text\/markdown/)
+assert.match(latest, /^# 非凡产研最新研究/)
 const { body: robots } = await read('/robots.txt')
 assert.ok(robots.includes('Sitemap: https://ffcap.cn/sitemap.xml'))
 const { body: sitemap } = await read('/sitemap.xml')
-for (const path of ['/for-models', ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) assert.ok(sitemap.includes(`https://ffcap.cn${path}`))
+for (const path of ['/for-models', '/for-ai', '/llms-full.txt', ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) assert.ok(sitemap.includes(`https://ffcap.cn${path}`))
 assert.ok(!sitemap.includes('<lastmod>'), 'Do not invent update dates from publication dates')
 console.log(JSON.stringify({ origin, passed: true, indexCount: index.count, checks, discovery: ['llms.txt', 'robots.txt', 'sitemap.xml'], invalidRoutes: '404' }, null, 2))

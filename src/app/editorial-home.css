@@ -211,6 +211,20 @@
 .ed-research-hero__copy h1{font-size:clamp(26px,3.2vw,42px);line-height:1.22;letter-spacing:-.04em;margin-bottom:14px}
 .ed-research-hero__lead{font-size:15px;line-height:1.75;color:var(--ed-muted);max-width:38rem}
 .ed-research-hero__scale{margin-top:12px;font-size:13px;color:var(--ed-muted)}
+.ed-machine-cta{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:16px;width:100%}
+.ed-machine-cta__cmds{display:grid;gap:6px;width:100%;max-width:36rem}
+.ed-machine-cta__cmd{display:block;border:1px solid var(--ed-ink);background:#fff;padding:8px 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.45;overflow-x:auto}
+.ed-machine-cta__cmd code{white-space:nowrap}
+.ed-machine-cta__cmd:hover{background:var(--ed-ink);color:var(--ed-paper)}
+@media(max-width:600px){.ed-machine-cta__cmd{font-size:11px;padding:7px 8px}}
+.ed-agent-order{list-style:decimal;padding-left:1.2rem;display:grid;gap:12px;margin:8px 0 28px}
+.ed-agent-order li{display:grid;gap:2px}
+.ed-agent-order a{font-weight:500}
+.ed-agent-index{width:100%;border-collapse:collapse;margin:8px 0 28px;font-size:14px;line-height:1.6}
+.ed-agent-index caption{caption-side:bottom;text-align:left;font-size:12px;color:var(--ed-muted);padding-top:8px}
+.ed-agent-index th,.ed-agent-index td{border-bottom:1px solid var(--ed-rule);padding:10px 16px 10px 0;vertical-align:top;text-align:left}
+.ed-agent-index th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ed-muted);font-weight:500}
+.ed-agent-order code,.ed-agent-index code,.rs-prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
 .ed-research-hero__search{display:flex;align-items:stretch;border:1px solid var(--ed-ink);background:#fff;margin-bottom:12px}
 .ed-research-hero__search input{flex:1;border:0;background:transparent;padding:14px 16px;font-size:15px;min-height:48px}
 .ed-research-hero__search button{border:0;border-left:1px solid var(--ed-ink);background:var(--ed-ink);color:var(--ed-paper);min-width:52px;display:grid;place-items:center}

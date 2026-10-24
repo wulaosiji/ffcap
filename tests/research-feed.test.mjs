@@ -39,6 +39,7 @@ test('latest markdown lists title date link and summary', () => {
   assert.match(md, /\[第一篇\]\(https:\/\/ffcap\.cn\/research\/a\)/)
   assert.match(md, /\*\*2026-10-14\*\*/)
   assert.match(md, /摘要一/)
+  assert.match(md, /https:\/\/ffcap\.cn\/for-ai/)
 })
 
 test('rss is valid 2.0 with channel and items', () => {

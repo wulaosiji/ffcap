@@ -49,7 +49,7 @@ export const FAQ_ITEMS = [
   {
     question: 'AI agent 如何读取本站？',
     answer:
-      `建议顺序：阅读 ${SITE_URL}/llms.txt → 拉取 ${SITE_URL}/research/index.json 获取标题、日期与 Markdown 地址 → 按 /for-models 的引用说明标注出处。站内搜索人类用户入口为 ${SITE_URL}/research?q=关键词。`,
+      `建议顺序：打开 ${SITE_URL}/for-ai 查看机器入口 → 阅读 ${SITE_URL}/llms.txt 与有界上下文 ${SITE_URL}/llms-full.txt（不含全部正文）→ 拉取 ${SITE_URL}/research/index.json 获取标题、日期与 Markdown 地址 → 单篇使用 /research/{slug}/markdown 或 /research/{slug}.md → 按 /for-models 标注出处。站内搜索人类用户入口为 ${SITE_URL}/research?q=关键词。`,
   },
   {
     question: '如何提交 BP 或参加活动？',
@@ -141,11 +141,4 @@ export function homeFaqGraph() {
   }
 }
 
-export function homeAgentLinks() {
-  return [
-    { label: 'llms.txt', href: '/llms.txt' },
-    { label: 'latest.md', href: '/research/latest.md' },
-    { label: 'index.json', href: '/research/index.json' },
-    { label: '引用说明', href: '/for-models' },
-  ]
-}
+export { homeAgentLinks } from './agent-surfaces.mjs'

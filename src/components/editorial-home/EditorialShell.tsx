@@ -57,7 +57,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     { label: zh ? 'AI 榜单' : 'Rankings', href: LINKS.uniqueResearch, external: true },
     { label: zh ? '活动与生态' : 'Events', href: '/#ecosystem' },
     { label: zh ? '产品' : 'Products', href: '/#products' },
-    { label: zh ? '给 AI' : 'For AI', href: '/for-models' },
+    { label: zh ? '给 AI' : 'For AI', href: '/for-ai' },
     { label: zh ? '关于我们' : 'About', href: '/about' },
   ]
   const results = filterContent(CONTENT, 'all', query, lang)
@@ -115,7 +115,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
         <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={lang} /></div>
-        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => n.external ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/llms.txt">{zh ? 'llms.txt' : 'llms.txt'}</Link><Link href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</Link><Link href="/faq">{zh ? '常见问题' : 'FAQ'}</Link></div>
+        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => n.external ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/llms.txt">llms.txt</Link><Link href="/llms-full.txt">llms-full.txt</Link><Link href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</Link><Link href="/for-models">{zh ? '引用说明' : 'Citation'}</Link><Link href="/faq">{zh ? '常见问题' : 'FAQ'}</Link></div>
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => <Link href={`/products/${p.id}`} key={p.id}>{p.name[lang]}<ArrowRight size={13}/></Link>)}</div>
       </div>
       <div className="ed-container ed-footer-bottom"><span>© {new Date().getFullYear()} UniqueCapital. {zh ? '非凡资本' : 'All rights reserved.'}</span><span>{zh ? '独立思考 · 长期连接' : 'Independent thinking. Lasting connections.'}</span><a href="#top" className="ed-link">{zh ? '回到顶部' : 'Back to top'}<ArrowUpRight size={16}/></a></div>

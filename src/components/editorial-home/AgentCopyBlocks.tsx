@@ -28,11 +28,23 @@ function CopyBlock({ label, text }: { label: string; text: string }) {
   )
 }
 
-export function AgentCopyBlocks({ promptText, curlLlms }: { promptText: string; curlLlms: string }) {
+export function AgentCopyBlocks({
+  promptText,
+  curlLlms,
+  curlLatest,
+  curlArticle,
+}: {
+  promptText: string
+  curlLlms: string
+  curlLatest?: string
+  curlArticle?: string
+}) {
   return (
     <div className="ed-agent-copy-stack" aria-label="给 AI 可复制指令">
       <CopyBlock label="Agent 提示词" text={promptText} />
-      <CopyBlock label="终端示例" text={curlLlms} />
+      <CopyBlock label="curl llms.txt" text={curlLlms} />
+      {curlLatest ? <CopyBlock label="curl latest.md" text={curlLatest} /> : null}
+      {curlArticle ? <CopyBlock label="curl 单篇 Markdown" text={curlArticle} /> : null}
     </div>
   )
 }
