@@ -11,6 +11,7 @@ import logo from '@/assets/ffcap-logo-mark.png'
 import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
+import { IcpFilingLink } from '@/components/IcpFilingLink'
 
 export function OutLink({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: () => void }) {
   return <a href={href} className={className} target="_blank" rel="noopener noreferrer" onClick={onClick}>{children}</a>
@@ -118,7 +119,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => n.external ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/llms.txt">llms.txt</Link><Link href="/llms-full.txt">llms-full.txt</Link><Link href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</Link><Link href="/for-models">{zh ? '引用说明' : 'Citation'}</Link><Link href="/faq">{zh ? '常见问题' : 'FAQ'}</Link></div>
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => <Link href={`/products/${p.id}`} key={p.id}>{p.name[lang]}<ArrowRight size={13}/></Link>)}</div>
       </div>
-      <div className="ed-container ed-footer-bottom"><span>© {new Date().getFullYear()} UniqueCapital. {zh ? '非凡资本' : 'All rights reserved.'}</span><span>{zh ? '独立思考 · 长期连接' : 'Independent thinking. Lasting connections.'}</span><a href="#top" className="ed-link">{zh ? '回到顶部' : 'Back to top'}<ArrowUpRight size={16}/></a></div>
+      <div className="ed-container ed-footer-bottom"><div className="ed-footer-meta"><span>© {new Date().getFullYear()} UniqueCapital. {zh ? '非凡资本' : 'All rights reserved.'}</span><IcpFilingLink className="ed-footer-icp" /></div><span>{zh ? '独立思考 · 长期连接' : 'Independent thinking. Lasting connections.'}</span><a href="#top" className="ed-link">{zh ? '回到顶部' : 'Back to top'}<ArrowUpRight size={16}/></a></div>
     </footer>
   </div>
 }
