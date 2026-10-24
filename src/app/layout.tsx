@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ffcap.cn"),
   title: "非凡资本 UniqueCapital | AI 研究、资本与生态",
   description: IDENTITY.description,
+  verification: {
+    other: {
+      "baidu-site-verification": "codeva-AwRpx0YzMV",
+    },
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
