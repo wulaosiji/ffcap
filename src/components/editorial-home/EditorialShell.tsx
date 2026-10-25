@@ -8,7 +8,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import logo from '@/assets/ffcap-logo-mark.png'
-import { CONTENT, LINKS, PRODUCTS, eventChromeTitle, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref } from '@/content/editorial.mjs'
+import { CONTENT, LINKS, PRODUCTS, eventChromeTitle, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref, researchLanguageCounterpart, researchRouteLang } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
@@ -32,18 +32,19 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
   const { lang, setLang } = useLang()
   const pathname = usePathname()
   const router = useRouter()
-  const zh = lang === 'zh'
+  const displayed = researchRouteLang(pathname) || lang
+  const zh = displayed !== 'en'
   const switchLanguage = () => {
-    const next = lang === 'zh' ? 'en' : 'zh'
+    const next = displayed === 'zh' ? 'en' : 'zh'
     try { localStorage.setItem('lang', next) } catch {}
-    if (pathname === '/en/research' && next === 'zh') { router.push('/research'); return }
+    const paired = researchLanguageCounterpart(pathname, next)
+    if (paired) { router.push(paired); return }
     if (pathname.startsWith('/en/research/') && next === 'zh') {
       const englishSlug = pathname.slice('/en/research/'.length).split('/')[0]
       const chineseSlug = relatedChineseSlug(`https://uniqueresearch.substack.com/p/${englishSlug}`)
       router.push(chineseSlug ? `/research/${chineseSlug}` : '/research')
       return
     }
-    if (pathname === '/research' && next === 'en') { router.push('/en/research'); return }
     if (pathname.startsWith('/research/') && next === 'en') {
       const chineseSlug = pathname.slice('/research/'.length).split('/')[0]
       const englishSlug = englishSlugForChinese(chineseSlug)
@@ -64,13 +65,13 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     window.addEventListener('scroll', updateHeader, { passive: true })
     return () => window.removeEventListener('scroll', updateHeader)
   }, [cinematic])
-  const nav = primaryNavItems(lang)
-  const explore = footerExploreGroups(lang)
-  const results = filterContent(CONTENT, 'all', query, lang)
-  const productResults = filterProducts(PRODUCTS, query, lang)
+  const nav = primaryNavItems(displayed)
+  const explore = footerExploreGroups(displayed)
+  const results = filterContent(CONTENT, 'all', query, displayed)
+  const productResults = filterProducts(PRODUCTS, query, displayed)
   const count = results.length + productResults.length
 
-  return <div className={`ed-site ${cinematic ? 'ed-cinematic' : ''} ${pastHero ? 'ed-past-hero' : ''}`} lang={lang}>
+  return <div className={`ed-site ${cinematic ? 'ed-cinematic' : ''} ${pastHero ? 'ed-past-hero' : ''}`} lang={displayed}>
     <a className="ed-skip" href="#main-content">{zh ? '跳到正文' : 'Skip to content'}</a>
     <header className="ed-header">
       <Link className="ed-brand" href="/" aria-label={zh ? '非凡资本首页' : 'UniqueCapital home'}>
@@ -86,7 +87,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
           <Dialog.Trigger asChild><button className="ed-icon-button ed-search-trigger" aria-label={zh ? '搜索内容' : 'Search content'}><Search size={20} strokeWidth={1.5} /></button></Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="ed-overlay" />
-            <Dialog.Content className="ed-dialog ed-search-dialog" lang={lang} onOpenAutoFocus={e => { e.preventDefault(); searchInput.current?.focus() }}>
+            <Dialog.Content className="ed-dialog ed-search-dialog" lang={displayed} onOpenAutoFocus={e => { e.preventDefault(); searchInput.current?.focus() }}>
               <div className="ed-dialog-top">
                 <Dialog.Title>{zh ? '探索非凡' : 'Explore UniqueCapital'}</Dialog.Title>
                 <Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭搜索' : 'Close search'}><X size={23} strokeWidth={1.5}/></Dialog.Close>
@@ -98,14 +99,14 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
                 <Link href={`${zh ? '/research' : '/en/research'}${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`} className="ed-search-result" onClick={() => setSearchOpen(false)}><span><small>{zh ? '站内文章 · 全文检索' : 'ENGLISH ARTICLES · FULL-TEXT SEARCH'}</small><strong>{query.trim() ? (zh ? `搜索研究文章：“${query.trim()}”` : `Search articles: “${query.trim()}”`) : (zh ? '浏览非凡产研全部文章' : 'Browse English research articles')}</strong></span><ArrowRight size={20}/></Link>
                 {results.map(item => {
                   const internal = item.href.startsWith('/')
-                  const body = <span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.kind === 'event' ? eventChromeTitle(item, lang) : item.title[lang]}</strong></span>
+                  const body = <span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.kind === 'event' ? eventChromeTitle(item, displayed) : item.title[displayed]}</strong></span>
                   return internal
                     ? <Link key={item.id} href={item.href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
                     : <OutLink key={item.id} href={item.href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>
                 })}
                 {productResults.map(p => {
-                  const href = productPrimaryHref(p, lang)
-                  const body = <span><small>{p.audience[lang]}</small><strong>{p.name[lang]}</strong></span>
+                  const href = productPrimaryHref(p, displayed)
+                  const body = <span><small>{p.audience[displayed]}</small><strong>{p.name[displayed]}</strong></span>
                   return href.startsWith('http')
                     ? <OutLink key={p.id} href={href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>
                     : <Link key={p.id} href={href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
@@ -119,7 +120,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
           <Dialog.Trigger asChild><button className="ed-icon-button ed-menu-trigger" aria-label={zh ? '打开导航菜单' : 'Open navigation menu'}><Menu size={24} strokeWidth={1.4}/></button></Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="ed-overlay"/>
-            <Dialog.Content className={`ed-dialog ed-menu-dialog ${cinematic ? 'ed-menu-from-left' : ''}`} lang={lang}>
+            <Dialog.Content className={`ed-dialog ed-menu-dialog ${cinematic ? 'ed-menu-from-left' : ''}`} lang={displayed}>
               <div className="ed-dialog-top"><Dialog.Title>{zh ? '非凡资本' : 'UniqueCapital'}</Dialog.Title><Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭导航菜单' : 'Close navigation menu'}><X size={24} strokeWidth={1.4}/></Dialog.Close></div>
               <Dialog.Description className="ed-eyebrow">{zh ? '研究。连接。构建。' : 'RESEARCH. CONNECT. BUILD.'}</Dialog.Description>
               <nav aria-label={zh ? '完整导航' : 'Full navigation'}>{nav.map((n, i) => n.href.startsWith('http') ? <OutLink key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowUpRight size={23}/></OutLink> : <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowRight size={23}/></Link>)}</nav>
@@ -132,15 +133,15 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     {children}
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
-        <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={lang} /></div>
+        <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={displayed} /></div>
         <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
         <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => {
-          const href = productPrimaryHref(p, lang)
+          const href = productPrimaryHref(p, displayed)
           const external = href.startsWith('http')
           return external
-            ? <OutLink href={href} key={p.id}>{p.name[lang]}<ArrowUpRight size={13}/></OutLink>
-            : <Link href={href} key={p.id}>{p.name[lang]}<ArrowRight size={13}/></Link>
+            ? <OutLink href={href} key={p.id}>{p.name[displayed]}<ArrowUpRight size={13}/></OutLink>
+            : <Link href={href} key={p.id}>{p.name[displayed]}<ArrowRight size={13}/></Link>
         })}</div>
       </div>
       <div className="ed-container ed-footer-bottom"><div className="ed-footer-meta"><span>© {new Date().getFullYear()} UniqueCapital. {zh ? '非凡资本' : 'All rights reserved.'}</span><IcpFilingLink className="ed-footer-icp" /></div><span>{zh ? '独立思考 · 长期连接' : 'Independent thinking. Lasting connections.'}</span><a href="#top" className="ed-link">{zh ? '回到顶部' : 'Back to top'}<ArrowUpRight size={16}/></a></div>

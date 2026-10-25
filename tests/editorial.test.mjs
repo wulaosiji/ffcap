@@ -53,8 +53,8 @@ test("editorial content preserves verified public destinations and three researc
   ]);
   assert.deepEqual(primaryNavItems("en").map(({ label, href }) => ({ label, href })), [
     { label: "Research", href: "/en/research" },
-    { label: "Data & Rankings", href: "/research/rankings" },
-    { label: "Events & Awards", href: "/research/events-awards" },
+    { label: "Data & Rankings", href: "/en/research/rankings" },
+    { label: "Events & Awards", href: "/en/research/events-awards" },
     { label: "Products & Services", href: "/products" },
     { label: "For AI", href: "/for-ai" },
     { label: "About", href: "/about" },
@@ -119,6 +119,8 @@ test("footer explore splits the site menu from the For AI group", () => {
     "Research", "Data & Rankings", "Events & Awards", "Products & Services", "About", "Contact",
   ]);
   assert.equal(en.site.items[0].href, "/en/research");
+  assert.equal(en.site.items[1].href, "/en/research/rankings");
+  assert.equal(en.site.items[2].href, "/en/research/events-awards");
   assert.deepEqual(en.ai.items.map(({ label, href }) => ({ label, href })), [
     { label: "For AI", href: "/for-ai" },
     { label: "llms.txt", href: "/llms.txt" },
@@ -163,6 +165,9 @@ test("site chrome does not invite AI ranking applications", async () => {
     "../src/components/narrative-home/linkMap.mjs",
     "../src/app/research/rankings/page.tsx",
     "../src/app/research/events-awards/page.tsx",
+    "../src/app/en/research/rankings/page.tsx",
+    "../src/app/en/research/events-awards/page.tsx",
+    "../src/components/editorial-home/EnglishCuratedHub.tsx",
     "../src/app/submit/page.tsx",
   ];
   const src = (await Promise.all(files.map((file) => readFile(new URL(file, import.meta.url), "utf8")))).join("\n");

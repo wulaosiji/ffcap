@@ -9,3 +9,5 @@
 .rs-product-card .rs-card-bottom>a{margin-left:0;font-size:13px;min-width:0}
 .rs-product-card .rs-card-bottom>a.rs-card-external{color:var(--ed-muted);font-size:12px}
 .rs-chinese-link{white-space:nowrap}
+.rs-card-bottom>a.rs-card-read{font-size:13px;min-width:0;white-space:nowrap}
+.rs-grid>.rs-card,.rs-card-link{min-width:0}

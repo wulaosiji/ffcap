@@ -5,7 +5,7 @@ import { IDENTITY } from '@/content/site-identity.mjs'
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
 
@@ -156,7 +156,7 @@ export function EditorialAbout() {
             <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>
               {text.reports}<ArrowRight size={18} aria-hidden="true" />
             </Link>
-            <Link className="ed-link" href={LINKS.rankingsHub}>
+            <Link className="ed-link" href={researchHubPath('rankings', lang)}>
               {lang === 'zh' ? 'AI 榜单精选' : 'Curated rankings'}<ArrowRight size={18} aria-hidden="true" />
             </Link>
             <Link className="ed-link" href={LINKS.contact}>

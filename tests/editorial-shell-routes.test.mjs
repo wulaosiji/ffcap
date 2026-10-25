@@ -17,6 +17,8 @@ test('usesEditorialShell hides legacy Navbar on editorial routes', () => {
     '/research/events-awards',
     '/research/some-article',
     '/en/research',
+    '/en/research/rankings',
+    '/en/research/events-awards',
     '/en/research/some-article',
   ]) {
     assert.equal(usesEditorialShell(path), true, path)

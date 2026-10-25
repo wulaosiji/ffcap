@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { CONTACT } from '@/content/contact.mjs'
-import { LINKS } from '@/content/editorial.mjs'
+import { LINKS, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -69,7 +69,7 @@ export function EditorialContact() {
           <p>{lang === 'zh' ? '研究报告与榜单文章在本站阅读；需要结构化公司事实时可使用 UniqueBase。' : 'Read reports and ranking articles on ffcap.cn; use UniqueBase when you need structured company facts.'}</p>
           <div>
             <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>{text.research}<ArrowUpRight size={18} aria-hidden="true" /></Link>
-            <Link className="ed-link" href={LINKS.rankingsHub}>{text.rankings}<ArrowUpRight size={18} aria-hidden="true" /></Link>
+            <Link className="ed-link" href={researchHubPath('rankings', lang)}>{text.rankings}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <OutLink className="ed-link" href={uniqueBase}>{text.uniqueBase}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
             <Link className="ed-link" href="/products/uniquebase">{lang === 'zh' ? 'UniqueBase 产品介绍' : 'UniqueBase product details'}<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
