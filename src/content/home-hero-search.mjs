@@ -7,6 +7,11 @@ export const HOME_SEARCH_TABS = [
   { id: 'bp', label: 'BP', description: '项目 BP 提交入口' },
 ]
 
+/** Whether implicit form submit (Enter in the search field) should navigate. */
+export function homeSearchImplicitSubmitNavigates(tabId) {
+  return tabId === 'articles'
+}
+
 export function homeSearchDestination(tabId, query) {
   const q = (query || '').trim()
   switch (tabId) {
