@@ -19,12 +19,41 @@ export const LINKS = Object.freeze({
   uniqueBase: "https://uniquebase.cn/",
   uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",
-  /** UniqueResearch product site (WeChat mini program & public product entry). */
+  /**
+   * Unique Research product entry.
+   * Use this HTTPS origin for the product. Do not send product CTAs to
+   * uniqueresearch.substack.com or the unicaresearch.cn typo.
+   */
   uniqueResearchSite: "https://uniqueresearch.cn",
 });
 
 export function uniqueBaseHref(lang = "zh") {
   return lang === "en" ? LINKS.uniqueBaseEn : LINKS.uniqueBaseZh;
+}
+
+/** On-site advanced description for a matrix product. */
+export function productDetailPath(product) {
+  const id = typeof product === "string" ? product : product?.id;
+  return `/products/${id}`;
+}
+
+/**
+ * Primary CTA on product cards, search, footer, and /products.
+ * UniqueBase stays on the language-specific product site.
+ * Other matrix products open the on-site description first.
+ */
+export function productPrimaryHref(product, lang = "zh") {
+  if (product?.id === "uniquebase") return uniqueBaseHref(lang);
+  return productDetailPath(product);
+}
+
+/**
+ * External product entry. Secondary when it differs from the primary CTA.
+ * On /products/[slug] this is the “enter the product” link.
+ */
+export function productExternalHref(product, lang = "zh") {
+  if (product?.id === "uniquebase") return uniqueBaseHref(lang);
+  return product?.href;
 }
 
 /** Site header and menus (exactly seven items). About precedes Contact. */

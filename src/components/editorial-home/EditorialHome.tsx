@@ -4,30 +4,36 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash, uniqueBaseHref } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
-function productHref(product: (typeof PRODUCTS)[number], lang: 'zh' | 'en') {
-  if (product.id === 'uniquebase') return uniqueBaseHref(lang)
-  return product.href
-}
-
 function ProductCard({ product, lang, index }: { product: (typeof PRODUCTS)[number]; lang: 'zh' | 'en'; index: number }) {
-  const href = productHref(product, lang)
-  const className = 'ed-product'
+  const primary = productPrimaryHref(product, lang)
+  const external = productExternalHref(product, lang)
+  const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
   const body = (
     <>
       <div className="ed-product-top"><span>0{index + 1}</span><span>{product.audience[lang]}</span></div>
       <h3>{product.name[lang]}</h3>
       <p>{product.description[lang]}</p>
-      <span className="ed-link">{product.action[lang]}<ArrowUpRight size={20}/></span>
+      <span className="ed-link">
+        {secondary ? (lang === 'zh' ? '查看产品介绍' : 'Product details') : product.action[lang]}
+        {primary.startsWith('/') ? <ArrowRight size={20}/> : <ArrowUpRight size={20}/>}
+      </span>
     </>
   )
-  if (href.startsWith('/')) {
-    return <Link href={href} className={className}>{body}</Link>
+  if (!secondary) {
+    return primary.startsWith('/')
+      ? <Link href={primary} className="ed-product">{body}</Link>
+      : <OutLink href={primary} className="ed-product">{body}</OutLink>
   }
-  return <OutLink href={href} className={className}>{body}</OutLink>
+  return (
+    <article className="ed-product">
+      <Link href={primary} className="ed-product-main">{body}</Link>
+      <OutLink href={external} className="ed-product-external">{product.action[lang]}<ArrowUpRight size={14}/></OutLink>
+    </article>
+  )
 }
 import { ResearchHighlights } from './ResearchHighlights'
 import { SectionIndex } from './SectionIndex'

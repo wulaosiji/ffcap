@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { PRODUCTS, uniqueBaseHref } from '@/content/editorial.mjs'
+import { PRODUCTS, productExternalHref } from '@/content/editorial.mjs'
 import { SITE_URL, breadcrumbs } from '@/content/site-identity.mjs'
 import { StructuredData } from '@/components/StructuredData'
 import { ProductBilingualCopy } from '@/components/ProductBilingualCopy'
@@ -22,8 +22,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 }
 
 function productCtaHref(p: (typeof PRODUCTS)[number]) {
-  if (p.id === 'uniquebase') return uniqueBaseHref('zh')
-  return p.href
+  return productExternalHref(p, 'zh')
 }
 
 export default function ProductPage({ params }: { params: { slug: string } }) {

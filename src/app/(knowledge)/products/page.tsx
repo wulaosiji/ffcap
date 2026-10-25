@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { PRODUCTS, uniqueBaseHref } from '@/content/editorial.mjs'
+import { PRODUCTS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { SITE_URL, breadcrumbs } from '@/content/site-identity.mjs'
 import { StructuredData } from '@/components/StructuredData'
 import { ProductBilingualCopy } from '@/components/ProductBilingualCopy'
@@ -34,36 +34,39 @@ export default function ProductsHubPage() {
       </div>
       <div className="rs-grid">
         {PRODUCTS.map(product => {
-          const external = product.id === 'uniquebase'
-            ? uniqueBaseHref('zh')
-            : product.href.startsWith('http')
-              ? product.href
-              : null
-          const href = external ?? `/products/${product.id}`
+          const primary = productPrimaryHref(product, 'zh')
+          const external = productExternalHref(product, 'zh')
+          const primaryExternal = primary.startsWith('http')
+          const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
           return (
-            <article key={product.id} className="rs-card">
+            <article key={product.id} className="rs-card rs-product-card">
               <div className="rs-meta">
                 <span>{product.audience.zh}</span>
                 <span lang="en">{product.audience.en}</span>
               </div>
-              {external ? (
-                <a href={href} className="rs-card-link" target="_blank" rel="noopener noreferrer">
+              {primaryExternal ? (
+                <a href={primary} className="rs-card-link" target="_blank" rel="noopener noreferrer">
                   <h2>{product.name.zh}</h2>
                   <ProductBilingualCopy description={product.description} />
                 </a>
               ) : (
-                <Link href={href} className="rs-card-link">
+                <Link href={primary} className="rs-card-link">
                   <h2>{product.name.zh}</h2>
                   <ProductBilingualCopy description={product.description} />
                 </Link>
               )}
               <div className="rs-card-bottom">
-                {external ? (
-                  <a href={href} target="_blank" rel="noopener noreferrer">
+                {primaryExternal ? (
+                  <a href={primary} target="_blank" rel="noopener noreferrer">
                     {product.action.zh} <ArrowUpRight size={14} />
                   </a>
                 ) : (
-                  <Link href={href}>{product.action.zh} →</Link>
+                  <Link href={primary}>查看介绍 →</Link>
+                )}
+                {secondary && (
+                  <a className="rs-card-external" href={external} target="_blank" rel="noopener noreferrer">
+                    {product.action.zh} <ArrowUpRight size={14} />
+                  </a>
                 )}
               </div>
             </article>

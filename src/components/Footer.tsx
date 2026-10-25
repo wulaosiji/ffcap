@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Logo } from "@/components/Logo"
 import { homeTexts } from "@/content/homeTexts"
 import { useLang } from "@/context/LangContext"
-import { LINKS, primaryNavItems, uniqueBaseHref } from "@/content/editorial.mjs"
+import { LINKS, PRODUCTS, primaryNavItems, productPrimaryHref } from "@/content/editorial.mjs"
 import { SITE_LINKS } from "@/components/narrative-home/linkMap.mjs"
 import { SocialLinks } from "@/components/editorial-home/SocialLinks"
 import { IcpFilingLink } from "@/components/IcpFilingLink"
@@ -25,26 +25,23 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{homeTexts[lang].footer.product}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/research" className="hover:text-foreground transition-colors">
-                  UniqueResearch
-                </Link>
-              </li>
-              <li>
-                <a href={uniqueBaseHref(lang)} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  {homeTexts[lang].footer.uniqueBase}
-                </a>
-              </li>
-              <li>
-                <a href={SITE_LINKS.uniqueBloom} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  UniqueBloom
-                </a>
-              </li>
-              <li>
-                <a href={SITE_LINKS.goodProjects} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '有好项目' : 'Good Projects'}
-                </a>
-              </li>
+              {PRODUCTS.map(product => {
+                const href = productPrimaryHref(product, lang)
+                const className = "hover:text-foreground transition-colors"
+                return (
+                  <li key={product.id}>
+                    {href.startsWith("http") ? (
+                      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+                        {product.name[lang]}
+                      </a>
+                    ) : (
+                      <Link href={href} className={className}>
+                        {product.name[lang]}
+                      </Link>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
           </div>
           <div>
