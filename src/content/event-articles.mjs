@@ -164,17 +164,9 @@ export function relatedResearchForEvent(catalog, event, limit = 4) {
     .slice(0, limit)
 }
 
-/** @param {ReadonlyArray<{ slug: string, date: string, status?: string, isFlagship?: boolean }>} events */
-export function homeFeaturedEvents(events, limit = 3) {
-  const candidates = events.filter(event => hasEventArticle(event.slug))
-  const score = event => {
-    const flagship = event.isFlagship ? 10 : 0
-    const upcoming = event.status === 'upcoming' ? 20 : 0
-    return flagship + upcoming
-  }
-  return [...candidates]
-    .sort((a, b) => score(b) - score(a) || b.date.localeCompare(a.date))
-    .slice(0, limit)
+/** Homepage events: preserve UniqueBloom directory order (sync `order by date desc`). */
+export function homePublicEvents(events, limit = 3) {
+  return events.slice(0, limit)
 }
 
 /** @param {ReadonlyArray<{ slug: string }>} events */

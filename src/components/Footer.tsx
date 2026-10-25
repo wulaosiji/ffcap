@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Logo } from "@/components/Logo"
 import { homeTexts } from "@/content/homeTexts"
 import { useLang } from "@/context/LangContext"
-import { LINKS, uniqueBaseHref } from "@/content/editorial.mjs"
+import { LINKS, primaryNavItems, uniqueBaseHref } from "@/content/editorial.mjs"
 import { SITE_LINKS } from "@/components/narrative-home/linkMap.mjs"
 import { SocialLinks } from "@/components/editorial-home/SocialLinks"
 import { IcpFilingLink } from "@/components/IcpFilingLink"
@@ -50,21 +50,13 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{homeTexts[lang].footer.services}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href={lang === 'zh' ? '/research' : '/en/research'} className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '研究与洞察' : 'Research'}
-                </Link>
-              </li>
-              <li>
-                <Link href={LINKS.rankingsHub} className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? 'AI 榜单' : 'AI Rankings'}
-                </Link>
-              </li>
-              <li>
-                <Link href="/events" className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '活动文章' : 'Event briefs'}
-                </Link>
-              </li>
+              {primaryNavItems(lang).map(item => (
+                <li key={item.href}>
+                  <Link href={item.href} className="hover:text-foreground transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>

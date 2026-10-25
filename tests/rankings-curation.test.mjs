@@ -5,10 +5,11 @@ import { FEATURED_RANKING_SLUGS, getCuratedRankingArticles } from '../src/conten
 
 const catalog = JSON.parse(fs.readFileSync(new URL('../src/content/research/catalog.json', import.meta.url), 'utf8'))
 
-test('curated ranking slugs resolve to catalog entries in display order', () => {
+test('curated ranking hub keeps featured slugs first then discovers more data articles', () => {
   const curated = getCuratedRankingArticles(catalog)
-  assert.equal(curated.length, FEATURED_RANKING_SLUGS.length)
-  assert.deepEqual(curated.map(a => a.slug), FEATURED_RANKING_SLUGS)
+  assert.ok(curated.length > FEATURED_RANKING_SLUGS.length)
+  const prefix = curated.slice(0, FEATURED_RANKING_SLUGS.length).map(a => a.slug)
+  assert.deepEqual(prefix, FEATURED_RANKING_SLUGS)
   for (const slug of FEATURED_RANKING_SLUGS) {
     assert.ok(catalog.some(entry => entry.slug === slug), `missing catalog slug: ${slug}`)
   }
