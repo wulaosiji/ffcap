@@ -20,6 +20,10 @@ export type EnglishResearchArticle = EnglishResearchEntry & {
   text: string
   missingSourceImageCount?: number
   contentSha256?: string
+  ingestSource?: 'unique-research-backfill'
+  backfillFromCnId?: string
+  cnSourceUrl?: string
+  relatedCnSlug?: string
 }
 
 const contentDir = path.join(process.cwd(), 'src/content/research')

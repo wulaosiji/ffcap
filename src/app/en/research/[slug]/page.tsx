@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { StructuredData } from '@/components/StructuredData'
-import { relatedChineseSlug } from '@/content/research/english-related.mjs'
+import { relatedChineseSlugForArticle } from '@/content/research/english-related.mjs'
 import { breadcrumbs } from '@/content/site-identity.mjs'
 import { englishResearchUrl, getEnglishResearchArticle } from '@/lib/english-research'
 import { ChineseArticleLink } from '../SetResearchLanguage'
@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function EnglishArticlePage({ params }: { params: { slug: string } }) {
   const article = getEnglishResearchArticle(params.slug)
   if (!article) notFound()
-  const relatedChinese = relatedChineseSlug(article.sourceUrl)
+  const relatedChinese = relatedChineseSlugForArticle(article)
+  const isBackfill = article.ingestSource === 'unique-research-backfill' || article.sourceUrl.startsWith('https://ffcap.cn/en/research/')
   const canonical = `https://ffcap.cn${englishResearchUrl(article.slug)}`
   const publishedDate = new Date(article.publishedAt).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })
   const readingMinutes = Math.max(1, Math.ceil(article.text.trim().split(/\s+/).length / 220))
@@ -55,7 +56,7 @@ export default function EnglishArticlePage({ params }: { params: { slug: string 
     </header>
     {article.missingSourceImageCount ? <p className="rs-media-note">Some images are already unavailable in the public original and are omitted here; the readable article text is preserved.</p> : null}
     <article className="rs-prose" lang="en" dangerouslySetInnerHTML={{ __html: article.html }}/>
-    <div className="rs-attribution"><p>Originally published by {article.author} on Unique Research Substack on {publishedDate}. This page preserves the public article for reading on UniqueCapital.</p><a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">View the original publication ↗</a></div>
+    <div className="rs-attribution">{isBackfill ? <p>Editorial English edition by {article.author}, published on UniqueCapital on {publishedDate}. {article.cnSourceUrl ? 'This translation is based on an earlier Chinese article; the Chinese source is credited separately and is not treated as a line-by-line mirror.' : 'This article is published in the FFCAP English research library.'}</p> : <p>Originally published by {article.author} on Unique Research Substack on {publishedDate}. This page preserves the public article for reading on UniqueCapital.</p>}{article.cnSourceUrl ? <a href={article.cnSourceUrl} target="_blank" rel="noopener noreferrer">View the Chinese source article ↗</a> : <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">{isBackfill ? 'Canonical on-site edition ↗' : 'View the original publication ↗'}</a>}</div>
     <Link href="/en/research" className="rs-back">← Back to English research</Link>
   </main>
 }

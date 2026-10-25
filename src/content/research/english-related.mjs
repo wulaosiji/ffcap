@@ -16,6 +16,11 @@ export function relatedChineseSlug(englishUrl) {
   return Object.entries(ENGLISH_RELATED).find(([, url]) => url === englishUrl)?.[0]
 }
 
+export function relatedChineseSlugForArticle(article) {
+  if (article?.relatedCnSlug) return article.relatedCnSlug
+  return relatedChineseSlug(article?.sourceUrl)
+}
+
 export function englishSlugForChinese(chineseSlug) {
   const url = ENGLISH_RELATED[chineseSlug]
   return url?.split('/p/')[1]

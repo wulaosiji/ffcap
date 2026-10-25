@@ -16,6 +16,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { digestHtml, rebuildEnglishCatalog } from './lib/english-ingest-shared.mjs';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const option = (name, fallback) => {
@@ -28,6 +29,7 @@ const sourcePath = option('--source-path', path.join(repo, 'src/content/research
 const outputDir = option('--output-dir', path.join(repo, 'src/content/research/english-articles'));
 const catalogPath = option('--catalog-path', path.join(repo, 'src/content/research/english-catalog.json'));
 const highlightsPath = option('--highlights-path', path.join(repo, 'src/content/research/english-highlights.json'));
+const backfillManifestPath = option('--backfill-manifest-path', path.join(repo, 'src/content/research/english-backfill.json'));
 const reportPath = option('--report-path', process.env.FFCAP_IMPORT_REPORT_PATH || path.join(repo, '.local/reports/fulltext-import-report.json'));
 const session = process.env.FFCAP_IMPORT_BROWSER_SESSION || 'ffcap-fulltext-import';
 const batchSize = 4;
@@ -252,7 +254,6 @@ for (let index = 0; index < fetchQueue.length; index += batchSize) {
 }
 
 const fileNames = new Set(await readdir(outputDir));
-const catalog = [];
 let missingSourceImageCount = 0;
 let affectedSourceImageArticles = 0;
 let sourceAccessVerifiedCount = 0;
@@ -263,7 +264,7 @@ for (const entry of entries) {
   const article = JSON.parse(await readFile(articlePath, 'utf8'));
   if (!article.contentComplete || article.sourceAccessFree !== true || article.sourceUrl !== entry.url) continue;
   if (article.sourceAccessFree === true) sourceAccessVerifiedCount += 1;
-  const contentSha256 = createHash('sha256').update(article.html).digest('hex');
+  const contentSha256 = digestHtml(article.html);
   if (article.contentSha256 !== contentSha256) {
     article.contentSha256 = contentSha256;
     await atomicJson(articlePath, article);
@@ -273,11 +274,16 @@ for (const entry of entries) {
     affectedSourceImageArticles += 1;
     sourceImageWarnings.push({ slug: article.slug, missingSourceImageCount: article.missingSourceImageCount });
   }
-  const { slug, title, summary, publishedAt, sourceUrl, author, contentComplete, sourceAccessFree, imageCount } = article;
-  catalog.push({ slug, title, summary, publishedAt, sourceUrl, author, contentComplete, sourceAccessFree, imageCount });
 }
+const { catalog, highlights, backfillCount } = await rebuildEnglishCatalog({
+  archivePath: sourcePath,
+  manifestPath: backfillManifestPath,
+  articlesDir: outputDir,
+  catalogPath,
+  highlightsPath,
+});
 await atomicJson(catalogPath, catalog);
-await atomicJson(highlightsPath, catalog.slice(0, 12));
+await atomicJson(highlightsPath, highlights);
 const catalogSlugs = new Set(catalog.map((article) => article.slug));
 const failedSlugs = new Set(failures.map((failure) => failure.slug));
 const exclusionDetails = [
@@ -308,6 +314,7 @@ await atomicJson(reportPath, {
   selectedCount: selected.length,
   attemptedCount: fetchQueue.length,
   completeCatalogCount: catalog.length,
+  backfillCatalogCount: backfillCount,
   sourceAccessVerifiedCount,
   excludedCount: entries.length - catalog.length,
   missingSourceImageCount,

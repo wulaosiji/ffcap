@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { createHash } from 'node:crypto'
 import { ENGLISH_RELATED, relatedChineseSlug, relatedEnglishArticle } from '../src/content/research/english-related.mjs'
+import { isSubstackArticle } from '../scripts/research/lib/english-ingest-shared.mjs'
 import { englishArticleMarkdown } from '../src/lib/english-research-formats.mjs'
 
 const archive = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-substack.json', import.meta.url), 'utf8'))
@@ -23,12 +24,13 @@ test('the English reading catalog contains only complete public articles from th
   assert.deepEqual(highlights.map(article => article.slug), catalog.slice(0, highlights.length).map(article => article.slug))
   for (const entry of catalog) {
     assert.ok(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.slug), entry.slug)
+    const article = fullArticle(entry.slug)
+    if (!isSubstackArticle(article)) continue
     assert.equal(new URL(entry.sourceUrl).origin, 'https://uniqueresearch.substack.com')
     assert.ok(archivedUrls.has(entry.sourceUrl), entry.sourceUrl)
     assert.ok(entry.contentComplete)
     assert.equal(entry.sourceAccessFree, true, entry.slug)
     assert.ok(Number.isFinite(Date.parse(entry.publishedAt)))
-    const article = fullArticle(entry.slug)
     assert.equal(article.slug, entry.slug)
     assert.equal(article.title, entry.title)
     assert.equal(article.publishedAt, entry.publishedAt)
