@@ -62,7 +62,7 @@ test("editorial content preserves verified public destinations and three researc
   ]);
   assert.equal(LINKS.contact, "/contact");
   assert.equal(LINKS.events, "https://uniquebloom.cn/");
-  assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
+  assert.equal("rankingApplication" in LINKS, false);
   assert.equal(LINKS.uniqueResearchSite, "https://uniqueresearch.cn");
   assert.deepEqual(PRODUCTS.map(({ href }) => href), [
     "https://uniqueresearch.cn",
@@ -148,6 +148,26 @@ test("footer renders explore, For AI, and products as peer columns", async () =>
   assert.match(main, /OUR PRODUCTS/);
   assert.match(css, /\.ed-footer-main\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(css, /\.ed-footer-explore/);
+});
+
+test("site chrome does not invite AI ranking applications", async () => {
+  const files = [
+    "../src/content/editorial.mjs",
+    "../src/content/home-faq.mjs",
+    "../src/components/Footer.tsx",
+    "../src/components/PageHero.tsx",
+    "../src/components/editorial-home/EditorialHome.tsx",
+    "../src/components/editorial-home/EditorialAbout.tsx",
+    "../src/components/editorial-home/EditorialContact.tsx",
+    "../src/components/narrative-home/NarrativeHome.jsx",
+    "../src/components/narrative-home/linkMap.mjs",
+    "../src/app/research/rankings/page.tsx",
+    "../src/app/research/events-awards/page.tsx",
+    "../src/app/submit/page.tsx",
+  ];
+  const src = (await Promise.all(files.map((file) => readFile(new URL(file, import.meta.url), "utf8")))).join("\n");
+  assert.doesNotMatch(src, /shrcn5cWrPZAThRZgxd5zBf9Cxg/);
+  assert.doesNotMatch(src, /申报 AI 榜单|申报榜单|我要申报|Apply for AI rankings|Apply for AI Rankings|立即提交您的AI应用|submit to our leaderboard|官方申报表单/);
 });
 
 test("hero suggestions overlay instead of growing the ticker row", async () => {

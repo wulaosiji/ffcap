@@ -74,8 +74,8 @@ export function PageHero({
   title, 
   subtitle, 
   showButton = false, 
-  buttonText = "立即提交您的AI应用",
-  buttonHref = "/submit",
+  buttonText,
+  buttonHref = "/research/rankings",
   showBadge = true,
   badgeText = "现已上线",
   showStats = true,
@@ -85,6 +85,7 @@ export function PageHero({
 }: PageHeroProps) {
   const { lang } = useLang()
   const config = STATS_CONFIG[statsType] || STATS_CONFIG.default
+  const resolvedButtonText = buttonText ?? (lang === 'zh' ? '查看数据与榜单' : 'View data and rankings')
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden w-full bg-background">
@@ -107,7 +108,7 @@ export function PageHero({
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 animate-fade-in">
             <a href={buttonHref} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="group h-12 px-8 gradient-brand-bg text-white border-0 hover:opacity-90">
-                {buttonText}
+                {resolvedButtonText}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>

@@ -27,10 +27,9 @@ const copy = {
     productsTitle: '让连接有一个具体的起点。',
     ecosystemEyebrow: '活动与生态',
     ecosystemTitle: '从共同关注的问题，走向真实的交流。',
-    ecosystemBody: '通过主题大会、开放日、研学与社群交流，我们把研究议题带到现场。你可以查看公开研究、关注近期活动，或提交项目参与 AI 榜单。',
+    ecosystemBody: '通过主题大会、开放日、研学与社群交流，我们把研究议题带到现场。你可以查看公开研究，或关注近期活动。',
     reports: '阅读研究与榜单',
     events: '查看活动日历',
-    apply: '申报 AI 榜单',
     contact: '联系我们',
   },
   en: {
@@ -51,10 +50,9 @@ const copy = {
     productsTitle: 'A practical starting point for each connection.',
     ecosystemEyebrow: 'Events & ecosystem',
     ecosystemTitle: 'Turn shared questions into real conversations.',
-    ecosystemBody: 'Through conferences, open days, learning programs, and community conversations, we bring research topics into the room. Explore our public research, find an upcoming event, or submit a project for the AI rankings.',
+    ecosystemBody: 'Through conferences, open days, learning programs, and community conversations, we bring research topics into the room. Explore our public research, or find an upcoming event.',
     reports: 'Read research and rankings',
     events: 'Explore the event calendar',
-    apply: 'Apply for AI rankings',
     contact: 'Contact us',
   },
 }
@@ -162,9 +160,6 @@ export function EditorialAbout() {
             <Link className="ed-link" href={LINKS.contact}>
               {text.contact}<ArrowRight size={18} aria-hidden="true" />
             </Link>
-            <a className="ed-link" href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">
-              {text.apply}<ArrowUpRight size={18} aria-hidden="true" />
-            </a>
           </div>
         </section>
       </main>

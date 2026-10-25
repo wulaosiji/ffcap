@@ -8,7 +8,7 @@ import { getResearchCatalog } from '@/lib/research'
 export const metadata: Metadata = {
   title: '活动与奖项 · 非凡产研 | 非凡资本',
   description:
-    '榜单奖项申报、报名与披露，以及公开活动资讯相关文章精选；在 ffcap.cn 阅读全文，报名以 UniqueBloom 与官方表单为准。',
+    '奖项结果、活动资讯与公开交流相关文章精选；在 ffcap.cn 阅读全文，现场报名与日程以 UniqueBloom 为准。',
   alternates: { canonical: 'https://ffcap.cn/research/events-awards' },
 }
 
@@ -22,7 +22,7 @@ export default function ResearchEventsAwardsHubPage() {
           <p className="ed-eyebrow">UNIQUERESEARCH / EVENTS & AWARDS</p>
           <h1>活动与奖项</h1>
           <p>
-            汇集榜单奖项申报、报名与结果披露，以及大会、峰会与开放日等活动资讯。文章在本站阅读；现场报名与日程以 UniqueBloom 为准。
+            汇集奖项结果披露，以及大会、峰会与开放日等活动资讯。文章在本站阅读；现场报名与日程以 UniqueBloom 为准。
           </p>
           <p>
             <Link href="/research">研究与洞察</Link>
@@ -30,8 +30,6 @@ export default function ResearchEventsAwardsHubPage() {
             <Link href={LINKS.rankingsHub}>数据与榜单</Link>
             {' · '}
             <a href={LINKS.events} target="_blank" rel="noopener noreferrer">UniqueBloom 活动日历 ↗</a>
-            {' · '}
-            <a href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">申报 AI 榜单 ↗</a>
           </p>
         </div>
         <div className="rs-total">

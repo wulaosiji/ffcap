@@ -11,7 +11,6 @@ export const LINKS = Object.freeze({
   /** @deprecated alias — use rankingsHub */
   uniqueResearch: "/research/rankings",
   contact: "/contact",
-  rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
   events: "https://uniquebloom.cn/",
   uniqueBaseZh: "https://uniquebase.cn/",
   uniqueBaseEn: "https://uniquebase.ai/",

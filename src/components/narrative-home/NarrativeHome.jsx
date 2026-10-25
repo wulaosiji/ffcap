@@ -125,16 +125,16 @@ const researchDirections = [
     code: "01 / AGENTIC AI",
     title: "Agentic AI 100",
     description: "关注自主智能体、协作系统与可验证执行，识别产品与产业中的真实进展。",
-    action: "申报榜单",
-    href: SITE_LINKS.rankingApplication,
+    action: "查看榜单文章",
+    href: SITE_LINKS.rankingsHub,
   },
   {
     id: "physical-ai-100",
     code: "02 / PHYSICAL AI",
     title: "Physical AI 100",
     description: "关注世界模型、机器人、具身智能与产业场景的融合进程。",
-    action: "申报榜单",
-    href: SITE_LINKS.rankingApplication,
+    action: "查看榜单文章",
+    href: SITE_LINKS.rankingsHub,
   },
   {
     id: "entertainment-ai-100",
@@ -265,11 +265,11 @@ function IntentPanel({ open, onClose }) {
             </button>
             <span className="micro-label">INTENT ROUTER</span>
             <h2 id="intent-title">你希望从哪里开始？</h2>
-            <p>选择你的目标，进入对应的产品或申报入口。</p>
+            <p>选择你的目标，进入对应的产品。</p>
             <div className="intent-options">
               <a href={SITE_LINKS.uniqueBase} target="_blank" rel="noopener noreferrer" onClick={onClose}><strong>我要查 AI 公司事实</strong><span>在 UniqueBase 查询、引用可溯源的公开数据</span><ArrowRight size={18} /></a>
+              <a href="/products/uniquebase" onClick={onClose}><strong>了解 UniqueBase</strong><span>先看产品介绍，再进入查库</span><ArrowRight size={18} /></a>
               <a href={SITE_LINKS.goodProjects} target="_blank" rel="noopener noreferrer" onClick={onClose}><strong>我是认证投资人</strong><span>进入有好项目，浏览项目与 BP</span><ArrowRight size={18} /></a>
-              <a href={SITE_LINKS.rankingApplication} target="_blank" rel="noopener noreferrer" onClick={onClose}><strong>我要申报 AI 榜单</strong><span>申报 Agentic AI 100 或 Physical AI 100</span><ArrowRight size={18} /></a>
             </div>
           </motion.section>
         </motion.div>

@@ -16,7 +16,6 @@ const copy = {
     addressLabel: '办公室（城市）',
     research: '阅读研究与洞察',
     rankings: '浏览 AI 榜单文章',
-    apply: '申报 AI 榜单',
     uniqueBase: '在 UniqueBase 查询公开数据',
   },
   en: {
@@ -27,7 +26,6 @@ const copy = {
     addressLabel: 'Offices (cities)',
     research: 'Read research & insights',
     rankings: 'Browse ranking articles',
-    apply: 'Apply for AI rankings',
     uniqueBase: 'Query public data on UniqueBase',
   },
 }
@@ -71,7 +69,7 @@ export function EditorialContact() {
             <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>{text.research}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <Link className="ed-link" href={LINKS.rankingsHub}>{text.rankings}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <OutLink className="ed-link" href={uniqueBase}>{text.uniqueBase}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
-            <OutLink className="ed-link" href={LINKS.rankingApplication}>{text.apply}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
+            <Link className="ed-link" href="/products/uniquebase">{lang === 'zh' ? 'UniqueBase 产品介绍' : 'UniqueBase product details'}<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
         </section>
       </main>

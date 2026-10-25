@@ -16,10 +16,7 @@ test("uses the approved public link contracts", () => {
   assert.equal(SITE_LINKS.uniqueBloom, "https://uniquebloom.cn/");
   assert.equal(SITE_LINKS.goodProjects, "https://ffcap.cn/bp.html");
   assert.equal(SITE_LINKS.about, "/about");
-  assert.equal(
-    SITE_LINKS.rankingApplication,
-    "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
-  );
+  assert.equal("rankingApplication" in SITE_LINKS, false);
 });
 
 test("keeps desktop and mobile navigation on one internal map", () => {
@@ -62,6 +59,7 @@ test("removes the retired product and private wiki links from visible navigation
   ]);
   const visibleSources = files.join("\n");
 
+  assert.doesNotMatch(visibleSources, /shrcn5cWrPZAThRZgxd5zBf9Cxg|申报 AI 榜单|申报榜单|Apply for AI Rankings/);
   assert.doesNotMatch(visibleSources, /极速融资|Flash Fundraising/);
   assert.doesNotMatch(visibleSources, /\/flash-fundraising/);
   assert.doesNotMatch(visibleSources, /uniquecapital\.feishu\.cn\/wiki/);
