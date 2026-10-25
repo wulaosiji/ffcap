@@ -9,7 +9,13 @@ export const metadata: Metadata = {
   title: '活动与奖项 · 非凡产研 | 非凡资本',
   description:
     '奖项结果、活动资讯与公开交流相关文章精选；在 ffcap.cn 阅读全文，现场报名与日程以 UniqueBloom 为准。',
-  alternates: { canonical: 'https://ffcap.cn/research/events-awards' },
+  alternates: {
+    canonical: 'https://ffcap.cn/research/events-awards',
+    languages: {
+      'zh-CN': 'https://ffcap.cn/research/events-awards',
+      en: 'https://ffcap.cn/en/research/events-awards',
+    },
+  },
 }
 
 export default function ResearchEventsAwardsHubPage() {

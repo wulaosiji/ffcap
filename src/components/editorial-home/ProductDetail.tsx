@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
-import { PRODUCTS, productExternalHref } from '@/content/editorial.mjs'
+import { PRODUCTS, productExternalHref, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 
 const copy = {
@@ -56,7 +56,7 @@ export function ProductDetail({ slug }: { slug: string }) {
           <p>
             <Link href={text.researchHref}>{text.read}</Link>
             {' · '}
-            <Link href="/research/rankings">{text.rankings}</Link>
+            <Link href={researchHubPath('rankings', lang)}>{text.rankings}</Link>
           </p>
         )}
         <p>

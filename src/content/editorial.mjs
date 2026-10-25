@@ -30,6 +30,53 @@ export function uniqueBaseHref(lang = "zh") {
   return lang === "en" ? LINKS.uniqueBaseEn : LINKS.uniqueBaseZh;
 }
 
+/**
+ * Research routes that switch as exact CN↔EN pairs.
+ * Article slugs are not hubs: /research and /en/research match only exactly,
+ * while the two curated lists also match a trailing subpath.
+ */
+export const RESEARCH_LANGUAGE_PAIRS = Object.freeze([
+  Object.freeze(["/research", "/en/research"]),
+  Object.freeze(["/research/rankings", "/en/research/rankings"]),
+  Object.freeze(["/research/events-awards", "/en/research/events-awards"]),
+]);
+
+const RESEARCH_HUB_PAIRS = Object.freeze({
+  library: RESEARCH_LANGUAGE_PAIRS[0],
+  rankings: RESEARCH_LANGUAGE_PAIRS[1],
+  "events-awards": RESEARCH_LANGUAGE_PAIRS[2],
+});
+
+/** On-site path for a research hub. Chinese paths stay the historical defaults. */
+export function researchHubPath(hub, lang = "zh") {
+  const pair = RESEARCH_HUB_PAIRS[hub] || RESEARCH_HUB_PAIRS.library;
+  return lang === "en" ? pair[1] : pair[0];
+}
+
+/** Route language for research pages. Null on the rest of the site, which keeps the saved language. */
+export function researchRouteLang(pathname) {
+  const path = String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  if (path === "/en/research" || path.startsWith("/en/research/")) return "en";
+  if (path === "/research" || path.startsWith("/research/")) return "zh";
+  return null;
+}
+
+/**
+ * Exact counterpart for a research hub, or null when the path is an article.
+ * `nextLang` is the language being switched to.
+ */
+export function researchLanguageCounterpart(pathname, nextLang) {
+  const path = String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  const index = nextLang === "en" ? 1 : 0;
+  for (const pair of RESEARCH_LANGUAGE_PAIRS) {
+    const curatedList = pair[0] !== "/research";
+    const hit = pair[0] === path || pair[1] === path
+      || (curatedList && (path.startsWith(`${pair[0]}/`) || path.startsWith(`${pair[1]}/`)));
+    if (hit) return pair[index];
+  }
+  return null;
+}
+
 /** On-site advanced description for a matrix product. */
 export function productDetailPath(product) {
   const id = typeof product === "string" ? product : product?.id;
@@ -59,8 +106,8 @@ export function primaryNavItems(lang = "zh") {
   const zh = lang !== "en";
   return [
     { label: zh ? "研究与洞察" : "Research", href: zh ? "/research" : "/en/research" },
-    { label: zh ? "数据与榜单" : "Data & Rankings", href: LINKS.rankingsHub },
-    { label: zh ? "活动与奖项" : "Events & Awards", href: LINKS.eventsAwardsHub },
+    { label: zh ? "数据与榜单" : "Data & Rankings", href: researchHubPath("rankings", lang) },
+    { label: zh ? "活动与奖项" : "Events & Awards", href: researchHubPath("events-awards", lang) },
     { label: zh ? "产品与服务" : "Products & Services", href: "/products" },
     { label: zh ? "给 AI" : "For AI", href: "/for-ai" },
     { label: zh ? "关于我们" : "About", href: "/about" },

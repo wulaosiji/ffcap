@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, researchHubPath } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -96,7 +96,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
             {zh && topic !== 'all' && <div className="ed-topic-summary"><p className="ed-eyebrow">研究议题</p><h3>{TOPICS.find(t => t.id === topic)?.title[lang]}</h3><p>{TOPICS.find(t => t.id === topic)?.description[lang]}</p></div>}
             <ResearchHighlights topic={topic}/>
           </div>
-          <aside className="ed-research-aside"><p className="ed-eyebrow">{zh ? '非凡产研' : 'UNIQUERESEARCH'}</p><h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3><p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p><Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察文章库' : 'Research article library'}</span><ArrowRight size={17}/></Link><Link href={LINKS.rankingsHub} className="ed-aside-link"><span>{zh ? 'AI 榜单精选' : 'Curated rankings'}</span><ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-aside-link"><span>{zh ? '活动与公开交流' : 'Events & conversations'}</span><ArrowUpRight size={17}/></OutLink><p className="ed-aside-note">{zh ? '文章与榜单在本站阅读；查库请使用 UniqueBase。' : 'Read articles and rankings on ffcap.cn; use UniqueBase to query structured data.'}</p></aside>
+          <aside className="ed-research-aside"><p className="ed-eyebrow">{zh ? '非凡产研' : 'UNIQUERESEARCH'}</p><h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3><p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p><Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察文章库' : 'Research article library'}</span><ArrowRight size={17}/></Link><Link href={researchHubPath('rankings', lang)} className="ed-aside-link"><span>{zh ? 'AI 榜单精选' : 'Curated rankings'}</span><ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-aside-link"><span>{zh ? '活动与公开交流' : 'Events & conversations'}</span><ArrowUpRight size={17}/></OutLink><p className="ed-aside-note">{zh ? '文章与榜单在本站阅读；查库请使用 UniqueBase。' : 'Read articles and rankings on ffcap.cn; use UniqueBase to query structured data.'}</p></aside>
         </div>
       </section>
 

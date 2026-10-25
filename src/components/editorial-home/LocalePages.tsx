@@ -179,6 +179,12 @@ export function EventsHubView({ events }: { events: HubEvent[] }) {
           <p>{zh ? '把公开活动的时间、地点与议题留在本站，便于阅读与引用；报名与现场信息以 UniqueBloom 为准。' : 'Time, place, and topic stay on this site for reading and citation. Sign-up and on-site details stay on UniqueBloom.'}</p>
           <p>
             <Link href={zh ? '/research' : '/en/research'}>{zh ? '研究与洞察' : 'Research'}</Link>
+            {!zh && <>
+              {' · '}
+              <Link href="/en/research/rankings">Data & Rankings</Link>
+              {' · '}
+              <Link href="/en/research/events-awards">Events & Awards</Link>
+            </>}
             {' · '}
             <a href={LINKS.events} target="_blank" rel="noopener noreferrer">{zh ? 'UniqueBloom 活动日历 ↗' : 'UniqueBloom calendar ↗'}</a>
           </p>
@@ -308,7 +314,7 @@ export function ForAiView({ sampleDate, sampleMarkdown, sampleAlias }: { sampleD
           {zh ? (
             <>本页列出机器入口与建议读取顺序。中文为主要语言。人类读者可以继续去<Link href="/research">研究文章库</Link>。模型请按顺序读取，再按需取单篇 Markdown。</>
           ) : (
-            <>Machine entry points and a suggested read order. Chinese is the primary archive. People can keep reading in the <Link href="/en/research">English research library</Link>. Models should follow the order, then fetch one Markdown article.</>
+            <>Machine entry points and a suggested read order. Chinese is the primary archive. People can keep reading in the <Link href="/en/research">English research library</Link>, the <Link href="/en/research/rankings">data and rankings list</Link>, or the <Link href="/en/research/events-awards">events and awards list</Link>. Models should follow the order, then fetch one Markdown article.</>
           )}
         </p>
       </header>
@@ -429,6 +435,8 @@ export function ForModelsView() {
         <ul>
           <li><Link href="/for-ai">{zh ? '给 AI 的读取接口' : 'For AI'}</Link>{zh ? '：机器 URL 目录与单篇 Markdown 取法。' : ': machine URLs and how to fetch one Markdown article.'}</li>
           <li><Link href="/en/research">{zh ? '英文研究文章' : 'English research articles'}</Link>{zh ? '：可在本站阅读全文，每篇保留原始发布链接与 Markdown。' : ': full text on this site, with the original publication link and Markdown.'}</li>
+          {!zh && <li><Link href="/en/research/rankings">Data & Rankings</Link>: curated funding, revenue, traffic, and ranking articles. Titles stay in the language they were published.</li>}
+          {!zh && <li><Link href="/en/research/events-awards">Events & Awards</Link>: award results and event articles. Registration stays on UniqueBloom.</li>}
           <li><Link href="/research">{zh ? '研究文章库' : 'Chinese research archive'}</Link>{zh ? '：可直接读取的网页正文，每篇文章提供 Markdown 链接。' : ': on-site article text, each with a Markdown link. Titles and bodies are Chinese.'}</li>
           <li><a href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</a>{zh ? '：标题、发布账号、原始日期、来源、标签和正文地址。' : ': titles, byline, original dates, sources, tags, and body URLs.'}</li>
           <li><a href="/llms.txt">llms.txt</a>{zh ? '：简明站点导航。' : ': short site guide.'}</li>

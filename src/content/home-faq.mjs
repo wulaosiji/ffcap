@@ -48,7 +48,7 @@ export const FAQ_ITEMS_EN = [
   },
   {
     question: 'Where can I read the AI rankings?',
-    answer: `Research and ranking articles: ${SITE_URL}${LINKS.report} and ${SITE_URL}${LINKS.rankingsHub}. Structured company facts: ${SITE_URL}/products/uniquebase.`,
+    answer: `Data and ranking articles: ${SITE_URL}/en/research/rankings. Events and awards: ${SITE_URL}/en/research/events-awards. English research articles: ${SITE_URL}/en/research. Structured company facts: ${SITE_URL}/products/uniquebase.`,
   },
   {
     question: 'How can an AI agent read this site?',

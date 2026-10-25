@@ -9,7 +9,13 @@ import { getResearchCatalog } from '@/lib/research'
 export const metadata: Metadata = {
   title: '数据与榜单 · 非凡产研 | 非凡资本',
   description: '融资、收入、流量与百强等数据观察与榜单文章精选，站内阅读完整研究与数据解读。',
-  alternates: { canonical: 'https://ffcap.cn/research/rankings' },
+  alternates: {
+    canonical: 'https://ffcap.cn/research/rankings',
+    languages: {
+      'zh-CN': 'https://ffcap.cn/research/rankings',
+      en: 'https://ffcap.cn/en/research/rankings',
+    },
+  },
 }
 
 export default function ResearchRankingsHubPage() {
