@@ -43,9 +43,9 @@ test("editorial content preserves verified public destinations and three researc
   assert.equal(LINKS.contact, "/contact");
   assert.equal(LINKS.events, "https://uniquebloom.cn/");
   assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
-  assert.equal(LINKS.uniqueResearchSite, "https://unicaresearch.cn");
+  assert.equal(LINKS.uniqueResearchSite, "https://uniqueresearch.cn");
   assert.deepEqual(PRODUCTS.map(({ href }) => href), [
-    "https://unicaresearch.cn",
+    "https://uniqueresearch.cn",
     "https://uniquebase.cn/",
     "https://uniquebloom.cn/",
     "https://ffcap.cn/bp.html",

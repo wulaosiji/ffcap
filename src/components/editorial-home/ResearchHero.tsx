@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { HOME_H1, HOME_LEAD } from '@/content/site-identity.mjs'
-import { AGENT_CURL_LLMS, AGENT_PROMPT_TEXT } from '@/content/home-agent-kit.mjs'
-import { homeAgentLinks, homeLatestAnnouncement, homeLibraryStatLabel } from '@/content/home-public.mjs'
+import { AGENT_PROMPT_TEXT } from '@/content/home-agent-kit.mjs'
+import { homeLatestAnnouncement, homeLibraryStatLabel } from '@/content/home-public.mjs'
 import { ResearchHeroSearch } from './ResearchHeroSearch'
 
 export function ResearchHero() {
@@ -36,16 +36,9 @@ export function ResearchHero() {
           <p className="ed-research-hero__scale">
             已公开 <strong>{libraryStat}</strong> 研究与观察，每周更新融资、收入与流量榜单。
           </p>
-          <div className="ed-machine-cta" aria-label="机器读取入口">
-            <Link className="ed-research-hero__cta ed-research-hero__cta-primary" href="/for-ai">给 AI 接口</Link>
-          </div>
         </header>
 
-        <ResearchHeroSearch
-          agentLinks={homeAgentLinks()}
-          agentPromptText={AGENT_PROMPT_TEXT}
-          agentCurlLlms={AGENT_CURL_LLMS}
-        />
+        <ResearchHeroSearch agentPromptText={AGENT_PROMPT_TEXT} />
       </div>
     </section>
   )

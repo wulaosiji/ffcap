@@ -20,7 +20,7 @@ export const LINKS = Object.freeze({
   uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",
   /** UniqueResearch product site (WeChat mini program & public product entry). */
-  uniqueResearchSite: "https://unicaresearch.cn",
+  uniqueResearchSite: "https://uniqueresearch.cn",
 });
 
 export function uniqueBaseHref(lang = "zh") {
