@@ -77,7 +77,8 @@ test('weekly substack catalog entries still require Substack archive identity', 
   const catalog = JSON.parse(await readFile(path.join(repo, 'src/content/research/english-catalog.json'), 'utf8'))
   const archivedUrls = new Set(archive.articles.map((article) => article.url))
   for (const entry of catalog) {
-    if (entry.slug === 'en-backfill-fixture-sample') continue
+    const article = JSON.parse(await readFile(path.join(repo, `src/content/research/english-articles/${entry.slug}.json`), 'utf8'))
+    if (!isSubstackArticle(article)) continue
     assert.equal(new URL(entry.sourceUrl).origin, 'https://uniqueresearch.substack.com')
     assert.ok(archivedUrls.has(entry.sourceUrl), entry.sourceUrl)
   }

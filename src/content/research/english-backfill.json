@@ -1,5 +1,46 @@
 {
   "source": "unique-research-backfill",
-  "updatedAt": null,
-  "articles": []
+  "updatedAt": "2026-10-25T08:44:17.203Z",
+  "articles": [
+    {
+      "slug": "20240723a06ev100",
+      "importedAt": "2026-10-25T08:44:17.203Z",
+      "updatedAt": "2026-10-25T08:44:17.203Z",
+      "backfillFromCnId": "20240723A06EV100",
+      "cnSourceUrl": "https://view.inews.qq.com/a/20240723A06EV100",
+      "relatedCnSlug": "20240723a06ev100"
+    },
+    {
+      "slug": "20240813a010l200",
+      "importedAt": "2026-10-25T08:44:17.203Z",
+      "updatedAt": "2026-10-25T08:44:17.203Z",
+      "backfillFromCnId": "20240813A010L200",
+      "cnSourceUrl": "https://view.inews.qq.com/a/20240813A010L200",
+      "relatedCnSlug": "20240813a010l200"
+    },
+    {
+      "slug": "20240829a06eh200",
+      "importedAt": "2026-10-25T08:44:17.203Z",
+      "updatedAt": "2026-10-25T08:44:17.203Z",
+      "backfillFromCnId": "20240829A06EH200",
+      "cnSourceUrl": "https://view.inews.qq.com/a/20240829A06EH200",
+      "relatedCnSlug": "20240829a06eh200"
+    },
+    {
+      "slug": "20240903a066ij00",
+      "importedAt": "2026-10-25T08:44:17.203Z",
+      "updatedAt": "2026-10-25T08:44:17.203Z",
+      "backfillFromCnId": "20240903A066IJ00",
+      "cnSourceUrl": "https://view.inews.qq.com/a/20240903A066IJ00",
+      "relatedCnSlug": "20240903a066ij00"
+    },
+    {
+      "slug": "20240913a05z9x00",
+      "importedAt": "2026-10-25T08:44:17.203Z",
+      "updatedAt": "2026-10-25T08:44:17.203Z",
+      "backfillFromCnId": "20240913A05Z9X00",
+      "cnSourceUrl": "https://view.inews.qq.com/a/20240913A05Z9X00",
+      "relatedCnSlug": "20240913a05z9x00"
+    }
+  ]
 }
