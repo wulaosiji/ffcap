@@ -7,7 +7,7 @@ import {
   eventArticlePath,
   getEventDirectoryRecord,
   hasEventArticle,
-  homeFeaturedEvents,
+  homePublicEvents,
   listEventArticles,
   relatedResearchForEvent,
 } from '../src/content/event-articles.mjs'
@@ -43,11 +43,13 @@ test('topic hubs use on-site URLs instead of UniqueBloom venue pages', () => {
   }
 })
 
-test('home featured events prefer flagship and upcoming article slugs', () => {
-  const featured = homeFeaturedEvents(EVENTS, 3)
-  assert.equal(featured.length, 3)
-  assert.ok(featured.every(event => hasEventArticle(event.slug)))
-  assert.ok(featured.some(event => event.slug === '2026bj'))
+test('home public events follow UniqueBloom directory order', () => {
+  const listed = homePublicEvents(EVENTS, 3)
+  assert.equal(listed.length, 3)
+  assert.deepEqual(listed.map(event => event.slug), EVENTS.slice(0, 3).map(event => event.slug))
+  for (const event of listed) {
+    assert.ok(event.bloomHref?.startsWith('https://uniquebloom.cn/'))
+  }
 })
 
 test('list and related research helpers stay within catalog', () => {

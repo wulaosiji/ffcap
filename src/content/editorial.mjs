@@ -7,6 +7,7 @@ export const LINKS = Object.freeze({
   /** Primary on-site research library (replaces report.html CTAs). */
   report: "/research",
   rankingsHub: "/research/rankings",
+  eventsAwardsHub: "/research/events-awards",
   /** @deprecated alias — use rankingsHub */
   uniqueResearch: "/research/rankings",
   contact: "/contact",
@@ -18,10 +19,26 @@ export const LINKS = Object.freeze({
   uniqueBase: "https://uniquebase.cn/",
   uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",
+  /** UniqueResearch product site (WeChat mini program & public product entry). */
+  uniqueResearchSite: "https://unicaresearch.cn",
 });
 
 export function uniqueBaseHref(lang = "zh") {
   return lang === "en" ? LINKS.uniqueBaseEn : LINKS.uniqueBaseZh;
+}
+
+/** Site header/footer primary navigation (exactly seven items, fixed order). */
+export function primaryNavItems(lang = "zh") {
+  const zh = lang !== "en";
+  return [
+    { label: zh ? "研究与洞察" : "Research", href: zh ? "/research" : "/en/research" },
+    { label: zh ? "数据与榜单" : "Data & Rankings", href: LINKS.rankingsHub },
+    { label: zh ? "活动与奖项" : "Events & Awards", href: LINKS.eventsAwardsHub },
+    { label: zh ? "产品与服务" : "Products & Services", href: "/products" },
+    { label: zh ? "给 AI" : "For AI", href: "/for-ai" },
+    { label: zh ? "联系我们" : "Contact", href: LINKS.contact },
+    { label: zh ? "关于我们" : "About", href: "/about" },
+  ];
 }
 
 export const TOPICS = [
@@ -114,8 +131,8 @@ export const PRODUCTS = [
       zh: "浏览器端亦可阅读本站非凡产研文章库与榜单精选；小程序将问卷、报告与榜单整合为一体化查阅体验。",
       en: "You can also read the on-site article library and curated rankings in a browser; the mini program bundles surveys, reports, and rankings in one place.",
     },
-    action: { zh: "查看报告与榜单", en: "Reports & rankings" },
-    href: LINKS.uniqueResearch,
+    action: { zh: "进入 Unique Research", en: "Open Unique Research" },
+    href: LINKS.uniqueResearchSite,
   },
   {
     id: "uniquebase",

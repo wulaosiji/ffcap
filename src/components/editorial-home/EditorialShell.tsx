@@ -8,7 +8,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import logo from '@/assets/ffcap-logo-mark.png'
-import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, uniqueBaseHref } from '@/content/editorial.mjs'
+import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, primaryNavItems, uniqueBaseHref } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
@@ -53,15 +53,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     window.addEventListener('scroll', updateHeader, { passive: true })
     return () => window.removeEventListener('scroll', updateHeader)
   }, [cinematic])
-  const nav = [
-    { label: zh ? '研究与洞察' : 'Research', href: zh ? '/research' : '/en/research' },
-    { label: zh ? 'AI 榜单' : 'Rankings', href: LINKS.rankingsHub },
-    { label: zh ? '研究方向' : 'Topics', href: '/topics' },
-    { label: zh ? '产品' : 'Products', href: '/products' },
-    { label: zh ? '联系我们' : 'Contact', href: LINKS.contact },
-    { label: zh ? '给 AI' : 'For AI', href: '/for-ai' },
-    { label: zh ? '关于我们' : 'About', href: '/about' },
-  ]
+  const nav = primaryNavItems(lang)
   const results = filterContent(CONTENT, 'all', query, lang)
   const productResults = filterProducts(PRODUCTS, query, lang)
   const count = results.length + productResults.length

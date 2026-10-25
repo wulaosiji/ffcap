@@ -14,6 +14,7 @@ test('usesEditorialShell hides legacy Navbar on editorial routes', () => {
     '/products/uniqueresearch',
     '/research',
     '/research/rankings',
+    '/research/events-awards',
     '/research/some-article',
     '/en/research',
     '/en/research/some-article',

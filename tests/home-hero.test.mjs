@@ -4,6 +4,7 @@ import { homeLatestAnnouncement } from '../src/content/home-announcement.mjs'
 import {
   HOME_SEARCH_TABS,
   homeSearchDestination,
+  homeSearchImplicitSubmitNavigates,
   previewArticleMatches,
 } from '../src/content/home-hero-search.mjs'
 import { formatSectionIndex, HOME_SECTION_TOTAL } from '../src/content/home-sections.mjs'
@@ -16,6 +17,13 @@ test('announcement uses highlights first and exposes summary fields', () => {
   assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.date))
   assert.ok(item.summary || item.stat)
   assert.ok(['highlights', 'catalog'].includes(item.source))
+})
+
+test('implicit Enter submit navigates only on articles tab', () => {
+  assert.equal(homeSearchImplicitSubmitNavigates('articles'), true)
+  assert.equal(homeSearchImplicitSubmitNavigates('rankings'), false)
+  assert.equal(homeSearchImplicitSubmitNavigates('events'), false)
+  assert.equal(homeSearchImplicitSubmitNavigates('bp'), false)
 })
 
 test('search tabs route to research, rankings, events and BP', () => {

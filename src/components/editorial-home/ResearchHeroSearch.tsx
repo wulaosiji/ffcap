@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import {
   HOME_SEARCH_TABS,
   homeSearchDestination,
+  homeSearchImplicitSubmitNavigates,
   previewArticleMatches,
 } from '@/content/home-hero-search.mjs'
 import { AgentCopyBlocks } from './AgentCopyBlocks'
@@ -55,13 +56,18 @@ export function ResearchHeroSearch({
   const showEmptyPreview =
     tab === 'articles' && query.trim().length >= 2 && indexArticles && previews.length === 0
 
+  const goToDestination = useCallback(() => {
+    window.location.href = homeSearchDestination(tab, query)
+  }, [tab, query])
+
   const onSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
-      if (tab === 'articles') return
       event.preventDefault()
-      window.location.href = homeSearchDestination(tab, query)
+      if (homeSearchImplicitSubmitNavigates(tab)) {
+        goToDestination()
+      }
     },
-    [tab, query],
+    [tab, goToDestination],
   )
 
   const activeTab = HOME_SEARCH_TABS.find(t => t.id === tab) || HOME_SEARCH_TABS[0]
@@ -87,7 +93,7 @@ export function ResearchHeroSearch({
             autoComplete="off"
             aria-describedby="home-search-tab-hint"
           />
-          <button type="submit" aria-label={`搜索：${activeTab.label}`}>
+          <button type="button" onClick={goToDestination} aria-label={`搜索：${activeTab.label}`}>
             <ArrowRight size={20} strokeWidth={1.6} />
           </button>
         </div>
@@ -101,6 +107,11 @@ export function ResearchHeroSearch({
               aria-selected={tab === item.id}
               className="ed-research-hero__tab"
               onClick={() => setTab(item.id)}
+              onKeyDown={event => {
+                if (event.key !== 'Enter') return
+                event.preventDefault()
+                setTab(item.id)
+              }}
             >
               {item.label}
             </button>
@@ -109,7 +120,7 @@ export function ResearchHeroSearch({
         <p id="home-search-tab-hint" className="ed-research-hero__tab-hint">
           {tab === 'articles'
             ? '回车或点击箭头将在研究库中搜索文章。'
-            : `将打开${activeTab.label}入口：${homeSearchDestination(tab, query).replace(/^https?:\/\/[^/]+/, '')}`}
+            : `点击箭头将打开${activeTab.label}入口：${homeSearchDestination(tab, query).replace(/^https?:\/\/[^/]+/, '')}`}
         </p>
 
         {tab === 'articles' && previews.length > 0 && (

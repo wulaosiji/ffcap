@@ -13,7 +13,6 @@ export const HOME_NAV_ITEMS = Object.freeze([
   { label: "首页", href: "#top" },
   { label: "研究与榜单", href: "#research" },
   { label: "产品矩阵", href: "#products" },
-  { label: "研究方向", href: "/topics" },
   { label: "关于我们", href: SITE_LINKS.about },
 ]);
 

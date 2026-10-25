@@ -3,7 +3,6 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import highlights from './research/highlights.json'
 import catalog from './research/catalog.json'
-import { EVENT_DIRECTORY } from './editorial.events.mjs'
 import { LINKS, TOPICS } from './editorial.mjs'
 import { HOME_H1, HOME_LEAD, SITE_URL } from './site-identity.mjs'
 
@@ -57,59 +56,12 @@ export const FAQ_ITEMS = [
   },
 ]
 
-const FINANCING_CARD_SLUG = '20261016a0disr00'
-
-function pickHighlight(slug) {
-  return highlights.find(a => a.slug === slug)
-}
-
-function pickCatalog(slug) {
-  return catalog.find(a => a.slug === slug)
-}
-
 export { homeLlmsDataPoints } from './home-llms-points.mjs'
 
-/** Hero data cards — dates from catalog/highlights; stats from gitignored local file on weekly host when present. */
-export function homeDataCards() {
+/** Hero copy scale line — article count only (no duplicate data-news cards). */
+export function homeLibraryStatLabel() {
   const local = readLocalHeroStats()
-  const financing = pickHighlight(FINANCING_CARD_SLUG) || pickCatalog(FINANCING_CARD_SLUG)
-  const sub = pickHighlight('20261014a0cmpf00')
-  const upcoming = EVENT_DIRECTORY.find(e => e.status === 'upcoming' && e.date >= '2026-10-01') || EVENT_DIRECTORY[0]
-  const cards = []
-  cards.push({
-    kind: 'research',
-    stat: local?.financing?.stat || '542 起',
-    label: local?.financing?.label || '2026 年 9 月全球 AI 融资事件（非凡产研盘点）',
-    date: (local?.financing?.publishedAt || financing?.publishedAt)?.slice(0, 10) || '2026-10-16',
-    href: `/research/${FINANCING_CARD_SLUG}`,
-  })
-  if (sub) {
-    cards.push({
-      kind: 'research',
-      stat: local?.subscription?.stat || '61 亿美元/月',
-      label: local?.subscription?.label || '9 月全球 AI 订阅收入榜 Top100 预估合计',
-      date: (local?.subscription?.publishedAt || sub.publishedAt).slice(0, 10),
-      href: `/research/${sub.slug}`,
-    })
-  }
-  cards.push({
-    kind: 'library',
-    stat: `${catalog.length}+ 篇`,
-    label: '已公开中文研究文章（站内存档）',
-    date: highlights[0]?.publishedAt?.slice(0, 10) || '2026-10-14',
-    href: '/research',
-  })
-  if (upcoming) {
-    cards.push({
-      kind: 'event',
-      stat: upcoming.date.replaceAll('-', '.'),
-      label: upcoming.title,
-      date: upcoming.date,
-      href: upcoming.href.startsWith('http') ? upcoming.href : `${SITE_URL}${upcoming.href}`,
-      external: upcoming.href.startsWith('http'),
-    })
-  }
-  return cards
+  return local?.library?.stat || `${catalog.length}+ 篇`
 }
 
 export { homeLatestAnnouncement } from './home-announcement.mjs'
