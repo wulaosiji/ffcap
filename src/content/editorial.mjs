@@ -39,11 +39,10 @@ export function productDetailPath(product) {
 
 /**
  * Primary CTA on product cards, search, footer, and /products.
- * UniqueBase stays on the language-specific product site.
- * Other matrix products open the on-site description first.
+ * All matrix products open the on-site description first.
+ * External product sites stay on the secondary “enter the product” CTA.
  */
 export function productPrimaryHref(product, lang = "zh") {
-  if (product?.id === "uniquebase") return uniqueBaseHref(lang);
   return productDetailPath(product);
 }
 
