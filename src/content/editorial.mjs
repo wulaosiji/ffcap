@@ -125,7 +125,31 @@ export const TOPICS = [
   },
 ];
 
-// English pages retain the original event name and copy when the source has no translation.
+const CJK = /[\u3400-\u9fff]/
+
+/**
+ * UniqueBloom Latin subtitle, when the public source actually has one.
+ * Mixed or Chinese subtitles are not treated as an English title.
+ */
+export function latinEventSubtitle(event) {
+  const subtitle = String(event?.subtitle ?? "").replace(/^[\u200b\s🚀]+/, "").trim()
+  if (!subtitle || CJK.test(subtitle)) return ""
+  const latin = subtitle.match(/[A-Za-z]/g)?.length ?? 0
+  return latin >= 8 ? subtitle : ""
+}
+
+/** Event row meta. English uses the ISO date plus a clock, and keeps the venue name. */
+export function eventScheduleLine(event, lang = "zh") {
+  const place = event.location?.[lang] || event.location?.zh || ""
+  if (lang !== "en") return [place, event.timeText].filter(Boolean).join(" · ")
+  const dates = [event.date, event.endDate && event.endDate !== event.date ? event.endDate : ""].filter(Boolean).join("–")
+  const clocks = String(event.timeText || "").match(/(\d{1,2}:\d{2})\s*[-–—]\s*(\d{1,2}:\d{2})/)
+  const clock = clocks ? `${clocks[1]}–${clocks[2]}` : ""
+  return [place, [dates, clock].filter(Boolean).join(" · ")].filter(Boolean).join(" · ")
+}
+
+// English UI uses a Latin UniqueBloom subtitle as the event title when one exists.
+// Otherwise the public event name stays as the proper noun. Do not invent a translation.
 // Topic grouping is editorial metadata; event facts come only from UniqueBloom.
 export const EVENTS = EVENT_DIRECTORY.map(event => {
   const keywords = `${event.title} ${event.tags.join(' ')}`;
@@ -140,7 +164,7 @@ export const EVENTS = EVENT_DIRECTORY.map(event => {
   const articleHref = hasEventArticle(event.slug) ? eventArticlePath(event.slug) : null;
   return {
     ...event, topic, kind: 'event',
-    title: { zh: event.title, en: event.title },
+    title: { zh: event.title, en: latinEventSubtitle(event) || event.title },
     description: { zh: event.summary, en: event.summary },
     location: { zh: event.location, en: event.location },
     bloomHref,
