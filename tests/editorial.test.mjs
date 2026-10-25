@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { EVENT_SOURCE, EVENT_DIRECTORY } from "../src/content/editorial.events.mjs";
 import {
@@ -13,6 +14,9 @@ import {
   legacyTopicFromHash,
   footerExploreGroups,
   primaryNavItems,
+  productDetailPath,
+  productExternalHref,
+  productPrimaryHref,
 } from "../src/content/editorial.mjs";
 
 test("editorial content preserves verified public destinations and three research directions", () => {
@@ -197,6 +201,91 @@ test("event status requires a valid explicit clock and valid event windows", () 
   assert.equal(eventStatus(CONTENT[1], Date.parse("2026-09-05T00:00:00+08:00")), "past");
 });
 
+
+test("Unique Research product entry is https://uniqueresearch.cn", () => {
+  const site = new URL(LINKS.uniqueResearchSite);
+  assert.equal(LINKS.uniqueResearchSite, "https://uniqueresearch.cn");
+  assert.equal(site.protocol, "https:");
+  assert.equal(site.hostname, "uniqueresearch.cn");
+  assert.equal(site.pathname, "/");
+  assert.doesNotMatch(LINKS.uniqueResearchSite, /unicaresearch|substack/i);
+  for (const product of PRODUCTS) {
+    assert.equal(new URL(product.href).protocol, "https:");
+    assert.doesNotMatch(product.href, /unicaresearch|substack/i);
+    assert.doesNotMatch(productExternalHref(product, "zh"), /unicaresearch|substack/i);
+    assert.doesNotMatch(productExternalHref(product, "en"), /unicaresearch|substack/i);
+  }
+  assert.equal(productExternalHref(PRODUCTS[0], "zh"), "https://uniqueresearch.cn");
+  assert.equal(productExternalHref(PRODUCTS[0], "en"), "https://uniqueresearch.cn");
+});
+
+test("product card CTAs open on-site descriptions before external product sites", () => {
+  assert.equal(primaryNavItems("zh").length, 7);
+  assert.equal(primaryNavItems("zh")[5].href, "/about");
+  assert.equal(primaryNavItems("zh")[6].href, "/contact");
+  assert.deepEqual(PRODUCTS.map(product => ({
+    id: product.id,
+    detail: productDetailPath(product),
+    primaryZh: productPrimaryHref(product, "zh"),
+    primaryEn: productPrimaryHref(product, "en"),
+    externalZh: productExternalHref(product, "zh"),
+    externalEn: productExternalHref(product, "en"),
+  })), [
+    {
+      id: "uniqueresearch",
+      detail: "/products/uniqueresearch",
+      primaryZh: "/products/uniqueresearch",
+      primaryEn: "/products/uniqueresearch",
+      externalZh: "https://uniqueresearch.cn",
+      externalEn: "https://uniqueresearch.cn",
+    },
+    {
+      id: "uniquebase",
+      detail: "/products/uniquebase",
+      primaryZh: "https://uniquebase.cn/",
+      primaryEn: "https://uniquebase.ai/",
+      externalZh: "https://uniquebase.cn/",
+      externalEn: "https://uniquebase.ai/",
+    },
+    {
+      id: "uniquebloom",
+      detail: "/products/uniquebloom",
+      primaryZh: "/products/uniquebloom",
+      primaryEn: "/products/uniquebloom",
+      externalZh: "https://uniquebloom.cn/",
+      externalEn: "https://uniquebloom.cn/",
+    },
+    {
+      id: "good-projects",
+      detail: "/products/good-projects",
+      primaryZh: "/products/good-projects",
+      primaryEn: "/products/good-projects",
+      externalZh: "https://ffcap.cn/bp.html",
+      externalEn: "https://ffcap.cn/bp.html",
+    },
+  ]);
+});
+
+test("editorial product surfaces use the shared primary CTA", async () => {
+  const files = await Promise.all([
+    ["home", "../src/components/editorial-home/EditorialHome.tsx"],
+    ["about", "../src/components/editorial-home/EditorialAbout.tsx"],
+    ["shell", "../src/components/editorial-home/EditorialShell.tsx"],
+    ["hub", "../src/app/(knowledge)/products/page.tsx"],
+    ["detail", "../src/app/(knowledge)/products/[slug]/page.tsx"],
+    ["footer", "../src/components/Footer.tsx"],
+  ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")]));
+  const source = Object.fromEntries(files);
+  for (const name of ["home", "about", "shell", "hub", "footer"]) {
+    assert.match(source[name], /productPrimaryHref/, name);
+    assert.doesNotMatch(source[name], /unicaresearch/i, name);
+  }
+  assert.match(source.detail, /productExternalHref/);
+  assert.doesNotMatch(source.home, /uniqueresearch\.substack/);
+  assert.doesNotMatch(source.hub, /href=\{product\.href\}/);
+  assert.doesNotMatch(source.shell, /href=\{p\.href\}/);
+  assert.match(source.detail, /https:\/\/uniqueresearch\.cn|productExternalHref/);
+});
 
 test('source end dates are inclusive and ended activities remain archived', () => {
   const event = { kind: 'event', date: '2026-03-24', endDate: '2026-03-29' };

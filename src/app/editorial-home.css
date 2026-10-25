@@ -119,6 +119,8 @@
 .ed-product h3{font-size:32px;margin:35px 0 17px;letter-spacing:-.04em;overflow-wrap:anywhere}
 .ed-product p{font-size:13px;color:var(--ed-muted);line-height:1.95;max-width:310px;margin-bottom:23px}
 .ed-product .ed-link{font-size:12px;margin-top:auto}
+.ed-product-main{display:flex;flex-direction:column;flex:1;min-height:0;color:inherit}
+.ed-product-external{align-self:flex-start;margin-top:12px;font-size:11px;color:var(--ed-muted);display:inline-flex;align-items:center;gap:6px}
 .ed-closing{padding:90px 0 96px;background:#20241f;color:#f2f0e7}
 .ed-closing .ed-eyebrow{color:#b5bbae;font-size:10px}
 .ed-closing h2{font-size:clamp(34px,4.7vw,72px);line-height:1.4;letter-spacing:-.04em;margin:27px 0 32px}
@@ -178,6 +180,7 @@
 .ed-about-pillar h2,.ed-about-pillar h3{font-size:28px;margin:22px 0 19px;line-height:1.5}
 .ed-about-pillar p:not(.ed-eyebrow){font-size:14px;line-height:1.95;color:var(--ed-muted);margin-bottom:20px}
 .ed-about-pillar .ed-link{margin-top:auto;font-size:12px}
+.ed-about-pillar .ed-link.ed-product-external{margin-top:10px;color:var(--ed-muted);font-size:11px}
 .ed-about-directions .ed-section-heading>p{max-width:460px;font-size:14px;line-height:1.9;color:var(--ed-muted)}
 .ed-about-ecosystem{background:#eae7de;padding:60px;margin-bottom:75px}
 .ed-about-ecosystem h2{font-size:clamp(29px,3.4vw,48px);margin:20px 0 24px;max-width:800px;line-height:1.4}

@@ -5,4 +5,7 @@
 .ed-site .rs-media-note{margin:25px auto}
 
 .rs-translation-link{font-size:11px;text-decoration:underline;text-underline-offset:3px;color:var(--ed-muted);margin-top:8px}.rs-card[lang=en] .rs-card-bottom>a{font-size:13px;min-width:0}
+.rs-product-card .rs-card-bottom{justify-content:flex-end;flex-wrap:wrap;gap:16px}
+.rs-product-card .rs-card-bottom>a{margin-left:0;font-size:13px;min-width:0}
+.rs-product-card .rs-card-bottom>a.rs-card-external{color:var(--ed-muted);font-size:12px}
 .rs-chinese-link{white-space:nowrap}

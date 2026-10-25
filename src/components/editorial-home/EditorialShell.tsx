@@ -8,7 +8,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import logo from '@/assets/ffcap-logo-mark.png'
-import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, footerExploreGroups, primaryNavItems, uniqueBaseHref } from '@/content/editorial.mjs'
+import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
@@ -103,7 +103,13 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
                     ? <Link key={item.id} href={item.href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
                     : <OutLink key={item.id} href={item.href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>
                 })}
-                {productResults.map(p => <OutLink key={p.id} href={p.href} className="ed-search-result"><span><small>{p.audience[lang]}</small><strong>{p.name[lang]}</strong></span><ArrowUpRight size={20}/></OutLink>)}
+                {productResults.map(p => {
+                  const href = productPrimaryHref(p, lang)
+                  const body = <span><small>{p.audience[lang]}</small><strong>{p.name[lang]}</strong></span>
+                  return href.startsWith('http')
+                    ? <OutLink key={p.id} href={href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>
+                    : <Link key={p.id} href={href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
+                })}
                 {!count && <p className="ed-muted">{zh ? '精选活动与产品中暂无匹配，点击上方入口继续检索全部研究文章。' : 'No featured events or products match. Continue with the full article search above.'}</p>}
               </div>
             </Dialog.Content>
@@ -132,7 +138,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
           <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
         </div>
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => {
-          const href = p.id === 'uniquebase' ? uniqueBaseHref(lang) : `/products/${p.id}`
+          const href = productPrimaryHref(p, lang)
           const external = href.startsWith('http')
           return external
             ? <OutLink href={href} key={p.id}>{p.name[lang]}<ArrowUpRight size={13}/></OutLink>

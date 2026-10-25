@@ -5,7 +5,7 @@ import { IDENTITY } from '@/content/site-identity.mjs'
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { LINKS, PRODUCTS, TOPICS, uniqueBaseHref } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { EditorialShell } from './EditorialShell'
 
 const copy = {
@@ -117,21 +117,28 @@ export function EditorialAbout() {
           </div>
           <div className="ed-about-grid">
             {PRODUCTS.map((product) => {
-              const href = product.id === 'uniquebase' ? uniqueBaseHref(lang) : product.href
-              const external = href.startsWith('http')
+              const primary = productPrimaryHref(product, lang)
+              const external = productExternalHref(product, lang)
+              const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
+              const primaryExternal = primary.startsWith('http')
               return (
               <article className="ed-about-pillar" key={product.id}>
                 <p className="ed-eyebrow">{product.audience[lang]}</p>
                 <h3>{product.name[lang]}</h3>
                 <p>{product.description[lang]}</p>
-                {external ? (
-                  <a className="ed-link" href={href} target="_blank" rel="noopener noreferrer">
+                {primaryExternal ? (
+                  <a className="ed-link" href={primary} target="_blank" rel="noopener noreferrer">
                     {product.action[lang]}<ArrowUpRight size={18} aria-hidden="true" />
                   </a>
                 ) : (
-                  <Link className="ed-link" href={href}>
-                    {product.action[lang]}<ArrowRight size={18} aria-hidden="true" />
+                  <Link className="ed-link" href={primary}>
+                    {lang === 'zh' ? '查看产品介绍' : 'Product details'}<ArrowRight size={18} aria-hidden="true" />
                   </Link>
+                )}
+                {secondary && (
+                  <a className="ed-link ed-product-external" href={external} target="_blank" rel="noopener noreferrer">
+                    {product.action[lang]}<ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
                 )}
               </article>
             )})}
