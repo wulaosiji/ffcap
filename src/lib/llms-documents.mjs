@@ -58,7 +58,18 @@ ${TOPICS.map(topic => `- [${topic.name}](${siteUrl}/topics/${topic.id})：${topi
 
 ## 产品
 
+- [产品矩阵](${siteUrl}/products)
 ${PRODUCTS.map(product => `- [${product.name.zh}](${siteUrl}/products/${product.id})：${product.description.zh}`).join('\n')}
+
+## 研究方向
+
+- [研究方向枢纽](${siteUrl}/topics)
+${TOPICS.map(topic => `- [${topic.name}](${siteUrl}/topics/${topic.id})：${topic.description.zh}`).join('\n')}
+
+## 活动文章
+
+- [活动文章列表](${siteUrl}/events)
+- [成都 AI 文娱大会导读](${siteUrl}/events/cd2026)（报名见 UniqueBloom）
 
 ## 功能入口
 
@@ -66,8 +77,8 @@ ${PRODUCTS.map(product => `- [${product.name.zh}](${siteUrl}/products/${product.
 - [AI 榜单精选](${siteUrl}/research/rankings)
 - [联系我们](${siteUrl}/contact)
 - [BP](${siteUrl}/bp.html)
-- [活动](${LINKS.events})
-- [成都活动](${siteUrl}/open.html?slug=cd2026)
+- [活动日历](${LINKS.events})
+- [open.html 短链](${siteUrl}/open.html)（301 至 UniqueBloom；带 slug 时进入对应活动页）
 - [报告静态入口](${siteUrl}/report.html)（人类主链为 /research）
 - [榜单静态入口](${siteUrl}/rankings.html)（人类主链为 /research/rankings）
 - [三维体验「云上的聚落」](${siteUrl}/world)（需主动进入后加载 WebGL）

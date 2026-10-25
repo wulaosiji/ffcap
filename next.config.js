@@ -96,6 +96,17 @@ const nextConfig = {
         destination: '/products/uniquebase',
         permanent: true,
       },
+      {
+        source: '/open.html',
+        has: [{ type: 'query', key: 'slug' }],
+        destination: 'https://uniquebloom.cn/:slug',
+        permanent: true,
+      },
+      {
+        source: '/open.html',
+        destination: 'https://uniquebloom.cn/',
+        permanent: true,
+      },
     ]
   },
   

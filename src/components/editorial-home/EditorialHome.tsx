@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash, uniqueBaseHref } from '@/content/editorial.mjs'
+import { homeFeaturedEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
 function productHref(product: (typeof PRODUCTS)[number], lang: 'zh' | 'en') {
@@ -41,11 +42,13 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
   const { lang } = useLang()
   const zh = lang === 'zh'
   const [topic, setTopic] = useState('all')
-  const [showAllEvents, setShowAllEvents] = useState(false)
   const [now, setNow] = useState<number | null>(null)
   const mainRef = useRef<HTMLElement>(null)
-  const featured = EVENTS.find(event => event.isFlagship) || EVENTS[0]
-  const visibleEvents = showAllEvents ? EVENTS : EVENTS.slice(0, 6)
+  const featured = EVENTS.find(event => event.isFlagship && event.articleHref) || EVENTS.find(event => event.articleHref) || EVENTS[0]
+  const homeEvents = homeFeaturedEvents(
+    EVENTS.filter(event => event.slug) as ReadonlyArray<{ slug: string; date: string; status?: string; isFlagship?: boolean }>,
+    3,
+  ) as typeof EVENTS
   const featuredStatus = now === null ? 'event' : eventStatus(featured, now)
 
   useEffect(() => {
@@ -80,7 +83,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
         <nav className="ed-topic-strip" aria-label={zh ? '选择研究方向' : 'Explore a research focus'}>
           {TOPICS.map((t, i) => <a href={`/topics/${t.id}`} key={t.id}><span className="ed-topic-number">0{i + 1}</span><span><strong>{t.name}</strong><small>{t.title[lang]}</small></span><ArrowRight size={22} strokeWidth={1.3}/></a>)}
         </nav>
-        <div className="ed-feature-announcement"><span className="ed-eyebrow">{statusLabels[lang][featuredStatus]}</span><p>{featured.title[lang]} · {featured.date}{featured.endDate && featured.endDate !== featured.date ? ` — ${featured.endDate}` : ''}</p><OutLink href={featured.href} className="ed-link">{zh ? '了解大会' : 'Explore the event'}<ArrowUpRight size={18}/></OutLink></div>
+        <div className="ed-feature-announcement"><span className="ed-eyebrow">{statusLabels[lang][featuredStatus]}</span><p>{featured.title[lang]} · {featured.date}{featured.endDate && featured.endDate !== featured.date ? ` — ${featured.endDate}` : ''}</p>{featured.articleHref ? <Link href={featured.articleHref} className="ed-link">{zh ? '阅读活动文章' : 'Read event brief'}<ArrowRight size={18}/></Link> : <OutLink href={featured.bloomHref ?? featured.href} className="ed-link">{zh ? '了解大会' : 'Explore the event'}<ArrowUpRight size={18}/></OutLink>}</div>
       </div>
 
       <section id="research" className="ed-container ed-section ed-reveal">
@@ -96,17 +99,26 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </section>
 
       <section id="ecosystem" className="ed-events ed-reveal"><div className="ed-container">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">IN GOOD COMPANY {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><OutLink href={LINKS.events} className="ed-link">{zh ? '查看活动日历' : 'View the event calendar'}<ArrowUpRight size={19}/></OutLink></div>
-        <p className="ed-section-intro">{zh ? '与创业者、创作者和产业伙伴相遇，在现场讨论 AI 的下一步。' : 'Meet founders, creators, and industry partners. Move the conversation forward, together.'}</p>
-        <div className="ed-event-list">{visibleEvents.map(event => {
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">IN GOOD COMPANY {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href="/events" className="ed-link">{zh ? '更多活动文章' : 'More event briefs'}<ArrowRight size={19}/></Link></div>
+        <p className="ed-section-intro">{zh ? '精选公开活动导读在本站阅读；报名与完整日历见 UniqueBloom。' : 'Read curated event briefs on-site; sign-up and the full calendar live on UniqueBloom.'}</p>
+        <div className="ed-event-list">{homeEvents.map(event => {
           const status = now === null ? 'event' : eventStatus(event, now)
-          return <OutLink href={event.href} key={event.id} className="ed-event-row"><div className="ed-event-date"><strong>{event.date.slice(5).replace('-', '.')}</strong><span>{event.date.slice(0, 4)}</span></div><div><span className="ed-eyebrow">{TOPICS.find(t => t.id === event.topic)?.name}</span><h3>{event.title[lang]}</h3><p>{event.location?.[lang]}{event.timeText ? ` · ${event.timeText}` : ''}</p></div><span className={`ed-event-status ${status === 'upcoming' || status === 'live' ? 'ed-accent' : ''}`}>{statusLabels[lang][status]}</span><ArrowUpRight size={26} strokeWidth={1.3}/></OutLink>
+          const articleHref = event.articleHref ?? event.href
+          return <div key={event.id} className="ed-event-row ed-event-row-split">
+            <Link href={articleHref} className="ed-event-row-main">
+              <div className="ed-event-date"><strong>{event.date.slice(5).replace('-', '.')}</strong><span>{event.date.slice(0, 4)}</span></div>
+              <div><span className="ed-eyebrow">{TOPICS.find(t => t.id === event.topic)?.name}</span><h3>{event.title[lang]}</h3><p>{event.location?.[lang]}{event.timeText ? ` · ${event.timeText}` : ''}</p></div>
+              <span className={`ed-event-status ${status === 'upcoming' || status === 'live' ? 'ed-accent' : ''}`}>{statusLabels[lang][status]}</span>
+              <ArrowRight size={26} strokeWidth={1.3}/>
+            </Link>
+            <OutLink href={event.bloomHref ?? event.href} className="ed-event-signup">{zh ? '报名/详情' : 'Sign up'}<ArrowUpRight size={18}/></OutLink>
+          </div>
         })}</div>
-        {EVENTS.length > 6 && <button type="button" className="ed-link" aria-expanded={showAllEvents} onClick={() => setShowAllEvents(value => !value)}>{showAllEvents ? (zh ? '收起历史活动' : 'Show fewer events') : (zh ? `查看全部 ${EVENTS.length} 场活动` : `View all ${EVENTS.length} events`)}<ArrowRight size={19}/></button>}
+        <p className="ed-section-intro" style={{ marginTop: '1.5rem' }}>{zh ? '完整活动日历：' : 'Full event calendar: '}<OutLink href={LINKS.events} className="ed-link">{zh ? 'UniqueBloom ↗' : 'UniqueBloom ↗'}<ArrowUpRight size={16}/></OutLink></p>
       </div></section>
 
       <section id="products" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><p className="ed-heading-note">{zh ? `${PRODUCTS.length} 款产品，为真实协作而生。` : `${PRODUCTS.length} products. Real collaboration.`}</p></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
         <div className="ed-products">{PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} lang={lang} index={i} />)}</div>
       </section>
 

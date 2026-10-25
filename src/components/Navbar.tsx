@@ -25,8 +25,8 @@ export default function Navbar() {
   const rawNavItems = [
     { id: 'home', href: "/", label: lang === 'zh' ? '首页' : 'Home' },
     { id: 'research', href: SITE_LINKS.report, label: lang === 'zh' ? '研究与洞察' : 'Research' },
-    { id: 'products', href: "/#products", label: lang === 'zh' ? '产品矩阵' : 'Products' },
-    { id: 'ecosystem', href: "/#ecosystem", label: lang === 'zh' ? '活动与生态' : 'Activities & Ecosystem' },
+    { id: 'products', href: "/products", label: lang === 'zh' ? '产品矩阵' : 'Products' },
+    { id: 'topics', href: "/topics", label: lang === 'zh' ? '研究方向' : 'Topics' },
     { id: 'about', href: SITE_LINKS.about, label: lang === 'zh' ? '关于我们' : 'About Us' }
   ]
 

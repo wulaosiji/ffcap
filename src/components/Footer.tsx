@@ -61,8 +61,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#ecosystem" className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '活动与生态' : 'Activities & Ecosystem'}
+                <Link href="/events" className="hover:text-foreground transition-colors">
+                  {lang === 'zh' ? '活动文章' : 'Event briefs'}
                 </Link>
               </li>
             </ul>

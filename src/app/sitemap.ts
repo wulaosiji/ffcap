@@ -1,4 +1,5 @@
 import { AGENT_SITEMAP_PATHS } from '@/content/agent-surfaces.mjs'
+import { EVENT_ARTICLE_SLUGS, eventArticlePath } from '@/content/event-articles.mjs'
 import { LINKS, PRODUCTS, TOPICS } from '@/content/editorial.mjs'
 import type { MetadataRoute } from 'next'
 import { getResearchCatalog } from '@/lib/research'
@@ -22,8 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     { url: 'https://ffcap.cn/faq', changeFrequency: 'monthly', priority: .5 },
     { url: 'https://ffcap.cn/world', changeFrequency: 'yearly', priority: .3 },
+    { url: 'https://ffcap.cn/products', changeFrequency: 'monthly', priority: .65 },
+    { url: 'https://ffcap.cn/topics', changeFrequency: 'monthly', priority: .75 },
+    { url: 'https://ffcap.cn/events', changeFrequency: 'weekly', priority: .7 },
     ...PRODUCTS.map(p => ({ url: `https://ffcap.cn/products/${p.id}`, priority: .6 })),
     ...TOPICS.map(t => ({ url: `https://ffcap.cn/topics/${t.id}`, priority: .8 })),
+    ...EVENT_ARTICLE_SLUGS.map(slug => ({ url: `https://ffcap.cn${eventArticlePath(slug)}`, changeFrequency: 'weekly' as const, priority: .68 })),
     ...getResearchCatalog().filter(a => !a.sourceIncomplete).map(article => ({ url: `https://ffcap.cn/research/${article.slug}`, priority: .7 })),
     ...getEnglishResearchCatalog().map(article => ({ url: `https://ffcap.cn/en/research/${article.slug}`, priority: .6 })),
   ]

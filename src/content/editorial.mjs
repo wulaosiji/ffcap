@@ -1,4 +1,5 @@
 import { EVENT_DIRECTORY } from "./editorial.events.mjs";
+import { eventArticlePath, hasEventArticle } from "./event-articles.mjs";
 
 // Public content verified on 2026-09-05. Each content URL is also its source.
 // Store event times with an explicit offset; dates alone are for display.
@@ -32,7 +33,7 @@ export const TOPICS = [
       zh: "关注自主智能体、协作系统与企业 AI 落地，研究如何把技术能力转化为可验证的业务结果。",
       en: "Exploring autonomous agents, collaborative systems, and enterprise deployment through measurable business outcomes.",
     },
-    href: "https://uniquebloom.cn/sh2026",
+    href: "/topics/agentic",
   },
   {
     id: "physical",
@@ -42,7 +43,7 @@ export const TOPICS = [
       zh: "关注世界模型、机器人与产业场景，追踪高频任务、稳定交付和全球化商业路径。",
       en: "Tracking world models, robotics, and industrial applications through useful tasks, repeatable delivery, and global markets.",
     },
-    href: "https://uniquebloom.cn/szopenday2026",
+    href: "/topics/physical",
   },
   {
     id: "entertainment",
@@ -52,7 +53,7 @@ export const TOPICS = [
       zh: "关注生成式内容、互动叙事与 AI 原生 IP，研究从创作生产到全球发行与用户消费的完整链路。",
       en: "Researching generative media, interactive storytelling, and AI-native IP across creation, production, distribution, and audience experiences.",
     },
-    href: "https://uniquebloom.cn/cd2026",
+    href: "/topics/entertainment",
   },
 ];
 
@@ -67,11 +68,16 @@ export const EVENTS = EVENT_DIRECTORY.map(event => {
   const clocks = event.timeText.match(/(\d{1,2}:\d{2})\s*[-–—]\s*(\d{1,2}:\d{2})$/);
   const startAt = clocks ? `${event.date}T${clocks[1].padStart(5, '0')}:00+08:00` : undefined;
   const endAt = clocks ? `${event.endDate || event.date}T${clocks[2].padStart(5, '0')}:00+08:00` : undefined;
+  const bloomHref = event.href;
+  const articleHref = hasEventArticle(event.slug) ? eventArticlePath(event.slug) : null;
   return {
     ...event, topic, kind: 'event',
     title: { zh: event.title, en: event.title },
     description: { zh: event.summary, en: event.summary },
     location: { zh: event.location, en: event.location },
+    bloomHref,
+    articleHref,
+    href: articleHref ?? bloomHref,
     startAt, endAt,
   };
 });
