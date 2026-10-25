@@ -11,6 +11,7 @@ import {
   filterContent,
   filterProducts,
   legacyTopicFromHash,
+  footerExploreGroups,
   primaryNavItems,
 } from "../src/content/editorial.mjs";
 
@@ -37,9 +38,24 @@ test("editorial content preserves verified public destinations and three researc
   assert.equal(LINKS.report, "/research");
   assert.equal(LINKS.rankingsHub, "/research/rankings");
   assert.equal(LINKS.eventsAwardsHub, "/research/events-awards");
-  assert.equal(primaryNavItems("zh").length, 7);
-  assert.equal(primaryNavItems("zh")[1].label, "数据与榜单");
-  assert.equal(primaryNavItems("zh")[2].href, "/research/events-awards");
+  assert.deepEqual(primaryNavItems("zh").map(({ label, href }) => ({ label, href })), [
+    { label: "研究与洞察", href: "/research" },
+    { label: "数据与榜单", href: "/research/rankings" },
+    { label: "活动与奖项", href: "/research/events-awards" },
+    { label: "产品与服务", href: "/products" },
+    { label: "给 AI", href: "/for-ai" },
+    { label: "关于我们", href: "/about" },
+    { label: "联系我们", href: "/contact" },
+  ]);
+  assert.deepEqual(primaryNavItems("en").map(({ label, href }) => ({ label, href })), [
+    { label: "Research", href: "/en/research" },
+    { label: "Data & Rankings", href: "/research/rankings" },
+    { label: "Events & Awards", href: "/research/events-awards" },
+    { label: "Products & Services", href: "/products" },
+    { label: "For AI", href: "/for-ai" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ]);
   assert.equal(LINKS.contact, "/contact");
   assert.equal(LINKS.events, "https://uniquebloom.cn/");
   assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
@@ -69,6 +85,45 @@ test("editorial content preserves verified public destinations and three researc
       assert.equal(new URL(item.href).protocol, "https:");
     }
   }
+});
+
+test("footer explore splits the site menu from the For AI group", () => {
+  const zh = footerExploreGroups("zh");
+  assert.equal(zh.site.eyebrow, "探索");
+  assert.deepEqual(zh.site.items.map(({ label, href }) => ({ label, href })), [
+    { label: "研究与洞察", href: "/research" },
+    { label: "数据与榜单", href: "/research/rankings" },
+    { label: "活动与奖项", href: "/research/events-awards" },
+    { label: "产品与服务", href: "/products" },
+    { label: "关于我们", href: "/about" },
+    { label: "联系我们", href: "/contact" },
+  ]);
+  assert.equal(zh.ai.eyebrow, "给 AI");
+  assert.deepEqual(zh.ai.items.map(({ label, href }) => ({ label, href })), [
+    { label: "给 AI", href: "/for-ai" },
+    { label: "llms.txt", href: "/llms.txt" },
+    { label: "llms-full.txt", href: "/llms-full.txt" },
+    { label: "文章索引", href: "/research/latest.md" },
+    { label: "JSON", href: "/research/index.json" },
+    { label: "引用说明", href: "/for-models" },
+    { label: "常见问题", href: "/faq" },
+  ]);
+  const en = footerExploreGroups("en");
+  assert.equal(en.site.eyebrow, "EXPLORE");
+  assert.equal(en.ai.eyebrow, "For AI");
+  assert.deepEqual(en.site.items.map(({ label }) => label), [
+    "Research", "Data & Rankings", "Events & Awards", "Products & Services", "About", "Contact",
+  ]);
+  assert.equal(en.site.items[0].href, "/en/research");
+  assert.deepEqual(en.ai.items.map(({ label, href }) => ({ label, href })), [
+    { label: "For AI", href: "/for-ai" },
+    { label: "llms.txt", href: "/llms.txt" },
+    { label: "llms-full.txt", href: "/llms-full.txt" },
+    { label: "Article index", href: "/research/latest.md" },
+    { label: "JSON", href: "/research/index.json" },
+    { label: "Citation", href: "/for-models" },
+    { label: "FAQ", href: "/faq" },
+  ]);
 });
 
 test("search composes category and bilingual query without mutating the input", () => {

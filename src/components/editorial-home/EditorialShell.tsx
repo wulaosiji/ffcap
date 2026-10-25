@@ -8,13 +8,24 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import logo from '@/assets/ffcap-logo-mark.png'
-import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, primaryNavItems, uniqueBaseHref } from '@/content/editorial.mjs'
+import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, footerExploreGroups, primaryNavItems, uniqueBaseHref } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
 
 export function OutLink({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: () => void }) {
   return <a href={href} className={className} target="_blank" rel="noopener noreferrer" onClick={onClick}>{children}</a>
+}
+
+function FooterNavGroup({ eyebrow, items }: { eyebrow: string; items: { label: string; href: string }[] }) {
+  return (
+    <div className="ed-footer-links">
+      <span className="ed-eyebrow">{eyebrow}</span>
+      {items.map(item => item.href.startsWith('http')
+        ? <OutLink key={item.href} href={item.href}>{item.label}</OutLink>
+        : <Link key={item.href} href={item.href}>{item.label}</Link>)}
+    </div>
+  )
 }
 
 export function EditorialShell({ children, cinematic = false }: { children: ReactNode; cinematic?: boolean }) {
@@ -54,6 +65,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     return () => window.removeEventListener('scroll', updateHeader)
   }, [cinematic])
   const nav = primaryNavItems(lang)
+  const explore = footerExploreGroups(lang)
   const results = filterContent(CONTENT, 'all', query, lang)
   const productResults = filterProducts(PRODUCTS, query, lang)
   const count = results.length + productResults.length
@@ -115,7 +127,10 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
         <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={lang} /></div>
-        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '探索' : 'EXPLORE'}</span>{nav.map(n => n.href.startsWith('http') ? <OutLink key={n.href} href={n.href}>{n.label}</OutLink> : <Link key={n.href} href={n.href}>{n.label}</Link>)}<Link href="/llms.txt">llms.txt</Link><Link href="/llms-full.txt">llms-full.txt</Link><Link href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</Link><Link href="/for-models">{zh ? '引用说明' : 'Citation'}</Link><Link href="/faq">{zh ? '常见问题' : 'FAQ'}</Link></div>
+        <div className="ed-footer-explore">
+          <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
+          <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
+        </div>
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => {
           const href = p.id === 'uniquebase' ? uniqueBaseHref(lang) : `/products/${p.id}`
           const external = href.startsWith('http')

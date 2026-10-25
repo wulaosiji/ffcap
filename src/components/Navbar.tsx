@@ -26,7 +26,7 @@ export default function Navbar() {
   const rawNavItems = [
     { id: 'home', href: '/', label: lang === 'zh' ? '首页' : 'Home' },
     ...primaryNavItems(lang).map((item, index) => ({
-      id: ['research', 'rankings', 'eventsAwards', 'products', 'forAi', 'contact', 'about'][index],
+      id: ['research', 'rankings', 'eventsAwards', 'products', 'forAi', 'about', 'contact'][index],
       href: item.href,
       label: item.label,
     })),
