@@ -1,0 +1,19 @@
+{
+  "slug": "20230613a08trs00",
+  "title": "StarWhale Raises Multi-Million RMB Angel from Nanshan Capital for MLOps",
+  "summary": "On June 5, 2023, AI management/collaboration vendor StarWhale (星鲸科技) raised a multi-million RMB angel from Nanshan Capital and Yuanjing Ventures (远镜创投). Proceeds: data + model platform modules and StarWhale Cloud for SMEs/individuals (fine-tune, eval, deploy).",
+  "publishedAt": "2023-06-13T19:07:29+08:00",
+  "author": "Unique Research",
+  "html": "<!-- TITLE: StarWhale Raises Multi-Million RMB Angel from Nanshan Capital for MLOps -->\n<p><em>Unique Research · Company / financing · June 13, 2023</em></p>\n<p>On <strong>June 5, 2023</strong>, AI management/collaboration vendor <strong>StarWhale (星鲸科技)</strong> raised a multi-million RMB angel from <strong>Nanshan Capital</strong> and <strong>Yuanjing Ventures (远镜创投)</strong>. Proceeds: data + model platform modules and <strong>StarWhale Cloud</strong> for SMEs/individuals (fine-tune, eval, deploy).</p>\n<p>Beijing, founded <strong>2022</strong>; founder <strong>Xu Chuan</strong> ex-Baidu Cloud chief architect / Megvii chief architect. MLOps platform: train, evaluate, deploy, dataset hosting — unifying ML dev and ops for continuous high-performance delivery. Market cited ~$1.1B (2022) → ~$5.9B (2027).</p>\n<p>Strategy: open-source productized third-party path (avoid cloud lock-in; private deploy for privacy-sensitive buyers); beachhead autonomous-driving compute demand. Early partners: several AV startups/suppliers; commercialization accelerating in 2023.</p>\n<p><em>0 CN images. Author Jiacheng · Review Ski.</em></p>\n<p>— END —</p>",
+  "text": "Unique Research · Company / financing · June 13, 2023\n\nOn June 5, 2023, AI management/collaboration vendor StarWhale (星鲸科技) raised a multi-million RMB angel from Nanshan Capital and Yuanjing Ventures (远镜创投). Proceeds: data + model platform modules and StarWhale Cloud for SMEs/individuals (fine-tune, eval, deploy).\n\nBeijing, founded 2022; founder Xu Chuan ex-Baidu Cloud chief architect / Megvii chief architect. MLOps platform: train, evaluate, deploy, dataset hosting — unifying ML dev and ops for continuous high-performance delivery. Market cited ~$1.1B (2022) → ~$5.9B (2027).\n\nStrategy: open-source productized third-party path (avoid cloud lock-in; private deploy for privacy-sensitive buyers); beachhead autonomous-driving compute demand. Early partners: several AV startups/suppliers; commercialization accelerating in 2023.\n\n0 CN images. Author Jiacheng · Review Ski.\n\n— END —",
+  "sourceUrl": "https://ffcap.cn/en/research/20230613a08trs00",
+  "ingestSource": "unique-research-backfill",
+  "contentComplete": true,
+  "sourceAccessFree": true,
+  "imageCount": 0,
+  "missingSourceImageCount": 0,
+  "contentSha256": "a64b50cfbf561909bb1a0ecfab5005c298509ceaf4faf2187b69645d3ec96b86",
+  "backfillFromCnId": "20230613A08TRS00",
+  "cnSourceUrl": "https://view.inews.qq.com/a/20230613A08TRS00",
+  "relatedCnSlug": "20230613a08trs00"
+}

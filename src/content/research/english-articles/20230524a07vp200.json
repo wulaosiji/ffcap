@@ -1,0 +1,19 @@
+{
+  "slug": "20230524a07vp200",
+  "title": "Luchen Tech Raises Multi-Hundred-Million RMB Series A from BlueRun for Distributed AI",
+  "summary": "On May 22, 2023, distributed AI train/deploy platform Luchen Tech (潞晨科技) closed a multi-hundred-million RMB Series A led exclusively by BlueRun Ventures (蓝驰创投) — also angel lead. Third round in 18 months since founding; proceeds for team + expansion.",
+  "publishedAt": "2023-05-24T18:29:15+08:00",
+  "author": "Unique Research",
+  "html": "<!-- TITLE: Luchen Tech Raises Multi-Hundred-Million RMB Series A from BlueRun for Distributed AI -->\n<p><em>Unique Research · Company / funding · May 24, 2023</em></p>\n<p>On <strong>May 22, 2023</strong>, distributed AI train/deploy platform <strong>Luchen Tech (潞晨科技)</strong> closed a multi-hundred-million RMB <strong>Series A</strong> led exclusively by <strong>BlueRun Ventures (蓝驰创投)</strong> — also angel lead. Third round in 18 months since founding; proceeds for team + expansion.</p>\n<p>Founded <strong>2021</strong> by <strong>You Yang</strong> (Berkeley / NUS distributed computing, ML, HPC; ImageNet &amp; BERT training speed records). Mission: cut LM landing cost, lift train/inference efficiency.</p>\n<p><strong>Products:</strong> open-source <strong>Colossal-AI</strong> (~30k GitHub stars) + enterprise PaaS — (1) heterogeneous memory (GPU→CPU→NVMe dynamic offload; GPT-3 175B ≈ 800G params / ~3.2TB with grads+optimizer); (2) efficient N-dim parallel (2D tensor parallel — with 10k machines talk to ~99 peers not 9,999); (3) low-latency inference (memory + tensor parallel + prune/distill). Train via PaaS or Luchen-assisted; live in AV, cloud, retail, pharma, chips, finance. 2023 revenue outlook <strong>3–5×</strong> YoY; hiring MLOps / LM / framework talent.</p>\n<p>— END —</p>",
+  "text": "Unique Research · Company / funding · May 24, 2023\n\nOn May 22, 2023, distributed AI train/deploy platform Luchen Tech (潞晨科技) closed a multi-hundred-million RMB Series A led exclusively by BlueRun Ventures (蓝驰创投) — also angel lead. Third round in 18 months since founding; proceeds for team + expansion.\n\nFounded 2021 by You Yang (Berkeley / NUS distributed computing, ML, HPC; ImageNet & BERT training speed records). Mission: cut LM landing cost, lift train/inference efficiency.\n\nProducts: open-source Colossal-AI (~30k GitHub stars) + enterprise PaaS — (1) heterogeneous memory (GPU→CPU→NVMe dynamic offload; GPT-3 175B ≈ 800G params / ~3.2TB with grads+optimizer); (2) efficient N-dim parallel (2D tensor parallel — with 10k machines talk to ~99 peers not 9,999); (3) low-latency inference (memory + tensor parallel + prune/distill). Train via PaaS or Luchen-assisted; live in AV, cloud, retail, pharma, chips, finance. 2023 revenue outlook 3–5× YoY; hiring MLOps / LM / framework talent.\n\n— END —",
+  "sourceUrl": "https://ffcap.cn/en/research/20230524a07vp200",
+  "ingestSource": "unique-research-backfill",
+  "contentComplete": true,
+  "sourceAccessFree": true,
+  "imageCount": 0,
+  "missingSourceImageCount": 0,
+  "contentSha256": "078fdf607cc7870e4bf55204f45bbf3f46194781d6f8bc652cef54a7fd54635f",
+  "backfillFromCnId": "20230524A07VP200",
+  "cnSourceUrl": "https://view.inews.qq.com/a/20230524A07VP200",
+  "relatedCnSlug": "20230524a07vp200"
+}
