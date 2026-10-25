@@ -242,8 +242,8 @@ test("product card CTAs open on-site descriptions before external product sites"
     {
       id: "uniquebase",
       detail: "/products/uniquebase",
-      primaryZh: "https://uniquebase.cn/",
-      primaryEn: "https://uniquebase.ai/",
+      primaryZh: "/products/uniquebase",
+      primaryEn: "/products/uniquebase",
       externalZh: "https://uniquebase.cn/",
       externalEn: "https://uniquebase.ai/",
     },
