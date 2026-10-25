@@ -3,14 +3,25 @@ import { EVENT_DIRECTORY } from "./editorial.events.mjs";
 // Public content verified on 2026-09-05. Each content URL is also its source.
 // Store event times with an explicit offset; dates alone are for display.
 export const LINKS = Object.freeze({
-  report: "https://ffcap.cn/report.html",
+  /** Primary on-site research library (replaces report.html CTAs). */
+  report: "/research",
+  rankingsHub: "/research/rankings",
+  /** @deprecated alias — use rankingsHub */
+  uniqueResearch: "/research/rankings",
+  contact: "/contact",
   rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
   events: "https://uniquebloom.cn/",
-  uniqueResearch: "https://ffcap.cn/rankings.html",
-  uniqueBase: "https://uniquebase.ai/",
-  uniqueBloom: "https://ffcap.cn/open.html",
+  uniqueBaseZh: "https://uniquebase.cn/",
+  uniqueBaseEn: "https://uniquebase.ai/",
+  /** @deprecated alias — prefer uniqueBaseHref(lang) */
+  uniqueBase: "https://uniquebase.cn/",
+  uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",
 });
+
+export function uniqueBaseHref(lang = "zh") {
+  return lang === "en" ? LINKS.uniqueBaseEn : LINKS.uniqueBaseZh;
+}
 
 export const TOPICS = [
   {
@@ -105,7 +116,7 @@ export const PRODUCTS = [
       en: "Global AI companies across sectors, themes and cities. Every record carries a source and a stable code, with machine-readable versions for AI assistants and search engines.",
     },
     action: { zh: "进入 UniqueBase", en: "Explore UniqueBase" },
-    href: LINKS.uniqueBase,
+    href: LINKS.uniqueBaseZh,
   },
   {
     id: "uniquebloom",

@@ -2,9 +2,10 @@
 
 import { IDENTITY } from '@/content/site-identity.mjs'
 
+import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { LINKS, PRODUCTS, TOPICS } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS, uniqueBaseHref } from '@/content/editorial.mjs'
 import { EditorialShell } from './EditorialShell'
 
 const copy = {
@@ -30,6 +31,7 @@ const copy = {
     reports: '阅读研究与榜单',
     events: '查看活动日历',
     apply: '申报 AI 榜单',
+    contact: '联系我们',
   },
   en: {
     eyebrow: 'About UniqueCapital',
@@ -53,6 +55,7 @@ const copy = {
     reports: 'Read research and rankings',
     events: 'Explore the event calendar',
     apply: 'Apply for AI rankings',
+    contact: 'Contact us',
   },
 }
 
@@ -113,16 +116,25 @@ export function EditorialAbout() {
             </div>
           </div>
           <div className="ed-about-grid">
-            {PRODUCTS.map((product) => (
+            {PRODUCTS.map((product) => {
+              const href = product.id === 'uniquebase' ? uniqueBaseHref(lang) : product.href
+              const external = href.startsWith('http')
+              return (
               <article className="ed-about-pillar" key={product.id}>
                 <p className="ed-eyebrow">{product.audience[lang]}</p>
                 <h3>{product.name[lang]}</h3>
                 <p>{product.description[lang]}</p>
-                <a className="ed-link" href={product.href} target="_blank" rel="noopener noreferrer">
-                  {product.action[lang]}<ArrowUpRight size={18} aria-hidden="true" />
-                </a>
+                {external ? (
+                  <a className="ed-link" href={href} target="_blank" rel="noopener noreferrer">
+                    {product.action[lang]}<ArrowUpRight size={18} aria-hidden="true" />
+                  </a>
+                ) : (
+                  <Link className="ed-link" href={href}>
+                    {product.action[lang]}<ArrowRight size={18} aria-hidden="true" />
+                  </Link>
+                )}
               </article>
-            ))}
+            )})}
           </div>
         </section>
 
@@ -134,9 +146,15 @@ export function EditorialAbout() {
             <a className="ed-link" href={LINKS.events} target="_blank" rel="noopener noreferrer">
               {text.events}<ArrowRight size={18} aria-hidden="true" />
             </a>
-            <a className="ed-link" href={LINKS.report} target="_blank" rel="noopener noreferrer">
-              {text.reports}<ArrowUpRight size={18} aria-hidden="true" />
-            </a>
+            <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>
+              {text.reports}<ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            <Link className="ed-link" href={LINKS.rankingsHub}>
+              {lang === 'zh' ? 'AI 榜单精选' : 'Curated rankings'}<ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            <Link className="ed-link" href={LINKS.contact}>
+              {text.contact}<ArrowRight size={18} aria-hidden="true" />
+            </Link>
             <a className="ed-link" href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">
               {text.apply}<ArrowUpRight size={18} aria-hidden="true" />
             </a>

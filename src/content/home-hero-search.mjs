@@ -13,9 +13,9 @@ export function homeSearchDestination(tabId, query) {
     case 'articles':
       return q ? `/research?q=${encodeURIComponent(q.slice(0, 200))}` : '/research'
     case 'rankings':
-      return LINKS.uniqueResearch
+      return LINKS.rankingsHub
     case 'events':
-      return LINKS.uniqueBloom
+      return LINKS.events
     case 'bp':
       return LINKS.goodProjects
     default:

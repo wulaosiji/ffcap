@@ -9,9 +9,11 @@ import {
 } from "../src/components/narrative-home/linkMap.mjs";
 
 test("uses the approved public link contracts", () => {
-  assert.equal(SITE_LINKS.report, "https://ffcap.cn/report.html");
-  assert.equal(SITE_LINKS.uniqueBase, "https://uniquebase.ai/");
-  assert.equal(SITE_LINKS.uniqueBloom, "https://ffcap.cn/open.html");
+  assert.equal(SITE_LINKS.report, "/research");
+  assert.equal(SITE_LINKS.rankingsHub, "/research/rankings");
+  assert.equal(SITE_LINKS.contact, "/contact");
+  assert.equal(SITE_LINKS.uniqueBase, "https://uniquebase.cn/");
+  assert.equal(SITE_LINKS.uniqueBloom, "https://uniquebloom.cn/");
   assert.equal(SITE_LINKS.goodProjects, "https://ffcap.cn/bp.html");
   assert.equal(SITE_LINKS.about, "/about");
   assert.equal(

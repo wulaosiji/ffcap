@@ -1,5 +1,5 @@
 import { AGENT_READ_ORDER, AGENT_SURFACES, homeAgentLinks } from '../content/agent-surfaces.mjs'
-import { PRODUCTS, TOPICS } from '../content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS } from '../content/editorial.mjs'
 import { CITATION_NOTE, HOME_H1, HOME_LEAD, IDENTITY, SITE_URL } from '../content/site-identity.mjs'
 
 function surfaceLines(siteUrl = SITE_URL) {
@@ -62,11 +62,14 @@ ${PRODUCTS.map(product => `- [${product.name.zh}](${siteUrl}/products/${product.
 
 ## 功能入口
 
-- [报告](${siteUrl}/report.html)
+- [研究与洞察](${siteUrl}/research)
+- [AI 榜单精选](${siteUrl}/research/rankings)
+- [联系我们](${siteUrl}/contact)
 - [BP](${siteUrl}/bp.html)
-- [活动](${siteUrl}/open.html)
+- [活动](${LINKS.events})
 - [成都活动](${siteUrl}/open.html?slug=cd2026)
-- [榜单](${siteUrl}/rankings.html)
+- [报告静态入口](${siteUrl}/report.html)（人类主链为 /research）
+- [榜单静态入口](${siteUrl}/rankings.html)（人类主链为 /research/rankings）
 - [三维体验「云上的聚落」](${siteUrl}/world)（需主动进入后加载 WebGL）
 
 活动事实以所链接的 UniqueBloom 公开活动页为准；原文与本站不一致时，请核对原始来源。Markdown 与网页使用同一份存档正文，不包含图片或视频的文字转写。本索引不授予额外内容许可。

@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import { Button } from './ui/button'
 import { useLang } from '@/context/LangContext'
 import { homeTexts } from '@/content/homeTexts'
+import { LINKS } from '@/content/editorial.mjs'
 export function Hero() {
   const { lang } = useLang()
   
@@ -12,9 +14,9 @@ export function Hero() {
       <p className={`text-2xl md:text-3xl text-gray-500 mb-12 leading-relaxed whitespace-nowrap`}>
         {homeTexts[lang].hero.subtitle}
       </p>
-      <a href="https://uniquecapital.feishu.cn/wiki/CqaNwCaePi9CMmkz6ZwcXKZ9nvf" target="_blank" rel="noopener noreferrer">
-        <Button>{homeTexts[lang].hero.mainButton}</Button>
-      </a>
+      <Link href={LINKS.contact}>
+        <Button>{homeTexts[lang].footer.contact}</Button>
+      </Link>
       
       {/* 状态信息 */}
       <div className="flex flex-wrap justify-center items-center gap-8 mt-10 opacity-90 text-sm text-muted-foreground">

@@ -707,7 +707,7 @@ export function NarrativeHome() {
           <div>
             <h2>非凡产研<br />AI 研究与榜单</h2>
             <p>围绕 Agentic AI、Physical AI 与 Entertainment AI，持续发布趋势研究、产业观察与榜单。</p>
-            <a href={SITE_LINKS.report} target="_blank" rel="noopener noreferrer">查看研究与榜单 <ArrowRight size={17} /></a>
+            <a href={SITE_LINKS.report}>查看研究与榜单 <ArrowRight size={17} /></a>
           </div>
           <div className="signal-sequence" aria-label="从研究到行动">
             {["识别技术与产品信号", "形成研究与榜单", "连接产业与资本"].map((item, index) => (
@@ -751,7 +751,7 @@ export function NarrativeHome() {
           <p>以研究识别方向，以产品承接协作，以活动与长期社群连接创业者、投资人和产业伙伴。</p>
         </header>
         <div className="capabilities">
-          <a href={SITE_LINKS.report} target="_blank" rel="noopener noreferrer"><span>01 / RESEARCH</span><h3>研究服务</h3><p>持续识别 AI 技术演进、商业化进程与结构性机会。</p></a>
+          <a href={SITE_LINKS.report}><span>01 / RESEARCH</span><h3>研究服务</h3><p>持续识别 AI 技术演进、商业化进程与结构性机会。</p></a>
           <a href="#products"><span>02 / PRODUCTS</span><h3>产品协作</h3><p>通过三款产品承接创业者表达、现场互动与认证投资人对接。</p></a>
           <a href="/about#ecosystem"><span>03 / COMMUNITY</span><h3>活动与社群</h3><p>围绕前沿议题组织交流、研学与长期关系网络。</p></a>
         </div>

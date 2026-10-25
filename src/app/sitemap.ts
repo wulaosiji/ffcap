@@ -1,5 +1,5 @@
 import { AGENT_SITEMAP_PATHS } from '@/content/agent-surfaces.mjs'
-import { PRODUCTS, TOPICS } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS } from '@/content/editorial.mjs'
 import type { MetadataRoute } from 'next'
 import { getResearchCatalog } from '@/lib/research'
 import { getEnglishResearchCatalog } from '@/lib/english-research'
@@ -8,7 +8,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: 'https://ffcap.cn', changeFrequency: 'weekly', priority: 1 },
     { url: 'https://ffcap.cn/about', changeFrequency: 'monthly', priority: .6 },
+    { url: 'https://ffcap.cn/contact', changeFrequency: 'monthly', priority: .55 },
     { url: 'https://ffcap.cn/research', changeFrequency: 'weekly', priority: .9 },
+    { url: `https://ffcap.cn${LINKS.rankingsHub}`, changeFrequency: 'weekly', priority: .85 },
     { url: 'https://ffcap.cn/research/latest.md', changeFrequency: 'daily', priority: .75 },
     { url: 'https://ffcap.cn/research/rss.xml', changeFrequency: 'daily', priority: .75 },
     { url: 'https://ffcap.cn/en/research', changeFrequency: 'weekly', priority: .7 },

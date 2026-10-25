@@ -1,8 +1,10 @@
 export const SITE_LINKS = Object.freeze({
-  report: "https://ffcap.cn/report.html",
+  report: "/research",
+  rankingsHub: "/research/rankings",
+  contact: "/contact",
   rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
-  uniqueBase: "https://uniquebase.ai/",
-  uniqueBloom: "https://ffcap.cn/open.html",
+  uniqueBase: "https://uniquebase.cn/",
+  uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",
   about: "/about",
 });

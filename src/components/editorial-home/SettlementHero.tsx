@@ -1,8 +1,9 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react'
-import {ArrowDown,ArrowUpRight,Pause,Play,RotateCcw,X,Bot,Volume2,VolumeX} from 'lucide-react'
+import {ArrowDown,ArrowRight,ArrowUpRight,Pause,Play,RotateCcw,X,Bot,Volume2,VolumeX} from 'lucide-react'
 import {useLang} from '@/context/LangContext'
 import {LINKS} from '@/content/editorial.mjs'
 import type {SettlementAPI,SettlementState,CloudPosterFrame} from './world/settlement/createCloudSettlement'
@@ -133,7 +134,7 @@ export function SettlementHero(){
       <p role="status">{zh?'云上，有一个共同构建的世界。':'Above the clouds. A world built together.'}</p>
       <button onClick={()=>{setPaused(false);engine.current?.skipIntro();host.current?.focus({preventScroll:true})}}>{zh?'跳过，开始探索':'Skip to exploration'}<ArrowUpRight size={16}/></button>
     </div>:<>
-      {room&&<aside className="ed-settlement-room"><p>{room.topic}</p><h2>{room.name[lang]}</h2><p>{room.description[lang]}</p><a href={LINKS.report} target="_blank" rel="noopener noreferrer">{zh?'查看相关研究':'Explore the research'}<ArrowUpRight size={15}/></a></aside>}
+      {room&&<aside className="ed-settlement-room"><p>{room.topic}</p><h2>{room.name[lang]}</h2><p>{room.description[lang]}</p><Link href="/research">{zh?'查看相关研究':'Explore the research'}<ArrowRight size={15}/></Link></aside>}
       <div className="ed-settlement-help" role="status">{state.characterLoading?(zh?'正在准备角色，完成后从庭院入口开始…':'Preparing your character at the courtyard entrance…'):state.characterError?(zh?'角色暂未加载成功，请重试。当前角色已保留。':'Character could not load. Your current character is retained; please retry.'):state.guideNotice?(zh?'导览暂时中断，请回到起点重试':'Tour interrupted. Return to the start to retry'):state.guiding?(zh?'正在跟随向导 · 拖动视角，沿途看看':'Following the guide · Drag to look around'):atDoorstep?(zh?'房间暂未开放 · 可跟随向导返回庭院':'This room is closed · Follow the guide back to the courtyard'):(zh?'跟随向导参观 · 拖动场景调整视角':'Follow the guide · Drag to look around')}</div>
       <div className="ed-settlement-actions">
         {destinations.length>1&&<label className="ed-settlement-destination"><span className="sr-only">{zh?'探索目的地':'Explore a destination'}</span><select value={selectedDestination} aria-label={zh?'探索目的地':'Explore a destination'} onChange={e=>{clearInput();engine.current?.cancelGuide();setDestination(e.target.value as CloudDestination)}}>{destinations.map(id=><option key={id} value={id}>{ROOMS[id].name[lang]}{state.doorstepDestinations?.includes(id)?(zh?' · 门前':' · Doorstep'):''}</option>)}</select></label>}

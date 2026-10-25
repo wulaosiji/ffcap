@@ -21,8 +21,8 @@ test('announcement uses highlights first and exposes summary fields', () => {
 test('search tabs route to research, rankings, events and BP', () => {
   assert.equal(HOME_SEARCH_TABS.length, 4)
   assert.equal(homeSearchDestination('articles', '办公'), '/research?q=%E5%8A%9E%E5%85%AC')
-  assert.equal(homeSearchDestination('rankings', ''), 'https://ffcap.cn/rankings.html')
-  assert.equal(homeSearchDestination('events', ''), 'https://ffcap.cn/open.html')
+  assert.equal(homeSearchDestination('rankings', ''), '/research/rankings')
+  assert.equal(homeSearchDestination('events', ''), 'https://uniquebloom.cn/')
   assert.equal(homeSearchDestination('bp', ''), 'https://ffcap.cn/bp.html')
 })
 

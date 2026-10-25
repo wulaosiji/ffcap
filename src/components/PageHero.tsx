@@ -1,7 +1,9 @@
+import Link from 'next/link'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { ArrowRight, Zap } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
+import { LINKS } from '@/content/editorial.mjs'
 
 interface PageHeroProps {
   title: string
@@ -113,12 +115,12 @@ export function PageHero({
         )}
         {showExploreButton && (
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 animate-fade-in">
-            <a href="https://uniquecapital.feishu.cn/wiki/CqaNwCaePi9CMmkz6ZwcXKZ9nvf" target="_blank" rel="noopener noreferrer">
+            <Link href={LINKS.contact}>
               <Button size="lg" className="group h-12 px-8 gradient-brand-bg text-white border-0 hover:opacity-90">
-                {lang === 'zh' ? '开始探索' : 'Start Exploring'}
+                {lang === 'zh' ? '联系我们' : 'Contact Us'}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-            </a>
+            </Link>
           </div>
         )}
         {showContactButton && (
