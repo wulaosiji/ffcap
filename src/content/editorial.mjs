@@ -69,7 +69,7 @@ export function primaryNavItems(lang = "zh") {
   ];
 }
 
-/** Footer explore column: site menu (no For AI), then the For AI group. */
+/** Footer peer columns: site menu (no For AI), then the For AI group. Products is a third column. */
 export function footerExploreGroups(lang = "zh") {
   const zh = lang !== "en";
   return {

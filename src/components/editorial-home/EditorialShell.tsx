@@ -133,10 +133,8 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
         <div><Link href="/" className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={lang} /></div>
-        <div className="ed-footer-explore">
-          <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
-          <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
-        </div>
+        <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
+        <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'OUR PRODUCTS'}</span>{PRODUCTS.map(p => {
           const href = productPrimaryHref(p, lang)
           const external = href.startsWith('http')
