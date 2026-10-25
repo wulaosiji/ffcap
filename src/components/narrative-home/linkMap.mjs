@@ -2,7 +2,6 @@ export const SITE_LINKS = Object.freeze({
   report: "/research",
   rankingsHub: "/research/rankings",
   contact: "/contact",
-  rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
   uniqueBase: "https://uniquebase.cn/",
   uniqueBloom: "https://uniquebloom.cn/",
   goodProjects: "https://ffcap.cn/bp.html",

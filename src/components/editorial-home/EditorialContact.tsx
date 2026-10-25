@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { CONTACT } from '@/content/contact.mjs'
 import { LINKS } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell, OutLink } from './EditorialShell'
 
 const copy = {
@@ -16,7 +17,6 @@ const copy = {
     addressLabel: '办公室（城市）',
     research: '阅读研究与洞察',
     rankings: '浏览 AI 榜单文章',
-    apply: '申报 AI 榜单',
     uniqueBase: '在 UniqueBase 查询公开数据',
   },
   en: {
@@ -27,7 +27,6 @@ const copy = {
     addressLabel: 'Offices (cities)',
     research: 'Read research & insights',
     rankings: 'Browse ranking articles',
-    apply: 'Apply for AI rankings',
     uniqueBase: 'Query public data on UniqueBase',
   },
 }
@@ -39,6 +38,7 @@ export function EditorialContact() {
 
   return (
     <EditorialShell>
+      <DocumentTitle zh="联系我们 · 非凡资本 UniqueCapital" en="Contact · UniqueCapital" />
       <main className="ed-about" id="main-content">
         <section className="ed-container ed-about-intro" aria-labelledby="contact-title">
           <p className="ed-eyebrow">{text.eyebrow}</p>
@@ -71,7 +71,7 @@ export function EditorialContact() {
             <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>{text.research}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <Link className="ed-link" href={LINKS.rankingsHub}>{text.rankings}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <OutLink className="ed-link" href={uniqueBase}>{text.uniqueBase}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
-            <OutLink className="ed-link" href={LINKS.rankingApplication}>{text.apply}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
+            <Link className="ed-link" href="/products/uniquebase">{lang === 'zh' ? 'UniqueBase 产品介绍' : 'UniqueBase product details'}<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
         </section>
       </main>

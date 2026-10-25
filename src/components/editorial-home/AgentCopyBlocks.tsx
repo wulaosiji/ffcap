@@ -44,10 +44,10 @@ export function AgentCopyBlocks({
   const en = lang === 'en'
   return (
     <div className="ed-agent-copy-stack" aria-label={en ? 'Copyable instructions for AI' : '给 AI 可复制指令'}>
-      <CopyBlock lang={lang} label={en ? 'Agent prompt' : 'Agent 提示词'} text={promptText} />
+      <CopyBlock lang={lang} label={en ? 'Agent prompt' : '助手提示词'} text={promptText} />
       {curlLlms ? <CopyBlock lang={lang} label="curl llms.txt" text={curlLlms} /> : null}
       {curlLatest ? <CopyBlock lang={lang} label="curl latest.md" text={curlLatest} /> : null}
-      {curlArticle ? <CopyBlock lang={lang} label={en ? 'curl one Markdown article' : 'curl 单篇 Markdown'} text={curlArticle} /> : null}
+      {curlArticle ? <CopyBlock lang={lang} label={en ? 'curl one Markdown article' : '单篇 Markdown'} text={curlArticle} /> : null}
     </div>
   )
 }

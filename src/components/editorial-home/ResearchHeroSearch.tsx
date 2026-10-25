@@ -63,46 +63,48 @@ export function ResearchHeroSearch() {
         method="get"
         role="search"
       >
-        <div className="ed-research-hero__search">
-          <label className="sr-only" htmlFor="home-research-q">{zh ? '问非凡产研' : 'Ask UniqueResearch'}</label>
-          <input
-            id="home-research-q"
-            name="q"
-            type="search"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder={zh ? '问非凡产研：例如「9 月 AI 订阅收入榜」「办公智能体」' : 'Ask UniqueResearch: try “agents” or “subscription revenue”'}
-            autoComplete="off"
-            aria-describedby={SEARCH_HINT_ID}
-          />
-          <button type="submit" aria-label={zh ? '在研究库中搜索文章' : 'Search the research library'}>
-            <ArrowRight size={20} strokeWidth={1.6} />
-          </button>
-        </div>
-        <p id={SEARCH_HINT_ID} className="ed-research-hero__tab-hint">
-          {zh ? '回车或点击箭头将在研究库中搜索文章。' : 'Press Enter or the arrow to search English articles.'}
-        </p>
-
-        {previews.length > 0 && (
-          <ul className="ed-research-hero__preview" aria-label="匹配文章预览">
-            {previews.map((item: IndexArticle) => (
-              <li key={item.slug}>
-                <Link href={`/research/${item.slug}`}>{item.title}</Link>
-              </li>
-            ))}
-          </ul>
-        )}
-        {showEmptyPreview && (
-          <div className="ed-research-hero__preview-empty" role="status">
-            <p>暂未找到匹配文章</p>
-            <p>试试更短的关键词，或按回车查看研究库完整结果。</p>
+        <div className="ed-research-hero__suggest">
+          <div className="ed-research-hero__search">
+            <label className="sr-only" htmlFor="home-research-q">{zh ? '问非凡产研' : 'Ask UniqueResearch'}</label>
+            <input
+              id="home-research-q"
+              name="q"
+              type="search"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder={zh ? '问非凡产研：例如「9 月 AI 订阅收入榜」「办公智能体」' : 'Ask UniqueResearch: try “agents” or “subscription revenue”'}
+              autoComplete="off"
+              aria-describedby={SEARCH_HINT_ID}
+            />
+            <button type="submit" aria-label={zh ? '在研究库中搜索文章' : 'Search the research library'}>
+              <ArrowRight size={20} strokeWidth={1.6} />
+            </button>
           </div>
-        )}
-        {zh && indexError && query.trim().length >= 2 && (
-          <p className="ed-research-hero__preview-empty" role="status">
-            预览暂不可用，仍可提交搜索在研究库中查找。
+          <p id={SEARCH_HINT_ID} className="ed-research-hero__tab-hint">
+            {zh ? '回车或点击箭头将在研究库中搜索文章。' : 'Press Enter or the arrow to search English articles.'}
           </p>
-        )}
+
+          {previews.length > 0 && (
+            <ul className="ed-research-hero__preview" aria-label={zh ? '匹配文章预览' : 'Matching article preview'}>
+              {previews.map((item: IndexArticle) => (
+                <li key={item.slug}>
+                  <Link href={`/research/${item.slug}`}>{item.title}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
+          {showEmptyPreview && (
+            <div className="ed-research-hero__preview-empty" role="status">
+              <p>暂未找到匹配文章</p>
+              <p>试试更短的关键词，或按回车查看研究库完整结果。</p>
+            </div>
+          )}
+          {zh && indexError && query.trim().length >= 2 && (
+            <p className="ed-research-hero__preview-empty" role="status">
+              预览暂不可用，仍可提交搜索在研究库中查找。
+            </p>
+          )}
+        </div>
       </form>
 
       <div className="ed-research-hero__agents-wrap">

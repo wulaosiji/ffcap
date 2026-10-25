@@ -60,11 +60,6 @@ export function Footer() {
             <h3 className="font-semibold mb-4">{homeTexts[lang].footer.company}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href={SITE_LINKS.rankingApplication} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '申报 AI 榜单' : 'Apply for AI Rankings'}
-                </a>
-              </li>
-              <li>
                 <Link href={SITE_LINKS.about} className="hover:text-foreground transition-colors">
                   {homeTexts[lang].footer.about}
                 </Link>

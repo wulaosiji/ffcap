@@ -62,7 +62,7 @@ test("editorial content preserves verified public destinations and three researc
   ]);
   assert.equal(LINKS.contact, "/contact");
   assert.equal(LINKS.events, "https://uniquebloom.cn/");
-  assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
+  assert.equal("rankingApplication" in LINKS, false);
   assert.equal(LINKS.uniqueResearchSite, "https://uniqueresearch.cn");
   assert.deepEqual(PRODUCTS.map(({ href }) => href), [
     "https://uniqueresearch.cn",
@@ -128,6 +128,56 @@ test("footer explore splits the site menu from the For AI group", () => {
     { label: "Citation", href: "/for-models" },
     { label: "FAQ", href: "/faq" },
   ]);
+  for (const label of [en.site.eyebrow, en.ai.eyebrow, ...en.site.items.map((item) => item.label), ...en.ai.items.map((item) => item.label)]) {
+    assert.doesNotMatch(label, /[\u3400-\u9fff]/, label);
+  }
+  for (const label of [zh.site.eyebrow, zh.ai.eyebrow, ...zh.site.items.map((item) => item.label)]) {
+    assert.match(label, /[\u3400-\u9fff]/, label);
+  }
+});
+
+test("footer renders explore, For AI, and products as peer columns", async () => {
+  const shell = await readFile(new URL("../src/components/editorial-home/EditorialShell.tsx", import.meta.url), "utf8");
+  const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
+  assert.doesNotMatch(shell, /ed-footer-explore/);
+  const main = shell.slice(shell.indexOf("ed-footer-main"), shell.indexOf("ed-footer-bottom"));
+  const site = main.indexOf("explore.site.eyebrow");
+  const ai = main.indexOf("explore.ai.eyebrow");
+  const products = main.indexOf("进入产品");
+  assert.ok(site > -1 && ai > site && products > ai);
+  assert.match(main, /OUR PRODUCTS/);
+  assert.match(css, /\.ed-footer-main\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
+  assert.doesNotMatch(css, /\.ed-footer-explore/);
+});
+
+test("site chrome does not invite AI ranking applications", async () => {
+  const files = [
+    "../src/content/editorial.mjs",
+    "../src/content/home-faq.mjs",
+    "../src/components/Footer.tsx",
+    "../src/components/PageHero.tsx",
+    "../src/components/editorial-home/EditorialHome.tsx",
+    "../src/components/editorial-home/EditorialAbout.tsx",
+    "../src/components/editorial-home/EditorialContact.tsx",
+    "../src/components/narrative-home/NarrativeHome.jsx",
+    "../src/components/narrative-home/linkMap.mjs",
+    "../src/app/research/rankings/page.tsx",
+    "../src/app/research/events-awards/page.tsx",
+    "../src/app/submit/page.tsx",
+  ];
+  const src = (await Promise.all(files.map((file) => readFile(new URL(file, import.meta.url), "utf8")))).join("\n");
+  assert.doesNotMatch(src, /shrcn5cWrPZAThRZgxd5zBf9Cxg/);
+  assert.doesNotMatch(src, /申报 AI 榜单|申报榜单|我要申报|Apply for AI rankings|Apply for AI Rankings|立即提交您的AI应用|submit to our leaderboard|官方申报表单/);
+});
+
+test("hero suggestions overlay instead of growing the ticker row", async () => {
+  const search = await readFile(new URL("../src/components/editorial-home/ResearchHeroSearch.tsx", import.meta.url), "utf8");
+  const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
+  assert.match(search, /ed-research-hero__suggest/);
+  const suggest = search.slice(search.indexOf("ed-research-hero__suggest"), search.indexOf("ed-research-hero__agents-wrap"));
+  assert.ok(suggest.indexOf("ed-research-hero__preview") > suggest.indexOf("ed-research-hero__tab-hint"));
+  assert.match(css, /\.ed-research-hero__suggest\{[^}]*position:relative/);
+  assert.match(css, /\.ed-research-hero__preview,\.ed-research-hero__preview-empty\{[^}]*position:absolute/);
 });
 
 test("search composes category and bilingual query without mutating the input", () => {

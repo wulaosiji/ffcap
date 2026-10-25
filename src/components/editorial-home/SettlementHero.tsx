@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react'
 import {ArrowDown,ArrowRight,ArrowUpRight,Pause,Play,RotateCcw,X,Bot,Volume2,VolumeX} from 'lucide-react'
 import {useLang} from '@/context/LangContext'
+import {DocumentTitle} from './DocumentTitle'
 import {LINKS} from '@/content/editorial.mjs'
 import type {SettlementAPI,SettlementState,CloudPosterFrame} from './world/settlement/createCloudSettlement'
 import {isCloudPosterCapture,cloudReviewCamera} from './world/settlement/cloudPosterCapture.mjs'
@@ -114,7 +115,7 @@ export function SettlementHero(){
   const CharacterIcon=Bot
   const room=Object.prototype.hasOwnProperty.call(ROOMS,state.location)?ROOMS[state.location as CloudDestination]:undefined
   const place=room?.name[lang]??(atDoorstep&&state.arrivedDestination?`${ROOMS[state.arrivedDestination].name[lang]} · ${zh?'门前':'Doorstep'}`:state.location==='bridge'?(zh?'溪流上的桥':'The crossing'):(zh?'云上的聚落':'The cloud settlement'))
-  return <section id="top" ref={host} tabIndex={-1} className={`ed-settlement ${ready&&!still?'ed-settlement-ready':''} ${exploring?'ed-settlement-playing':''}`} aria-label={zh?'非凡资本 · 云上的聚落':'UniqueCapital · The cloud settlement'}
+  return <><DocumentTitle zh="云上的聚落 | 非凡资本" en="The cloud settlement | UniqueCapital" /><section id="top" ref={host} tabIndex={-1} className={`ed-settlement ${ready&&!still?'ed-settlement-ready':''} ${exploring?'ed-settlement-playing':''}`} aria-label={zh?'非凡资本 · 云上的聚落':'UniqueCapital · The cloud settlement'}
     data-navigation="guided" data-phase={state.phase} data-character-kind={state.characterKind} data-character-loading={state.characterLoading} data-rest-amount={(state.restAmount??0).toFixed(3)} data-intro-progress={state.introProgress.toFixed(3)} data-asset-revision={state.assetRevision} data-character-revision={state.characterRevision} data-weather={state.weather} data-weather-time={state.weatherTime.toFixed(1)} data-location={state.location} data-guiding={state.guiding} data-destinations={destinations.join(',')} data-arrived-destination={state.arrivedDestination??''} data-doorstep-destinations={state.doorstepDestinations?.join(',')??''} data-position={`${state.position.x.toFixed(2)},${state.position.y.toFixed(2)},${state.position.z.toFixed(2)}`} data-fps={state.fps} data-draw-calls={state.drawCalls} data-triangles={state.triangles}
     onKeyDown={e=>{if(exploring&&e.key==='Escape'){exit();return}if(!exploring||e.target!==e.currentTarget)return;if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','shift'].includes(e.key.toLowerCase()))e.preventDefault()}}
     onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))clearInput()}}>
@@ -134,7 +135,7 @@ export function SettlementHero(){
       <p role="status">{zh?'云上，有一个共同构建的世界。':'Above the clouds. A world built together.'}</p>
       <button onClick={()=>{setPaused(false);engine.current?.skipIntro();host.current?.focus({preventScroll:true})}}>{zh?'跳过，开始探索':'Skip to exploration'}<ArrowUpRight size={16}/></button>
     </div>:<>
-      {room&&<aside className="ed-settlement-room"><p>{room.topic}</p><h2>{room.name[lang]}</h2><p>{room.description[lang]}</p><Link href="/research">{zh?'查看相关研究':'Explore the research'}<ArrowRight size={15}/></Link></aside>}
+      {room&&<aside className="ed-settlement-room"><p>{zh ? (state.location==='physical'?'物理智能':state.location==='entertainment'?'文娱':'智能体') : room.topic}</p><h2>{room.name[lang]}</h2><p>{room.description[lang]}</p><Link href="/research">{zh?'查看相关研究':'Explore the research'}<ArrowRight size={15}/></Link></aside>}
       <div className="ed-settlement-help" role="status">{state.characterLoading?(zh?'正在准备角色，完成后从庭院入口开始…':'Preparing your character at the courtyard entrance…'):state.characterError?(zh?'角色暂未加载成功，请重试。当前角色已保留。':'Character could not load. Your current character is retained; please retry.'):state.guideNotice?(zh?'导览暂时中断，请回到起点重试':'Tour interrupted. Return to the start to retry'):state.guiding?(zh?'正在跟随向导 · 拖动视角，沿途看看':'Following the guide · Drag to look around'):atDoorstep?(zh?'房间暂未开放 · 可跟随向导返回庭院':'This room is closed · Follow the guide back to the courtyard'):(zh?'跟随向导参观 · 拖动场景调整视角':'Follow the guide · Drag to look around')}</div>
       <div className="ed-settlement-actions">
         {destinations.length>1&&<label className="ed-settlement-destination"><span className="sr-only">{zh?'探索目的地':'Explore a destination'}</span><select value={selectedDestination} aria-label={zh?'探索目的地':'Explore a destination'} onChange={e=>{clearInput();engine.current?.cancelGuide();setDestination(e.target.value as CloudDestination)}}>{destinations.map(id=><option key={id} value={id}>{ROOMS[id].name[lang]}{state.doorstepDestinations?.includes(id)?(zh?' · 门前':' · Doorstep'):''}</option>)}</select></label>}
@@ -168,5 +169,5 @@ export function SettlementHero(){
       {sceneClip?.dataUrl&&<a download="cloud-scene-review.webm" href={sceneClip.dataUrl} data-asset-revision={state.assetRevision} data-clip-bytes={sceneClip.bytes}>下载场景短片</a>}
     </aside>}
     {exploring&&paused&&<div className="ed-settlement-paused"><span>{zh?'探索已暂停':'Exploration paused'}</span><button onClick={resume}>{zh?'继续':'Resume'}<Play size={15}/></button></div>}
-  </section>
+  </section></>
 }

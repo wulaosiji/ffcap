@@ -28,7 +28,7 @@ export function WorldTeaser() {
           <h2 id="world-teaser-title">{zh ? '云上的聚落' : 'The cloud settlement'}</h2>
           <p>
             {zh
-              ? '三维导览庭院与协作书院仍保留为可选体验。仅在您主动进入时加载 WebGL 场景，不影响首页阅读与搜索性能。'
+              ? '三维导览庭院与协作书院仍保留为可选体验。仅在您主动进入时加载三维场景，不影响首页阅读与搜索性能。'
               : 'The 3D guide courtyard and collaborative academy remain an optional visit. The WebGL scene loads only after you choose to enter, and does not affect reading or search on this page.'}
           </p>
           <Link href="/world" className="ed-link">

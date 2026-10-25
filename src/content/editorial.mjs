@@ -11,7 +11,6 @@ export const LINKS = Object.freeze({
   /** @deprecated alias — use rankingsHub */
   uniqueResearch: "/research/rankings",
   contact: "/contact",
-  rankingApplication: "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg",
   events: "https://uniquebloom.cn/",
   uniqueBaseZh: "https://uniquebase.cn/",
   uniqueBaseEn: "https://uniquebase.ai/",
@@ -69,7 +68,7 @@ export function primaryNavItems(lang = "zh") {
   ];
 }
 
-/** Footer explore column: site menu (no For AI), then the For AI group. */
+/** Footer peer columns: site menu (no For AI), then the For AI group. Products is a third column. */
 export function footerExploreGroups(lang = "zh") {
   const zh = lang !== "en";
   return {
@@ -136,6 +135,58 @@ export function latinEventSubtitle(event) {
   if (!subtitle || CJK.test(subtitle)) return ""
   const latin = subtitle.match(/[A-Za-z]/g)?.length ?? 0
   return latin >= 8 ? subtitle : ""
+}
+
+const EVENT_CITY_EN = [
+  ["北京", "Beijing"],
+  ["上海", "Shanghai"],
+  ["深圳", "Shenzhen"],
+  ["成都", "Chengdu"],
+  ["杭州", "Hangzhou"],
+  ["新加坡", "Singapore"],
+  ["香港", "Hong Kong"],
+  ["南宁", "Nanning"],
+  ["厦门", "Xiamen"],
+  ["拉斯维加斯", "Las Vegas"],
+]
+
+const EVENT_KIND_EN = [
+  [/创造者大会|创造者峰会/, "AI Creator Conference"],
+  [/文娱大会/, "AI Entertainment Conference"],
+  [/物理\s*AI\s*峰会/, "Physical AI Summit"],
+  [/商业大会|商业峰会/, "AI Business Conference"],
+  [/Agent\s*峰会/i, "AI Agent Summit"],
+  [/全球化大会|全球化峰会/, "AI Globalization Conference"],
+  [/东盟峰会/, "AI ASEAN Summit"],
+  [/应用商业峰会|应用峰会/, "AI Application Summit"],
+  [/AI\s*周/, "AI Week"],
+  [/实战营/, "AI Going-Global Workshop"],
+  [/闭门沙龙/, "Closed-door salon"],
+  [/AI\s*峰会/, "AI Summit"],
+]
+
+function englishEventChromeTitle(event, zhTitle) {
+  const year = String(event?.date || zhTitle).match(/20\d{2}/)?.[0] || ""
+  const cityEn = EVENT_CITY_EN.find(([zh]) => zhTitle.includes(zh) || event?.city === zh)?.[1] || ""
+  const hash = zhTitle.includes("#") ? zhTitle.split("#").slice(1).join("#") : ""
+  const hashLatin = hash.replace(/[\u3400-\u9fff]/g, "").replace(/^[\s·.|｜-]+|[\s·.|｜-]+$/g, "").replace(/\s+/g, " ").trim()
+  if (hashLatin && /[A-Za-z]{3,}/.test(hashLatin)) return [cityEn, hashLatin].filter(Boolean).join(" · ")
+  const kind = EVENT_KIND_EN.find(([pattern]) => pattern.test(zhTitle))?.[1]
+  if (kind) return [year, cityEn, kind].filter(Boolean).join(" · ")
+  const stripped = zhTitle.replace(/[\u3400-\u9fff]/g, " ").replace(/[#·|｜]/g, " ").replace(/\s+/g, " ").trim()
+  if (/[A-Za-z]{4,}/.test(stripped)) return [cityEn, stripped].filter(Boolean).join(" · ")
+  return [year, cityEn, "UniqueBloom event"].filter(Boolean).join(" · ")
+}
+
+/** Visible event name. English chrome never falls back to a Chinese title. */
+export function eventChromeTitle(event, lang = "zh") {
+  const zhTitle = typeof event?.title === "string" ? event.title : (event?.title?.zh || "")
+  if (lang !== "en") return zhTitle
+  const latin = latinEventSubtitle(event)
+  if (latin) return latin
+  const stored = typeof event?.title === "object" ? event.title.en : ""
+  if (stored && stored !== zhTitle && !CJK.test(stored)) return stored
+  return englishEventChromeTitle(event, zhTitle)
 }
 
 /** Event row meta. English uses the ISO date plus a clock, and keeps the venue name. */
@@ -214,7 +265,7 @@ export const PRODUCTS = [
     name: { zh: "UniqueBase", en: "UniqueBase" },
     audience: { zh: "面向全球研究者", en: "For researchers worldwide" },
     description: {
-      zh: "全球可访问的 Web 数据产品：覆盖各行业、主题与城市的 AI 公司与相关实体；每条记录带出处与稳定编码，并提供面向 AI 助手与搜索引擎的机器可读版本。",
+      zh: "全球可访问的网页数据产品：覆盖各行业、主题与城市的 AI 公司与相关实体；每条记录带出处与稳定编码，并提供面向 AI 助手与搜索引擎的机器可读版本。",
       en: "A globally accessible web data product: AI companies and related entities across sectors, themes, and cities. Every record includes a source and stable code, with machine-readable formats for AI assistants and search engines.",
     },
     action: { zh: "进入 UniqueBase", en: "Explore UniqueBase" },
@@ -236,7 +287,7 @@ export const PRODUCTS = [
     name: { zh: "有好项目", en: "Good Projects" },
     audience: { zh: "面向认证投资人（微信小程序）", en: "For verified investors (WeChat mini program)" },
     description: {
-      zh: "认证投资人浏览 AI 创业项目并进行 BP 对接。入口为微信小程序，目前主要面向中国大陆用户；海外或非微信环境可能无法打开。",
+      zh: "认证投资人浏览 AI 创业项目并进行商业计划书对接。入口为微信小程序，目前主要面向中国大陆用户；海外或非微信环境可能无法打开。",
       en: "Verified investors browse AI startups and connect via pitch decks. Opens in a WeChat mini program, currently aimed mainly at users in mainland China; overseas or non-WeChat users may be unable to access.",
     },
     action: { zh: "查看项目", en: "Explore projects" },

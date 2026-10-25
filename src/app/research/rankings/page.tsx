@@ -19,7 +19,7 @@ export default function ResearchRankingsHubPage() {
     <main id="main-content" className="ed-container rs-library">
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">UNIQUERESEARCH / DATA & RANKINGS</p>
+          <p className="ed-eyebrow">非凡产研 / 数据与榜单</p>
           <h1>数据与榜单</h1>
           <p>融资、订阅收入、流量与百强等数据文章与榜单解读。在 ffcap.cn 阅读全文与引用说明。</p>
           <p>
@@ -29,7 +29,7 @@ export default function ResearchRankingsHubPage() {
             {' · '}
             <a href={uniqueBaseHref('zh')} target="_blank" rel="noopener noreferrer">UniqueBase 查库 ↗</a>
             {' · '}
-            <a href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">申报 AI 榜单 ↗</a>
+            <Link href="/products/uniquebase">UniqueBase 产品介绍</Link>
           </p>
         </div>
         <div className="rs-total">
@@ -59,9 +59,9 @@ export default function ResearchRankingsHubPage() {
       </div>
 
       <p className="rs-source-note">
-        需要申报下一期榜单？请使用
-        <a href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">官方申报表单 ↗</a>
-        。历史静态入口 rankings.html 仍保留，但本站默认从此页进入榜单阅读。
+        历史静态入口 rankings.html 仍保留，但本站默认从此页进入榜单阅读。公司事实见
+        <Link href="/products/uniquebase"> UniqueBase 产品介绍</Link>
+        。
       </p>
     </main>
   )

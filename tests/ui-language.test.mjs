@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { AGENT_PROMPT_TEXT, AGENT_PROMPT_TEXT_EN } from '../src/content/home-agent-kit.mjs'
-import { EVENTS, eventScheduleLine } from '../src/content/editorial.mjs'
+import { EVENTS, eventChromeTitle, eventScheduleLine } from '../src/content/editorial.mjs'
 import { FAQ_ITEMS, FAQ_ITEMS_EN } from '../src/content/home-faq.mjs'
 import { homeLatestAnnouncement, homeLatestEnglishAnnouncement } from '../src/content/home-announcement.mjs'
 
@@ -26,6 +26,16 @@ test('english event titles use a latin subtitle or the public name', () => {
       assert.doesNotMatch(event.title.en, /[\u3400-\u9fff]/, event.slug)
     }
   }
+})
+
+test('english event chrome titles do not fall back to Chinese', () => {
+  for (const event of EVENTS) {
+    assert.doesNotMatch(eventChromeTitle(event, 'en'), /[\u3400-\u9fff]/, event.slug || event.title.zh)
+  }
+  const beijing = EVENTS.find(event => event.slug === '2026bj')
+  assert.match(eventChromeTitle(beijing, 'zh'), /非凡大赏/)
+  assert.match(eventChromeTitle(beijing, 'en'), /Beijing/)
+  assert.doesNotMatch(eventChromeTitle(beijing, 'en'), /非凡/)
 })
 
 test('english event schedule drops Chinese date words and keeps the venue', () => {

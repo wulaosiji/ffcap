@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
 
 const copy = {
@@ -15,9 +16,9 @@ const copy = {
     intro: IDENTITY.description,
     detail: '从研究与榜单，到主题活动与协作产品，我们关注同一个问题：新的技术，如何进入真实的业务与生活。',
     pillars: [
-      ['01 / RESEARCH', '建立理解', '研究前沿技术、产品与产业变化。通过趋势研究、榜单与产业观察，把值得关注的问题带入讨论。'],
-      ['02 / CONNECT', '组织连接', '围绕具体议题组织活动、研学与社群交流，让创业者、投资人和产业伙伴找到彼此。'],
-      ['03 / BUILD', '支持协作', '围绕项目展示、活动现场与投融资对接开发产品，让一次连接有继续发生的入口。'],
+      ['01 / 研究', '建立理解', '研究前沿技术、产品与产业变化。通过趋势研究、榜单与产业观察，把值得关注的问题带入讨论。'],
+      ['02 / 连接', '组织连接', '围绕具体议题组织活动、研学与社群交流，让创业者、投资人和产业伙伴找到彼此。'],
+      ['03 / 构建', '支持协作', '围绕项目展示、活动现场与投融资对接开发产品，让一次连接有继续发生的入口。'],
     ],
     directionsEyebrow: '研究方向',
     directionsTitle: '持续追踪 AI 的三条演进路径。',
@@ -27,10 +28,9 @@ const copy = {
     productsTitle: '让连接有一个具体的起点。',
     ecosystemEyebrow: '活动与生态',
     ecosystemTitle: '从共同关注的问题，走向真实的交流。',
-    ecosystemBody: '通过主题大会、开放日、研学与社群交流，我们把研究议题带到现场。你可以查看公开研究、关注近期活动，或提交项目参与 AI 榜单。',
+    ecosystemBody: '通过主题大会、开放日、研学与社群交流，我们把研究议题带到现场。你可以查看公开研究，或关注近期活动。',
     reports: '阅读研究与榜单',
     events: '查看活动日历',
-    apply: '申报 AI 榜单',
     contact: '联系我们',
   },
   en: {
@@ -51,10 +51,9 @@ const copy = {
     productsTitle: 'A practical starting point for each connection.',
     ecosystemEyebrow: 'Events & ecosystem',
     ecosystemTitle: 'Turn shared questions into real conversations.',
-    ecosystemBody: 'Through conferences, open days, learning programs, and community conversations, we bring research topics into the room. Explore our public research, find an upcoming event, or submit a project for the AI rankings.',
+    ecosystemBody: 'Through conferences, open days, learning programs, and community conversations, we bring research topics into the room. Explore our public research, or find an upcoming event.',
     reports: 'Read research and rankings',
     events: 'Explore the event calendar',
-    apply: 'Apply for AI rankings',
     contact: 'Contact us',
   },
 }
@@ -65,6 +64,7 @@ export function EditorialAbout() {
 
   return (
     <EditorialShell>
+      <DocumentTitle zh="关于我们 · 非凡资本" en="About · UniqueCapital" />
       <main className="ed-about" id="main-content">
         <section className="ed-container ed-about-intro" id="top" aria-labelledby="about-title">
           <p className="ed-eyebrow">{text.eyebrow}</p>
@@ -162,9 +162,6 @@ export function EditorialAbout() {
             <Link className="ed-link" href={LINKS.contact}>
               {text.contact}<ArrowRight size={18} aria-hidden="true" />
             </Link>
-            <a className="ed-link" href={LINKS.rankingApplication} target="_blank" rel="noopener noreferrer">
-              {text.apply}<ArrowUpRight size={18} aria-hidden="true" />
-            </a>
           </div>
         </section>
       </main>

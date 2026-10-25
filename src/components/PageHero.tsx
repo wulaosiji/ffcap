@@ -74,10 +74,10 @@ export function PageHero({
   title, 
   subtitle, 
   showButton = false, 
-  buttonText = "立即提交您的AI应用",
-  buttonHref = "/submit",
+  buttonText,
+  buttonHref = "/research/rankings",
   showBadge = true,
-  badgeText = "现已上线",
+  badgeText,
   showStats = true,
   statsType = 'default',
   showExploreButton = false,
@@ -85,6 +85,8 @@ export function PageHero({
 }: PageHeroProps) {
   const { lang } = useLang()
   const config = STATS_CONFIG[statsType] || STATS_CONFIG.default
+  const resolvedButtonText = buttonText ?? (lang === 'zh' ? '查看数据与榜单' : 'View data and rankings')
+  const resolvedBadge = badgeText ?? (lang === 'zh' ? '现已上线' : 'Available now')
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden w-full bg-background">
@@ -94,7 +96,7 @@ export function PageHero({
         {showBadge && (
           <Badge variant="secondary" className="mb-8 inline-flex items-center justify-center border-primary/20">
             <Zap className="w-3 h-3 mr-1 text-primary" />
-            {badgeText}
+            {resolvedBadge}
           </Badge>
         )}
         <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-brand animate-fade-in">
@@ -107,7 +109,7 @@ export function PageHero({
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 animate-fade-in">
             <a href={buttonHref} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="group h-12 px-8 gradient-brand-bg text-white border-0 hover:opacity-90">
-                {buttonText}
+                {resolvedButtonText}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>

@@ -6,7 +6,7 @@ import { ProductsHub } from '@/components/editorial-home/ProductsHub'
 export const metadata: Metadata = {
   title: '产品矩阵 · 非凡资本',
   description:
-    'UniqueResearch、UniqueBase、UniqueBloom 与有好项目：问卷与报告查阅、全球数据与活动 Web 产品，以及投资人项目对接。',
+    'UniqueResearch、UniqueBase、UniqueBloom 与有好项目：问卷与报告查阅、全球数据与活动网页产品，以及投资人项目对接。',
   alternates: { canonical: `${SITE_URL}/products` },
 }
 
