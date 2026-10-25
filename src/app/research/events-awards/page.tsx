@@ -19,7 +19,7 @@ export default function ResearchEventsAwardsHubPage() {
     <main id="main-content" className="ed-container rs-library">
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">UNIQUERESEARCH / EVENTS & AWARDS</p>
+          <p className="ed-eyebrow">非凡产研 / 活动与奖项</p>
           <h1>活动与奖项</h1>
           <p>
             汇集奖项结果披露，以及大会、峰会与开放日等活动资讯。文章在本站阅读；现场报名与日程以 UniqueBloom 为准。

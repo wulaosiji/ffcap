@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
 
 const copy = {
@@ -15,9 +16,9 @@ const copy = {
     intro: IDENTITY.description,
     detail: '从研究与榜单，到主题活动与协作产品，我们关注同一个问题：新的技术，如何进入真实的业务与生活。',
     pillars: [
-      ['01 / RESEARCH', '建立理解', '研究前沿技术、产品与产业变化。通过趋势研究、榜单与产业观察，把值得关注的问题带入讨论。'],
-      ['02 / CONNECT', '组织连接', '围绕具体议题组织活动、研学与社群交流，让创业者、投资人和产业伙伴找到彼此。'],
-      ['03 / BUILD', '支持协作', '围绕项目展示、活动现场与投融资对接开发产品，让一次连接有继续发生的入口。'],
+      ['01 / 研究', '建立理解', '研究前沿技术、产品与产业变化。通过趋势研究、榜单与产业观察，把值得关注的问题带入讨论。'],
+      ['02 / 连接', '组织连接', '围绕具体议题组织活动、研学与社群交流，让创业者、投资人和产业伙伴找到彼此。'],
+      ['03 / 构建', '支持协作', '围绕项目展示、活动现场与投融资对接开发产品，让一次连接有继续发生的入口。'],
     ],
     directionsEyebrow: '研究方向',
     directionsTitle: '持续追踪 AI 的三条演进路径。',
@@ -63,6 +64,7 @@ export function EditorialAbout() {
 
   return (
     <EditorialShell>
+      <DocumentTitle zh="关于我们 · 非凡资本" en="About · UniqueCapital" />
       <main className="ed-about" id="main-content">
         <section className="ed-container ed-about-intro" id="top" aria-labelledby="about-title">
           <p className="ed-eyebrow">{text.eyebrow}</p>

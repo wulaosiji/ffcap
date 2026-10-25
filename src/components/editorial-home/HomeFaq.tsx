@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { SectionIndex } from './SectionIndex'
 import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
+import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
 
 export type FaqItem = { question: string; answer: string }
@@ -50,6 +51,7 @@ export function EditorialFaq({ zhItems, enItems }: { zhItems: FaqItem[]; enItems
 
   return (
     <EditorialShell>
+      <DocumentTitle zh="常见问题 | 非凡资本" en="FAQ | UniqueCapital" />
       <main id="main-content">
         <div className="ed-container rs-detail ed-section">
           <header className="rs-article-header">

@@ -8,7 +8,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import logo from '@/assets/ffcap-logo-mark.png'
-import { CONTENT, LINKS, PRODUCTS, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref } from '@/content/editorial.mjs'
+import { CONTENT, LINKS, PRODUCTS, eventChromeTitle, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref } from '@/content/editorial.mjs'
 import { englishSlugForChinese, relatedChineseSlug } from '@/content/research/english-related.mjs'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
@@ -98,7 +98,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
                 <Link href={`${zh ? '/research' : '/en/research'}${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`} className="ed-search-result" onClick={() => setSearchOpen(false)}><span><small>{zh ? '站内文章 · 全文检索' : 'ENGLISH ARTICLES · FULL-TEXT SEARCH'}</small><strong>{query.trim() ? (zh ? `搜索研究文章：“${query.trim()}”` : `Search articles: “${query.trim()}”`) : (zh ? '浏览非凡产研全部文章' : 'Browse English research articles')}</strong></span><ArrowRight size={20}/></Link>
                 {results.map(item => {
                   const internal = item.href.startsWith('/')
-                  const body = <span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.title[lang]}</strong></span>
+                  const body = <span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.kind === 'event' ? eventChromeTitle(item, lang) : item.title[lang]}</strong></span>
                   return internal
                     ? <Link key={item.id} href={item.href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
                     : <OutLink key={item.id} href={item.href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>

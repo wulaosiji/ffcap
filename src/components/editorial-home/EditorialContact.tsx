@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { CONTACT } from '@/content/contact.mjs'
 import { LINKS } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell, OutLink } from './EditorialShell'
 
 const copy = {
@@ -37,6 +38,7 @@ export function EditorialContact() {
 
   return (
     <EditorialShell>
+      <DocumentTitle zh="联系我们 · 非凡资本 UniqueCapital" en="Contact · UniqueCapital" />
       <main className="ed-about" id="main-content">
         <section className="ed-container ed-about-intro" aria-labelledby="contact-title">
           <p className="ed-eyebrow">{text.eyebrow}</p>

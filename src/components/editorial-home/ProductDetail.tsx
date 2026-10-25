@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { PRODUCTS, productExternalHref } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 
 const copy = {
   zh: {
@@ -37,6 +38,7 @@ export function ProductDetail({ slug }: { slug: string }) {
 
   return (
     <main id="main-content" className="ed-container rs-detail" lang={lang === 'en' ? 'en' : 'zh-CN'}>
+      <DocumentTitle zh={`${product.name.zh} · 产品 | 非凡资本`} en={`${product.name.en} · Product | UniqueCapital`} />
       <header className="rs-article-header">
         <p className="ed-eyebrow">{text.kicker} / {product.audience[lang]}</p>
         <h1>{product.name[lang]}</h1>

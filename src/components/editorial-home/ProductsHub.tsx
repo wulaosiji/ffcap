@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
 import { PRODUCTS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { DocumentTitle } from './DocumentTitle'
 
 const copy = {
   zh: {
     eyebrow: '为构建者而生',
     title: '产品矩阵',
-    intro: '从洞察到行动：小程序内的问卷与报告查阅、全球 Web 数据与活动，以及投资人项目对接。',
+    intro: '从洞察到行动：小程序内的问卷与报告查阅、全球网页数据与活动，以及投资人项目对接。',
     count: '款产品',
     details: '查看介绍',
   },
@@ -28,6 +29,7 @@ export function ProductsHub() {
 
   return (
     <main id="main-content" className="ed-container rs-library" lang={lang === 'en' ? 'en' : 'zh-CN'}>
+      <DocumentTitle zh="产品矩阵 · 非凡资本" en="Products · UniqueCapital" />
       <div className="rs-intro">
         <div>
           <p className="ed-eyebrow">{text.eyebrow}</p>

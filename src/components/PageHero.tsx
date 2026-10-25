@@ -77,7 +77,7 @@ export function PageHero({
   buttonText,
   buttonHref = "/research/rankings",
   showBadge = true,
-  badgeText = "现已上线",
+  badgeText,
   showStats = true,
   statsType = 'default',
   showExploreButton = false,
@@ -86,6 +86,7 @@ export function PageHero({
   const { lang } = useLang()
   const config = STATS_CONFIG[statsType] || STATS_CONFIG.default
   const resolvedButtonText = buttonText ?? (lang === 'zh' ? '查看数据与榜单' : 'View data and rankings')
+  const resolvedBadge = badgeText ?? (lang === 'zh' ? '现已上线' : 'Available now')
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden w-full bg-background">
@@ -95,7 +96,7 @@ export function PageHero({
         {showBadge && (
           <Badge variant="secondary" className="mb-8 inline-flex items-center justify-center border-primary/20">
             <Zap className="w-3 h-3 mr-1 text-primary" />
-            {badgeText}
+            {resolvedBadge}
           </Badge>
         )}
         <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-brand animate-fade-in">
