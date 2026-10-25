@@ -177,6 +177,10 @@
 .ed-about-ecosystem h2{font-size:clamp(29px,3.4vw,48px);margin:20px 0 24px;max-width:800px;line-height:1.4}
 .ed-about-ecosystem>p:not(.ed-eyebrow){max-width:730px;font-size:15px;line-height:2;color:var(--ed-muted)}
 .ed-about-ecosystem>div{display:flex;flex-wrap:wrap;gap:24px;margin-top:28px}
+.ed-contact-card{display:grid;gap:28px;margin-top:8px}
+.ed-contact-card dt{margin-bottom:8px}
+.ed-contact-card dd{margin:0;font-size:16px;line-height:1.85;color:var(--ed-ink)}
+.ed-contact-card dd strong{font-size:20px;letter-spacing:-.02em}
 .ed-will-reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
 .ed-will-reveal.ed-visible{opacity:1;transform:translateY(0)}
 @keyframes ed-fade-in{from{opacity:0}to{opacity:1}}

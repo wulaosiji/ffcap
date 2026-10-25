@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Logo } from "@/components/Logo"
 import { homeTexts } from "@/content/homeTexts"
 import { useLang } from "@/context/LangContext"
-import { LINKS } from "@/content/editorial.mjs"
+import { LINKS, uniqueBaseHref } from "@/content/editorial.mjs"
 import { SITE_LINKS } from "@/components/narrative-home/linkMap.mjs"
 import { SocialLinks } from "@/components/editorial-home/SocialLinks"
 import { IcpFilingLink } from "@/components/IcpFilingLink"
@@ -26,12 +26,12 @@ export function Footer() {
             <h3 className="font-semibold mb-4">{homeTexts[lang].footer.product}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href={LINKS.uniqueResearch} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                <Link href="/research" className="hover:text-foreground transition-colors">
                   UniqueResearch
-                </a>
+                </Link>
               </li>
               <li>
-                <a href={SITE_LINKS.uniqueBase} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                <a href={uniqueBaseHref(lang)} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                   {homeTexts[lang].footer.uniqueBase}
                 </a>
               </li>
@@ -51,9 +51,14 @@ export function Footer() {
             <h3 className="font-semibold mb-4">{homeTexts[lang].footer.services}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href={SITE_LINKS.report} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                  {lang === 'zh' ? '研究与榜单' : 'Research & Rankings'}
-                </a>
+                <Link href={lang === 'zh' ? '/research' : '/en/research'} className="hover:text-foreground transition-colors">
+                  {lang === 'zh' ? '研究与洞察' : 'Research'}
+                </Link>
+              </li>
+              <li>
+                <Link href={LINKS.rankingsHub} className="hover:text-foreground transition-colors">
+                  {lang === 'zh' ? 'AI 榜单' : 'AI Rankings'}
+                </Link>
               </li>
               <li>
                 <Link href="/#ecosystem" className="hover:text-foreground transition-colors">
@@ -73,6 +78,11 @@ export function Footer() {
               <li>
                 <Link href={SITE_LINKS.about} className="hover:text-foreground transition-colors">
                   {homeTexts[lang].footer.about}
+                </Link>
+              </li>
+              <li>
+                <Link href={LINKS.contact} className="hover:text-foreground transition-colors">
+                  {homeTexts[lang].footer.contact}
                 </Link>
               </li>
               <li>

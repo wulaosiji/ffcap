@@ -44,7 +44,7 @@ export const FAQ_ITEMS = [
   },
   {
     question: '在哪里查看 AI 榜单或申报？',
-    answer: `公开 AI 产品榜单与报告入口：${LINKS.report} 与 ${LINKS.uniqueResearch}。申报榜单见运营提供的表单入口（站内链至 ${LINKS.rankingApplication}）。`,
+    answer: `研究与榜单文章：${SITE_URL}${LINKS.report} 与 ${SITE_URL}${LINKS.rankingsHub}。申报榜单见运营提供的表单入口（${LINKS.rankingApplication}）。`,
   },
   {
     question: 'AI agent 如何读取本站？',

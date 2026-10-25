@@ -24,7 +24,7 @@ export default function Navbar() {
 
   const rawNavItems = [
     { id: 'home', href: "/", label: lang === 'zh' ? '首页' : 'Home' },
-    { id: 'research', href: SITE_LINKS.report, label: lang === 'zh' ? '研究与榜单' : 'Research & Rankings', external: true },
+    { id: 'research', href: SITE_LINKS.report, label: lang === 'zh' ? '研究与洞察' : 'Research' },
     { id: 'products', href: "/#products", label: lang === 'zh' ? '产品矩阵' : 'Products' },
     { id: 'ecosystem', href: "/#ecosystem", label: lang === 'zh' ? '活动与生态' : 'Activities & Ecosystem' },
     { id: 'about', href: SITE_LINKS.about, label: lang === 'zh' ? '关于我们' : 'About Us' }
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   // 根据子域名状态调整链接
   const navItems = rawNavItems.map(item => {
-    if (item.external) return item
+    if ('external' in item && item.external) return item
     const nav = getNavHref(item.href, subdomainInfo)
     return { ...item, href: nav.href, external: nav.isExternal }
   })

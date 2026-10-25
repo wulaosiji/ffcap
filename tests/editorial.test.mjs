@@ -27,13 +27,15 @@ test("editorial content preserves verified public destinations and three researc
     assert.ok(event.date && event.title.zh && event.location.zh);
   }
   assert.equal(CONTENT.filter(item => item.kind === 'publication').length, 1);
-  assert.equal(LINKS.report, "https://ffcap.cn/report.html");
+  assert.equal(LINKS.report, "/research");
+  assert.equal(LINKS.rankingsHub, "/research/rankings");
+  assert.equal(LINKS.contact, "/contact");
   assert.equal(LINKS.events, "https://uniquebloom.cn/");
   assert.equal(LINKS.rankingApplication, "https://uniquecapital.feishu.cn/share/base/form/shrcn5cWrPZAThRZgxd5zBf9Cxg");
   assert.deepEqual(PRODUCTS.map(({ href }) => href), [
-    "https://ffcap.cn/rankings.html",
-    "https://uniquebase.ai/",
-    "https://ffcap.cn/open.html",
+    "/research/rankings",
+    "https://uniquebase.cn/",
+    "https://uniquebloom.cn/",
     "https://ffcap.cn/bp.html",
   ]);
   const published = JSON.stringify({ TOPICS, CONTENT, PRODUCTS, LINKS });

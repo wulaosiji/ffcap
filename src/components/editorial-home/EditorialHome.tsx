@@ -4,8 +4,30 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash, uniqueBaseHref } from '@/content/editorial.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
+
+function productHref(product: (typeof PRODUCTS)[number], lang: 'zh' | 'en') {
+  if (product.id === 'uniquebase') return uniqueBaseHref(lang)
+  return product.href
+}
+
+function ProductCard({ product, lang, index }: { product: (typeof PRODUCTS)[number]; lang: 'zh' | 'en'; index: number }) {
+  const href = productHref(product, lang)
+  const className = 'ed-product'
+  const body = (
+    <>
+      <div className="ed-product-top"><span>0{index + 1}</span><span>{product.audience[lang]}</span></div>
+      <h3>{product.name[lang]}</h3>
+      <p>{product.description[lang]}</p>
+      <span className="ed-link">{product.action[lang]}<ArrowUpRight size={20}/></span>
+    </>
+  )
+  if (href.startsWith('/')) {
+    return <Link href={href} className={className}>{body}</Link>
+  }
+  return <OutLink href={href} className={className}>{body}</OutLink>
+}
 import { ResearchHighlights } from './ResearchHighlights'
 import { SectionIndex } from './SectionIndex'
 import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
@@ -69,7 +91,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
             {zh && topic !== 'all' && <div className="ed-topic-summary"><p className="ed-eyebrow">研究议题</p><h3>{TOPICS.find(t => t.id === topic)?.title[lang]}</h3><p>{TOPICS.find(t => t.id === topic)?.description[lang]}</p></div>}
             <ResearchHighlights topic={topic}/>
           </div>
-          <aside className="ed-research-aside"><p className="ed-eyebrow">UNIQUERESEARCH</p><h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3><p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p><OutLink href={LINKS.report} className="ed-aside-link"><span>{zh ? '研究报告与榜单' : 'Research & rankings'}</span><ArrowUpRight size={17}/></OutLink><OutLink href={LINKS.rankingApplication} className="ed-aside-link"><span>{zh ? '申报 AI 榜单' : 'Apply for AI rankings'}</span><ArrowUpRight size={17}/></OutLink><OutLink href={LINKS.events} className="ed-aside-link"><span>{zh ? '活动与公开交流' : 'Events & conversations'}</span><ArrowUpRight size={17}/></OutLink><p className="ed-aside-note">{zh ? '研究入口将打开非凡产研；可选择浏览器版或微信小程序。' : 'The research portal offers web and WeChat access.'}</p></aside>
+          <aside className="ed-research-aside"><p className="ed-eyebrow">UNIQUERESEARCH</p><h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3><p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p><Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察文章库' : 'Research article library'}</span><ArrowRight size={17}/></Link><Link href={LINKS.rankingsHub} className="ed-aside-link"><span>{zh ? 'AI 榜单精选' : 'Curated rankings'}</span><ArrowRight size={17}/></Link><OutLink href={LINKS.rankingApplication} className="ed-aside-link"><span>{zh ? '申报 AI 榜单' : 'Apply for AI rankings'}</span><ArrowUpRight size={17}/></OutLink><OutLink href={LINKS.events} className="ed-aside-link"><span>{zh ? '活动与公开交流' : 'Events & conversations'}</span><ArrowUpRight size={17}/></OutLink><p className="ed-aside-note">{zh ? '文章与榜单在本站阅读；查库请使用 UniqueBase。' : 'Read articles and rankings on ffcap.cn; use UniqueBase to query structured data.'}</p></aside>
         </div>
       </section>
 
@@ -85,12 +107,12 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
 
       <section id="products" className="ed-container ed-section ed-reveal">
         <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><p className="ed-heading-note">{zh ? `${PRODUCTS.length} 款产品，为真实协作而生。` : `${PRODUCTS.length} products. Real collaboration.`}</p></div>
-        <div className="ed-products">{PRODUCTS.map((p, i) => <OutLink href={p.href} key={p.id} className="ed-product"><div className="ed-product-top"><span>0{i+1}</span><span>{p.audience[lang]}</span></div><h3>{p.name[lang]}</h3><p>{p.description[lang]}</p><span className="ed-link">{p.action[lang]}<ArrowUpRight size={20}/></span></OutLink>)}</div>
+        <div className="ed-products">{PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} lang={lang} index={i} />)}</div>
       </section>
 
       {tail}
 
-      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">THE FUTURE IS A COLLECTIVE EFFORT.</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link></div></section>
+      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">THE FUTURE IS A COLLECTIVE EFFORT.</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link><Link href={LINKS.contact} className="ed-link" style={{ marginLeft: '1.5rem' }}>{zh ? '联系我们' : 'Contact us'}<ArrowRight size={25}/></Link></div></section>
     </main>
   </EditorialShell>
 }

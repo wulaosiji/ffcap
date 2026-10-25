@@ -59,4 +59,32 @@ export function organizationGraph() {
 export function breadcrumbs(items) {
   return { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ name: '首页', url: '/' }, ...items].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, item: new URL(item.url, SITE_URL).href })) }
 }
+
+export function contactPageGraph() {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@id': `${SITE_URL}/#organization` },
+      {
+        '@type': 'ContactPage',
+        '@id': `${SITE_URL}/contact#webpage`,
+        url: `${SITE_URL}/contact`,
+        name: '联系我们 · UniqueCapital',
+        inLanguage: ['zh-CN', 'en'],
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${SITE_URL}/#organization` },
+        mainEntity: {
+          '@type': 'Organization',
+          '@id': `${SITE_URL}/#organization`,
+          contactPoint: {
+            '@type': 'ContactPoint',
+            contactType: 'customer support',
+            email: 'delta.wu@ffcap.cn',
+            availableLanguage: ['Chinese', 'English'],
+          },
+        },
+      },
+    ],
+  }
+}
 export function serializeStructuredData(value) { return JSON.stringify(value).replaceAll('<', '\\u003c') }
