@@ -271,8 +271,8 @@ test("editorial product surfaces use the shared primary CTA", async () => {
     ["home", "../src/components/editorial-home/EditorialHome.tsx"],
     ["about", "../src/components/editorial-home/EditorialAbout.tsx"],
     ["shell", "../src/components/editorial-home/EditorialShell.tsx"],
-    ["hub", "../src/app/(knowledge)/products/page.tsx"],
-    ["detail", "../src/app/(knowledge)/products/[slug]/page.tsx"],
+    ["hub", "../src/components/editorial-home/ProductsHub.tsx"],
+    ["detail", "../src/components/editorial-home/ProductDetail.tsx"],
     ["footer", "../src/components/Footer.tsx"],
   ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")]));
   const source = Object.fromEntries(files);

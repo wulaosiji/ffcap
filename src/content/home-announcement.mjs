@@ -42,3 +42,18 @@ export function homeLatestAnnouncement() {
     source: highlights[0]?.slug === latest.slug ? 'highlights' : 'catalog',
   }
 }
+
+/** English homepage announcement. Does not fall back to the Chinese archive. */
+export function homeLatestEnglishAnnouncement() {
+  const highlights = readJson('english-highlights.json')
+  const latest = highlights[0]
+  if (!latest?.slug || !latest.title) return null
+  return {
+    title: latest.title,
+    date: String(latest.publishedAt || '').slice(0, 10),
+    href: `/en/research/${latest.slug}`,
+    stat: announcementKeyStat(latest.title, latest.summary),
+    summary: announcementSummary(latest.summary),
+    source: 'english-highlights',
+  }
+}

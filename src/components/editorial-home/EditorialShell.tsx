@@ -121,7 +121,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
             <Dialog.Overlay className="ed-overlay"/>
             <Dialog.Content className={`ed-dialog ed-menu-dialog ${cinematic ? 'ed-menu-from-left' : ''}`} lang={lang}>
               <div className="ed-dialog-top"><Dialog.Title>{zh ? '非凡资本' : 'UniqueCapital'}</Dialog.Title><Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭导航菜单' : 'Close navigation menu'}><X size={24} strokeWidth={1.4}/></Dialog.Close></div>
-              <Dialog.Description className="ed-eyebrow">RESEARCH. CONNECT. BUILD.</Dialog.Description>
+              <Dialog.Description className="ed-eyebrow">{zh ? '研究。连接。构建。' : 'RESEARCH. CONNECT. BUILD.'}</Dialog.Description>
               <nav aria-label={zh ? '完整导航' : 'Full navigation'}>{nav.map((n, i) => n.href.startsWith('http') ? <OutLink key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowUpRight size={23}/></OutLink> : <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowRight size={23}/></Link>)}</nav>
               <div className="ed-menu-bottom"><p>{zh ? '让研究进入真实世界。' : 'Bring research into the real world.'}</p><Link href={zh ? "/research" : "/en/research"} className="ed-link" onClick={() => setMenuOpen(false)}>{zh ? '非凡产研 · 文章库' : 'UniqueResearch articles'}<ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-link">{zh ? '活动日历' : 'Event calendar'}<ArrowUpRight size={17}/></OutLink></div>
             </Dialog.Content>

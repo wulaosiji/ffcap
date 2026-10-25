@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -87,7 +87,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div>
 
       <section id="research" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">OUR PERSPECTIVE {zh && <SectionIndex index={HOME_SECTION_INDEX.research} />}</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入完整研究库' : 'Explore the research library'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '研究视角' : 'OUR PERSPECTIVE'} {zh && <SectionIndex index={HOME_SECTION_INDEX.research} />}</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入完整研究库' : 'Explore the research library'}<ArrowRight size={19}/></Link></div>
         {zh && <div className="ed-filters" role="group" aria-label="按研究方向筛选">{[{ id: 'all', name: '全部' }, ...TOPICS].map(t => <button key={t.id} aria-pressed={topic === t.id} onClick={() => setTopic(t.id)}>{t.name}</button>)}</div>}
         <div className="ed-research-layout">
           <div>
@@ -99,14 +99,14 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </section>
 
       <section id="ecosystem" className="ed-events ed-reveal"><div className="ed-container">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">IN GOOD COMPANY {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href="/events" className="ed-link">{zh ? '更多活动文章' : 'More event briefs'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '与同路人' : 'IN GOOD COMPANY'} {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href="/events" className="ed-link">{zh ? '更多活动文章' : 'More event briefs'}<ArrowRight size={19}/></Link></div>
         <p className="ed-section-intro">{zh ? '列表顺序与 UniqueBloom 公开活动一致；点击前往报名页。完整日历见 UniqueBloom。' : 'Listed in UniqueBloom public order; each row opens sign-up on UniqueBloom.'}</p>
         <div className="ed-event-list">{homeEvents.map(event => {
           const status = now === null ? 'event' : eventStatus(event, now)
           const signupHref = event.bloomHref ?? event.href
           return <OutLink key={event.id} href={signupHref} className="ed-event-row ed-event-row-main">
             <div className="ed-event-date"><strong>{event.date.slice(5).replace('-', '.')}</strong><span>{event.date.slice(0, 4)}</span></div>
-            <div><span className="ed-eyebrow">{TOPICS.find(t => t.id === event.topic)?.name}</span><h3>{event.title[lang]}</h3><p>{event.location?.[lang]}{event.timeText ? ` · ${event.timeText}` : ''}</p></div>
+            <div><span className="ed-eyebrow">{TOPICS.find(t => t.id === event.topic)?.name}</span><h3>{event.title[lang]}</h3><p>{eventScheduleLine(event, lang)}</p></div>
             <span className={`ed-event-status ${status === 'upcoming' || status === 'live' ? 'ed-accent' : ''}`}>{statusLabels[lang][status]}</span>
             <ArrowUpRight size={26} strokeWidth={1.3}/>
           </OutLink>
@@ -115,13 +115,13 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div></section>
 
       <section id="products" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">BUILT FOR BUILDERS {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '为构建者而生' : 'BUILT FOR BUILDERS'} {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
         <div className="ed-products">{PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} lang={lang} index={i} />)}</div>
       </section>
 
       {tail}
 
-      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">THE FUTURE IS A COLLECTIVE EFFORT.</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link><Link href={LINKS.contact} className="ed-link" style={{ marginLeft: '1.5rem' }}>{zh ? '联系我们' : 'Contact us'}<ArrowRight size={25}/></Link></div></section>
+      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">{zh ? '未来是共同的事业' : 'THE FUTURE IS A COLLECTIVE EFFORT.'}</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link><Link href={LINKS.contact} className="ed-link" style={{ marginLeft: '1.5rem' }}>{zh ? '联系我们' : 'Contact us'}<ArrowRight size={25}/></Link></div></section>
     </main>
   </EditorialShell>
 }

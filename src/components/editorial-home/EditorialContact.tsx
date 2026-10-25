@@ -64,7 +64,7 @@ export function EditorialContact() {
         </section>
 
         <section className="ed-container ed-about-ecosystem" aria-labelledby="contact-links-title">
-          <p className="ed-eyebrow">RESEARCH · RANKINGS · DATA</p>
+          <p className="ed-eyebrow">{lang === 'zh' ? '研究 · 榜单 · 数据' : 'RESEARCH · RANKINGS · DATA'}</p>
           <h2 id="contact-links-title">{lang === 'zh' ? '站内阅读与数据入口' : 'On-site reading & data'}</h2>
           <p>{lang === 'zh' ? '研究报告与榜单文章在本站阅读；需要结构化公司事实时可使用 UniqueBase。' : 'Read reports and ranking articles on ffcap.cn; use UniqueBase when you need structured company facts.'}</p>
           <div>
