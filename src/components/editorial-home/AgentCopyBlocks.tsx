@@ -35,14 +35,14 @@ export function AgentCopyBlocks({
   curlArticle,
 }: {
   promptText: string
-  curlLlms: string
+  curlLlms?: string
   curlLatest?: string
   curlArticle?: string
 }) {
   return (
     <div className="ed-agent-copy-stack" aria-label="给 AI 可复制指令">
       <CopyBlock label="Agent 提示词" text={promptText} />
-      <CopyBlock label="curl llms.txt" text={curlLlms} />
+      {curlLlms ? <CopyBlock label="curl llms.txt" text={curlLlms} /> : null}
       {curlLatest ? <CopyBlock label="curl latest.md" text={curlLatest} /> : null}
       {curlArticle ? <CopyBlock label="curl 单篇 Markdown" text={curlArticle} /> : null}
     </div>

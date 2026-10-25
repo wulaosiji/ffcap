@@ -243,7 +243,8 @@
 .ed-research-hero__ctas{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin:14px 0 10px}
 .ed-research-hero__cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;min-height:44px;border-bottom:1px solid currentColor}
 .ed-research-hero__cta-primary{background:var(--ed-ink);color:var(--ed-paper)!important;padding:0 18px;border:0}
-.ed-research-hero__agents-wrap{margin-top:4px}
+.ed-research-hero__agents-wrap{margin-top:18px;padding-top:16px;border-top:1px solid var(--ed-rule)}
+.ed-research-hero__agents-label{font-weight:500;color:var(--ed-ink);margin-right:6px}
 .ed-research-hero__agents{font-size:11px;color:var(--ed-muted);line-height:1.7;margin:0 0 10px}
 .ed-research-hero__agents a{border-bottom:1px solid var(--ed-rule)}
 .ed-agent-copy-stack{display:grid;gap:8px}

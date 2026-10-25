@@ -1,15 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
-import {
-  HOME_SEARCH_TABS,
-  homeSearchDestination,
-  homeSearchImplicitSubmitNavigates,
-  previewArticleMatches,
-} from '@/content/home-hero-search.mjs'
+import { previewArticleMatches } from '@/content/home-hero-search.mjs'
 import { AgentCopyBlocks } from './AgentCopyBlocks'
+
 type IndexArticle = {
   slug: string
   title: string
@@ -17,19 +13,13 @@ type IndexArticle = {
   tags?: string[]
 }
 
-export function ResearchHeroSearch({
-  agentLinks,
-  agentPromptText,
-  agentCurlLlms,
-}: {
-  agentLinks: { label: string; href: string }[]
-  agentPromptText: string
-  agentCurlLlms: string
-}) {
-  const [tab, setTab] = useState('articles')
+const SEARCH_HINT_ID = 'home-research-search-hint'
+
+export function ResearchHeroSearch({ agentPromptText }: { agentPromptText: string }) {
   const [query, setQuery] = useState('')
   const [indexArticles, setIndexArticles] = useState<IndexArticle[] | null>(null)
   const [indexError, setIndexError] = useState(false)
+
   useEffect(() => {
     let cancelled = false
     fetch('/research/index.json')
@@ -49,28 +39,12 @@ export function ResearchHeroSearch({
   }, [])
 
   const previews = useMemo(() => {
-    if (tab !== 'articles' || !indexArticles || query.trim().length < 2) return []
+    if (!indexArticles || query.trim().length < 2) return []
     return previewArticleMatches(indexArticles, query, 3)
-  }, [tab, indexArticles, query])
+  }, [indexArticles, query])
 
   const showEmptyPreview =
-    tab === 'articles' && query.trim().length >= 2 && indexArticles && previews.length === 0
-
-  const goToDestination = useCallback(() => {
-    window.location.href = homeSearchDestination(tab, query)
-  }, [tab, query])
-
-  const onSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      if (homeSearchImplicitSubmitNavigates(tab)) {
-        goToDestination()
-      }
-    },
-    [tab, goToDestination],
-  )
-
-  const activeTab = HOME_SEARCH_TABS.find(t => t.id === tab) || HOME_SEARCH_TABS[0]
+    query.trim().length >= 2 && indexArticles && previews.length === 0
 
   return (
     <div className="ed-research-hero__tools">
@@ -79,51 +53,28 @@ export function ResearchHeroSearch({
         action="/research"
         method="get"
         role="search"
-        onSubmit={onSubmit}
       >
         <div className="ed-research-hero__search">
           <label className="sr-only" htmlFor="home-research-q">问非凡产研</label>
           <input
             id="home-research-q"
-            name={tab === 'articles' ? 'q' : undefined}
+            name="q"
             type="search"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="问非凡产研：例如「9 月 AI 订阅收入榜」「办公智能体」"
             autoComplete="off"
-            aria-describedby="home-search-tab-hint"
+            aria-describedby={SEARCH_HINT_ID}
           />
-          <button type="button" onClick={goToDestination} aria-label={`搜索：${activeTab.label}`}>
+          <button type="submit" aria-label="在研究库中搜索文章">
             <ArrowRight size={20} strokeWidth={1.6} />
           </button>
         </div>
-
-        <div className="ed-research-hero__tabs" role="tablist" aria-label="搜索范围">
-          {HOME_SEARCH_TABS.map(item => (
-            <button
-              key={item.id}
-              type="button"
-              role="tab"
-              aria-selected={tab === item.id}
-              className="ed-research-hero__tab"
-              onClick={() => setTab(item.id)}
-              onKeyDown={event => {
-                if (event.key !== 'Enter') return
-                event.preventDefault()
-                setTab(item.id)
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-        <p id="home-search-tab-hint" className="ed-research-hero__tab-hint">
-          {tab === 'articles'
-            ? '回车或点击箭头将在研究库中搜索文章。'
-            : `点击箭头将打开${activeTab.label}入口：${homeSearchDestination(tab, query).replace(/^https?:\/\/[^/]+/, '')}`}
+        <p id={SEARCH_HINT_ID} className="ed-research-hero__tab-hint">
+          回车或点击箭头将在研究库中搜索文章。
         </p>
 
-        {tab === 'articles' && previews.length > 0 && (
+        {previews.length > 0 && (
           <ul className="ed-research-hero__preview" aria-label="匹配文章预览">
             {previews.map((item: IndexArticle) => (
               <li key={item.slug}>
@@ -138,30 +89,21 @@ export function ResearchHeroSearch({
             <p>试试更短的关键词，或按回车查看研究库完整结果。</p>
           </div>
         )}
-        {tab === 'articles' && indexError && query.trim().length >= 2 && (
+        {indexError && query.trim().length >= 2 && (
           <p className="ed-research-hero__preview-empty" role="status">
             预览暂不可用，仍可提交搜索在研究库中查找。
           </p>
         )}
       </form>
 
-      <div className="ed-research-hero__ctas">
-        <Link className="ed-research-hero__cta ed-research-hero__cta-primary" href="/research">
-          进入研究库
-        </Link>
-      </div>
-
       <div className="ed-research-hero__agents-wrap">
-        <p className="ed-research-hero__agents">
-          <span>给 AI：</span>
-          {agentLinks.map((link, i) => (
-            <span key={link.href}>
-              {i > 0 && ' · '}
-              <Link href={link.href}>{link.label}</Link>
-            </span>
-          ))}
+        <p className="ed-research-hero__agents ed-research-hero__agents-intro">
+          <span className="ed-research-hero__agents-label">给 AI</span>
+          复制下方提示词给助手使用；索引与引用规范见{' '}
+          <Link href="/for-ai">/for-ai</Link>
+          。
         </p>
-        <AgentCopyBlocks promptText={agentPromptText} curlLlms={agentCurlLlms} />
+        <AgentCopyBlocks promptText={agentPromptText} />
       </div>
     </div>
   )
