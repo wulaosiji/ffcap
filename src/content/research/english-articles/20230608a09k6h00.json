@@ -1,0 +1,19 @@
+{
+  "slug": "20230608a09k6h00",
+  "title": "RightBrainAI Raises Multi-Ten-Million RMB Angel Led by Lightspeed China for Visual AIGC",
+  "summary": "On June 5, 2023, visual-content AI platform RightBrainAI (右脑科技) raised a multi-ten-million RMB angel led by Lightspeed China Partners (光速光合), with MiraclePlus following — second check within months after MiraclePlus seed at founding (Sep 2022). Use: algo R&D, product, team.",
+  "publishedAt": "2023-06-08T20:00:00+08:00",
+  "author": "Unique Research",
+  "html": "<!-- TITLE: RightBrainAI Raises Multi-Ten-Million RMB Angel Led by Lightspeed China for Visual AIGC -->\n<p><em>Unique Research · Company / financing · June 8, 2023</em></p>\n<p>On <strong>June 5, 2023</strong>, visual-content AI platform <strong>RightBrainAI (右脑科技)</strong> raised a multi-ten-million RMB angel led by <strong>Lightspeed China Partners (光速光合)</strong>, with <strong>MiraclePlus</strong> following — second check within months after MiraclePlus seed at founding (Sep <strong>2022</strong>). Use: algo R&amp;D, product, team.</p>\n<p>Three PKU co-founders; MSRA / SenseTime Research / BAAI pedigrees; NeurIPS/ECCV papers. Core contributors to multimodal pretrain <strong>NUWA / NUWA Infinity</strong>, BAAI Wudao text-to-image and Chinese-painting models, ex-SenseTime video-gen researchers. NUWA (2021) beat then-SOTA (incl. DALL·E) across 8 cross-modal synthesis modes (T2I, T2V, video prediction).</p>\n<p>Self-built 10B-param expert models for high-quality styled images (quality, realism, detail, controllability). Parallel video-gen R&amp;D: style-model→video transfer; controllable fast video foundation model; T2V / I2V / video transform — rare domestic full video-gen stack. Thesis vs “AI Four Dragons” commercial plateau: AIGC remakes visual production; simple T2I ≠ pro needs; early image+video explorers convert research to product fastest.</p>\n<p><em>0 CN images. Author Jiacheng · Review Ski.</em></p>\n<p>— END —</p>",
+  "text": "Unique Research · Company / financing · June 8, 2023\n\nOn June 5, 2023, visual-content AI platform RightBrainAI (右脑科技) raised a multi-ten-million RMB angel led by Lightspeed China Partners (光速光合), with MiraclePlus following — second check within months after MiraclePlus seed at founding (Sep 2022). Use: algo R&D, product, team.\n\nThree PKU co-founders; MSRA / SenseTime Research / BAAI pedigrees; NeurIPS/ECCV papers. Core contributors to multimodal pretrain NUWA / NUWA Infinity, BAAI Wudao text-to-image and Chinese-painting models, ex-SenseTime video-gen researchers. NUWA (2021) beat then-SOTA (incl. DALL·E) across 8 cross-modal synthesis modes (T2I, T2V, video prediction).\n\nSelf-built 10B-param expert models for high-quality styled images (quality, realism, detail, controllability). Parallel video-gen R&D: style-model→video transfer; controllable fast video foundation model; T2V / I2V / video transform — rare domestic full video-gen stack. Thesis vs “AI Four Dragons” commercial plateau: AIGC remakes visual production; simple T2I ≠ pro needs; early image+video explorers convert research to product fastest.\n\n0 CN images. Author Jiacheng · Review Ski.\n\n— END —",
+  "sourceUrl": "https://ffcap.cn/en/research/20230608a09k6h00",
+  "ingestSource": "unique-research-backfill",
+  "contentComplete": true,
+  "sourceAccessFree": true,
+  "imageCount": 0,
+  "missingSourceImageCount": 0,
+  "contentSha256": "ef70fa177e905b87bdb68be1289980641c852e762de01253ed625710989fb63c",
+  "backfillFromCnId": "20230608A09K6H00",
+  "cnSourceUrl": "https://view.inews.qq.com/a/20230608A09K6H00",
+  "relatedCnSlug": "20230608a09k6h00"
+}

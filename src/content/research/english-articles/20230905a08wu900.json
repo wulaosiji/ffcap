@@ -1,0 +1,19 @@
+{
+  "slug": "20230905a08wu900",
+  "title": "Weekly AIGC Financing Focus (Third Week of August 2023)",
+  "summary": "Anthropic — $100M from SK Telecom (Aug 14) to strengthen telecom-driven AI. Competes with OpenAI on foundation models; among best-funded AI cos; raised $450M in May from Google, Spark Capital et al.",
+  "publishedAt": "2023-09-05T18:00:00+08:00",
+  "author": "Unique Research",
+  "html": "<!-- TITLE: Weekly AIGC Financing Focus (Third Week of August 2023) -->\n<p><em>Unique Research · Company / weekly financing · September 5, 2023</em></p>\n<ul>\n<li><strong>Anthropic — $100M from SK Telecom</strong> (Aug 14) to strengthen telecom-driven AI. Competes with OpenAI on foundation models; among best-funded AI cos; raised $450M in May from Google, Spark Capital et al.</li>\n<li><strong>Zhongke Jiahe (中科加禾) — multi-ten-million RMB seed</strong> (Aug 15); BV Baidu Ventures lead; Chenshan, Lushi, MiraclePlus, Cambricon, Tianchuang, Photosynthesis Fund. Chip compile/optimize infra; founder Cui Huimin (Tsinghua CS; CAS ICT compile lead). Virtual-ISA JVM-like cross-platform backend to fix fragmented domestic-chip compile stacks. Flagship: multi-chip LLM inference optimize tool; partners head AI chip/HW vendors; model: chip co-dev, licenses, cloud/DC. Aims more efficient, general compute optimization for China’s chip stack.</li>\n<li><strong>Voiceflow — $15M</strong> (Aug 16); OpenView lead; total $35M; valuation +50% to $105M. Expand end-to-end Agent build/host; LLM AI Builder for CS and internal automation Agents. Conversational design → prototype → hand-off to platform engineering.</li>\n</ul>\n<p><em>Author Huajia · Review Ski.</em></p>\n<p>— END —</p>",
+  "text": "Unique Research · Company / weekly financing · September 5, 2023\n\nAnthropic — $100M from SK Telecom (Aug 14) to strengthen telecom-driven AI. Competes with OpenAI on foundation models; among best-funded AI cos; raised $450M in May from Google, Spark Capital et al.\n\nZhongke Jiahe (中科加禾) — multi-ten-million RMB seed (Aug 15); BV Baidu Ventures lead; Chenshan, Lushi, MiraclePlus, Cambricon, Tianchuang, Photosynthesis Fund. Chip compile/optimize infra; founder Cui Huimin (Tsinghua CS; CAS ICT compile lead). Virtual-ISA JVM-like cross-platform backend to fix fragmented domestic-chip compile stacks. Flagship: multi-chip LLM inference optimize tool; partners head AI chip/HW vendors; model: chip co-dev, licenses, cloud/DC. Aims more efficient, general compute optimization for China’s chip stack.\n\nVoiceflow — $15M (Aug 16); OpenView lead; total $35M; valuation +50% to $105M. Expand end-to-end Agent build/host; LLM AI Builder for CS and internal automation Agents. Conversational design → prototype → hand-off to platform engineering.\n\nAuthor Huajia · Review Ski.\n\n— END —",
+  "sourceUrl": "https://ffcap.cn/en/research/20230905a08wu900",
+  "ingestSource": "unique-research-backfill",
+  "contentComplete": true,
+  "sourceAccessFree": true,
+  "imageCount": 0,
+  "missingSourceImageCount": 0,
+  "contentSha256": "3dc445ff83645771225096c1b30e86b8c3d92037e503176e31237258db251c67",
+  "backfillFromCnId": "20230905A08WU900",
+  "cnSourceUrl": "https://view.inews.qq.com/a/20230905A08WU900",
+  "relatedCnSlug": "20230905a08wu900"
+}
