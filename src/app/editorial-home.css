@@ -127,6 +127,7 @@
 .ed-footer{padding-top:60px}
 .ed-footer-main{display:grid;grid-template-columns:2fr 1fr 1fr;gap:50px;padding-bottom:48px}
 .ed-footer-main>div:first-child p{font-size:12px;color:var(--ed-muted);max-width:300px;line-height:1.9;margin-top:20px}
+.ed-footer-explore{display:flex;flex-direction:column;gap:26px;min-width:0}
 .ed-footer-links{display:flex;align-items:flex-start;flex-direction:column;gap:8px;font-size:12px}
 .ed-footer-links .ed-eyebrow{font-size:9px;color:var(--ed-muted);margin-bottom:7px}
 .ed-footer-links a{display:inline-flex;gap:10px;align-items:center;min-height:30px}

@@ -27,7 +27,7 @@ export function uniqueBaseHref(lang = "zh") {
   return lang === "en" ? LINKS.uniqueBaseEn : LINKS.uniqueBaseZh;
 }
 
-/** Site header/footer primary navigation (exactly seven items, fixed order). */
+/** Site header and menus (exactly seven items). About precedes Contact. */
 export function primaryNavItems(lang = "zh") {
   const zh = lang !== "en";
   return [
@@ -36,9 +36,32 @@ export function primaryNavItems(lang = "zh") {
     { label: zh ? "活动与奖项" : "Events & Awards", href: LINKS.eventsAwardsHub },
     { label: zh ? "产品与服务" : "Products & Services", href: "/products" },
     { label: zh ? "给 AI" : "For AI", href: "/for-ai" },
-    { label: zh ? "联系我们" : "Contact", href: LINKS.contact },
     { label: zh ? "关于我们" : "About", href: "/about" },
+    { label: zh ? "联系我们" : "Contact", href: LINKS.contact },
   ];
+}
+
+/** Footer explore column: site menu (no For AI), then the For AI group. */
+export function footerExploreGroups(lang = "zh") {
+  const zh = lang !== "en";
+  return {
+    site: {
+      eyebrow: zh ? "探索" : "EXPLORE",
+      items: primaryNavItems(lang).filter((item) => item.href !== "/for-ai"),
+    },
+    ai: {
+      eyebrow: zh ? "给 AI" : "For AI",
+      items: [
+        { label: zh ? "给 AI" : "For AI", href: "/for-ai" },
+        { label: "llms.txt", href: "/llms.txt" },
+        { label: "llms-full.txt", href: "/llms-full.txt" },
+        { label: zh ? "文章索引" : "Article index", href: "/research/latest.md" },
+        { label: "JSON", href: "/research/index.json" },
+        { label: zh ? "引用说明" : "Citation", href: "/for-models" },
+        { label: zh ? "常见问题" : "FAQ", href: "/faq" },
+      ],
+    },
+  };
 }
 
 export const TOPICS = [
