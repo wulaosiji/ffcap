@@ -105,21 +105,25 @@ export const PRODUCTS = [
   {
     id: "uniqueresearch",
     name: { zh: "UniqueResearch", en: "UniqueResearch" },
-    audience: { zh: "面向 AI 产业关注者", en: "For AI industry explorers" },
+    audience: { zh: "微信小程序 · 中国大陆用户为主", en: "WeChat mini program · mainly mainland China" },
     description: {
-      zh: "浏览非凡产研公开 AI 榜单，发现值得关注的产品与公司。",
-      en: "Explore public AI rankings from UniqueResearch and discover products and companies to follow.",
+      zh: "非凡产研微信小程序内的信息查阅工具：问卷与调研填写、研究报告浏览与 AI 榜单检索，帮助在站内快速查找所需信息。主要服务中国大陆用户。",
+      en: "An in-WeChat-mini-program lookup tool under UniqueResearch: surveys and questionnaires, research report browsing, and AI rankings discovery. Primarily for users in mainland China.",
     },
-    action: { zh: "查看 AI 榜单", en: "Explore AI rankings" },
+    detailExtra: {
+      zh: "浏览器端亦可阅读本站非凡产研文章库与榜单精选；小程序将问卷、报告与榜单整合为一体化查阅体验。",
+      en: "You can also read the on-site article library and curated rankings in a browser; the mini program bundles surveys, reports, and rankings in one place.",
+    },
+    action: { zh: "查看报告与榜单", en: "Reports & rankings" },
     href: LINKS.uniqueResearch,
   },
   {
     id: "uniquebase",
     name: { zh: "UniqueBase", en: "UniqueBase" },
-    audience: { zh: "面向 AI 产业研究者", en: "For AI industry researchers" },
+    audience: { zh: "面向全球研究者", en: "For researchers worldwide" },
     description: {
-      zh: "覆盖各行业、主题与城市的全球 AI 公司与相关实体；每条记录带出处与稳定编码，并提供面向 AI 助手与搜索引擎的机器可读版本。",
-      en: "Global AI companies across sectors, themes and cities. Every record carries a source and a stable code, with machine-readable versions for AI assistants and search engines.",
+      zh: "全球可访问的 Web 数据产品：覆盖各行业、主题与城市的 AI 公司与相关实体；每条记录带出处与稳定编码，并提供面向 AI 助手与搜索引擎的机器可读版本。",
+      en: "A globally accessible web data product: AI companies and related entities across sectors, themes, and cities. Every record includes a source and stable code, with machine-readable formats for AI assistants and search engines.",
     },
     action: { zh: "进入 UniqueBase", en: "Explore UniqueBase" },
     href: LINKS.uniqueBaseZh,
@@ -127,10 +131,10 @@ export const PRODUCTS = [
   {
     id: "uniquebloom",
     name: { zh: "UniqueBloom", en: "UniqueBloom" },
-    audience: { zh: "面向活动参与者", en: "For event participants" },
+    audience: { zh: "面向全球活动参与者", en: "For event participants worldwide" },
     description: {
-      zh: "连接嘉宾内容、现场互动与后续关系，让交流延续到活动之外。",
-      en: "Connect speaker content, onsite interaction, and relationships beyond the event.",
+      zh: "全球可访问的 Web 活动平台：活动日历、报名与议程、嘉宾内容与后续连接，让交流延续到活动之外。",
+      en: "A globally accessible web events platform: calendars, registration, agendas, speaker content, and follow-up—keeping conversations going beyond the venue.",
     },
     action: { zh: "进入 UniqueBloom", en: "Open UniqueBloom" },
     href: LINKS.uniqueBloom,
@@ -138,10 +142,10 @@ export const PRODUCTS = [
   {
     id: "good-projects",
     name: { zh: "有好项目", en: "Good Projects" },
-    audience: { zh: "面向认证投资人", en: "For verified investors" },
+    audience: { zh: "面向认证投资人（微信小程序）", en: "For verified investors (WeChat mini program)" },
     description: {
-      zh: "浏览 AI 创业项目并进行 BP 对接，建立更有上下文的项目连接。",
-      en: "Discover AI startups and connect through their pitch decks.",
+      zh: "认证投资人浏览 AI 创业项目并进行 BP 对接。入口为微信小程序，目前主要面向中国大陆用户；海外或非微信环境可能无法打开。",
+      en: "Verified investors browse AI startups and connect via pitch decks. Opens in a WeChat mini program, currently aimed mainly at users in mainland China; overseas or non-WeChat users may be unable to access.",
     },
     action: { zh: "查看项目", en: "Explore projects" },
     href: LINKS.goodProjects,
