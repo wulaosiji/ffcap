@@ -1,0 +1,10 @@
+{
+  "slug": "en-backfill-fixture-sample",
+  "title": "Fixture: Early Tencent Article English Backfill Sample",
+  "publishedAt": "2018-06-15T08:00:00+00:00",
+  "summary": "Pilot fixture for site-first English backfill ingest validation.",
+  "author": "Unique Research",
+  "html": "<p>This is a deterministic fixture article used to verify the English backfill import path without touching production content or Substack discovery.</p><p>It contains enough plain text to satisfy the minimum full-text threshold for catalog inclusion and uses only safe HTML tags.</p><p>Operations teams replace fixture packages with editor-reviewed English JSON before a real backfill batch ships.</p>",
+  "backfillFromCnId": "fixture-cn-id",
+  "cnSourceUrl": "https://news.qq.com/omn/article/fixture"
+}

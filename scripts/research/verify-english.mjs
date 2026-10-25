@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
+import { isBackfillArticle, isSubstackArticle, SUBSTACK_ORIGIN } from './lib/english-ingest-shared.mjs'
 
 const origin = process.argv[2] || 'http://127.0.0.1:4382'
 const option = (name) => {
@@ -62,6 +63,14 @@ for (const slug of changed) {
   assert.equal(article.slug, slug)
   assert.equal(article.contentComplete, true)
   assert.equal(article.sourceAccessFree, true)
+  if (isSubstackArticle(article)) {
+    assert.equal(new URL(article.sourceUrl).origin, SUBSTACK_ORIGIN)
+  } else if (isBackfillArticle(article)) {
+    assert.equal(article.ingestSource, 'unique-research-backfill')
+    assert.ok(article.sourceUrl.startsWith('https://ffcap.cn/en/research/'))
+  } else {
+    assert.fail(`Unknown English ingest source: ${slug}`)
+  }
   const articlePath = `/en/research/${slug}`
   const { body: html } = await page(articlePath)
   const { response: markdownResponse, body: markdown } = await page(`${articlePath}/markdown`)
@@ -78,6 +87,7 @@ for (const slug of changed) {
   assert.equal(imageUrls.length, article.imageCount, `Image count changed: ${slug}`)
   for (const imageUrl of imageUrls) {
     assert.equal(new URL(imageUrl).protocol, 'https:', `Non-HTTPS image: ${slug}`)
+    if (isBackfillArticle(article) && imageUrl.startsWith('https://ffcap.cn/')) continue
     const image = await fetch(imageUrl, { headers: { Range: 'bytes=0-127' }, signal: AbortSignal.timeout(15_000) })
     assert.ok(image.ok && (image.headers.get('content-type') || '').startsWith('image/'), `Image unavailable: ${imageUrl}`)
     await image.body?.cancel()

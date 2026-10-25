@@ -29,7 +29,45 @@ python3 scripts/research/test_import.py
 
 随后用 `build-english-overlay.mjs --baseline-dir ... --staged-dir ... --discovery ... --overlay-dir ... --manifest ...` 比较线上基线和隔离内容。它要求新稿有完整正文、游客免费可读证据、署名、日期、来源、HTML 指纹及有效目录；旧稿不能丢失或退化。无实质变化时返回 `status=unchanged`，不生成发布清单；有变化时只列出英文正文、目录、首页英文精选和来源快照的精确文件。将这些文件与当周中文/活动变更合并进同一个从线上版本创建的候选，仍须经过构建、3100 canary、正式 HTTPS 验证与失败回滚。`verify-english.mjs <origin> --content-dir <隔离目录> --changed-slugs <本次slug>` 逐篇检查新稿或修订的全文、Markdown、搜索、metadata、站点地图、来源和图片；现有英文旧稿回归也保留。没有新增或修订时无需发布英文文件。
 
-这套发现流程只覆盖 Unique Research Substack 的公开英文原稿，不翻译中文文章，也不自动建立中英关联。以后若有经编辑核准的 FFCAP 本地英文稿，须先为该来源建立独立的身份、审核和差异规则。当前正文保存在本站，145 张正文图仍引用来源 CDN。（原验收记录在 Mac 项目目录 `04_开发与验证/2026-09-28_英文周更接入验收.md`，未入库。）
+这套发现流程只覆盖 Unique Research Substack 的公开英文原稿，不翻译中文文章，也不自动建立中英关联。`discover-substack.mjs` 与 `build-english-overlay.mjs` 的 Substack 来源证明**不适用于** backfill 条目；周更脚本不得削弱非 backfill 稿的 Substack 校验。
+
+## 英文 backfill（站内编辑稿，一次性补库）
+
+来源身份：`ingestSource: unique-research-backfill`，清单文件 `english-backfill.json`。与 Substack 周更分离；**不在本 PR 内机器翻译**，只导入已写好的英文 JSON 包。
+
+每包一个目录，内含 `article.json`（必填 `title`、`publishedAt`、`slug`、`html` 或 `markdown`、`author` 默认 Unique Research；可选 `summary`、`backfillFromCnId`、`cnSourceUrl`、`relatedCnSlug`）。`relatedCnSlug` 仅用于显式人工关联，不会自动配对中文库。
+
+```sh
+# 1) 校验一批包（例如 pilot 5 篇）
+node scripts/research/validate-english-backfill.mjs /path/to/packages --json
+
+# 2) 先导目录到隔离区（示例：fixtures 中 1 篇样例）
+mkdir -p .local/backfill-pilot/{english-articles,reports}
+cp src/content/research/english-{catalog,highlights,substack,backfill}.json .local/backfill-pilot/
+cp -R src/content/research/english-articles .local/backfill-pilot/
+
+node scripts/research/import-english-backfill.mjs \
+  --packages scripts/research/fixtures/english-backfill-pilot \
+  --articles-dir .local/backfill-pilot/english-articles \
+  --manifest-path .local/backfill-pilot/english-backfill.json \
+  --archive-path .local/backfill-pilot/english-substack.json \
+  --catalog-path .local/backfill-pilot/english-catalog.json \
+  --highlights-path .local/backfill-pilot/english-highlights.json \
+  --report-path .local/backfill-pilot/reports/import-report.json
+
+# 3) 仅 backfill 发布 overlay（与 Substack discovery 无关）
+node scripts/research/build-english-backfill-overlay.mjs \
+  --baseline-dir /path/to/production-baseline \
+  --staged-dir .local/backfill-pilot \
+  --overlay-dir .local/backfill-overlay \
+  --manifest .local/backfill-overlay/manifest.json
+```
+
+`import-substack-fulltext.mjs` 重建目录时会**保留** `english-backfill.json` 中已导入的站内稿，不会在周更 catalog-only 时把 backfill 挤掉。`verify-english.mjs` 对 backfill slug 使用站内来源检查（全文、日期、标题），不要求 Substack URL。
+
+自动化：`node --test tests/english-backfill.test.mjs`（含 fixture 导入与目录合并）。
+
+当前 Substack 正文保存在本站，145 张正文图仍引用来源 CDN。（原验收记录在 Mac 项目目录 `04_开发与验证/2026-09-28_英文周更接入验收.md`，未入库。）
 
 ## 自动分类与检索
 

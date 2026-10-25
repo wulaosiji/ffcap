@@ -4,6 +4,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { isBackfillArticle, loadBackfillArticles } from './lib/english-ingest-shared.mjs';
 
 function arg(name) {
   const index = process.argv.indexOf(name);
@@ -55,6 +56,14 @@ for (const [slug, row] of oldSource) {
 
 const oldCatalog = index(await readJson(baselineFile('english-catalog.json')), 'baseline catalog', (row) => row.slug);
 const nextCatalog = index(await readJson(stagedFile('english-catalog.json')), 'staged catalog', (row) => row.slug);
+const stagedBackfill = await loadBackfillArticles({
+  manifestPath: stagedFile('english-backfill.json'),
+  articlesDir: path.join(staged, 'english-articles'),
+}).catch((error) => {
+  if (error.code === 'ENOENT') return { articles: [] };
+  throw error;
+});
+const backfillSlugs = new Set(stagedBackfill.articles.map(({ article }) => article.slug));
 for (const slug of oldCatalog.keys()) if (!nextCatalog.has(slug)) throw new Error(`Published English article disappeared: ${slug}`);
 const newSlugs = [...newSource.keys()].filter((slug) => !oldSource.has(slug));
 for (const slug of newSlugs) if (!nextCatalog.has(slug)) throw new Error(`New source article has no verified full text: ${slug}`);
@@ -66,7 +75,11 @@ const revised = [];
 const changedArticles = [];
 for (const [slug, entry] of nextCatalog) {
   const article = await nextArticle(slug);
-  if (!article.contentComplete || article.sourceAccessFree !== true || article.slug !== slug || article.sourceUrl !== newSource.get(slug)?.url) {
+  if (backfillSlugs.has(slug)) {
+    if (!isBackfillArticle(article) || !article.contentComplete || article.sourceAccessFree !== true || article.slug !== slug) {
+      throw new Error(`English backfill proof failed: ${slug}`);
+    }
+  } else if (!article.contentComplete || article.sourceAccessFree !== true || article.slug !== slug || article.sourceUrl !== newSource.get(slug)?.url) {
     throw new Error(`English source proof failed: ${slug}`);
   }
   if (!article.title || !article.publishedAt || !article.author || article.text?.length < 100 || !article.html) throw new Error(`Incomplete English full text: ${slug}`);
