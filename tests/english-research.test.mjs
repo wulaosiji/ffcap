@@ -7,6 +7,7 @@ import { isSubstackArticle } from '../scripts/research/lib/english-ingest-shared
 import { englishArticleMarkdown } from '../src/lib/english-research-formats.mjs'
 
 const archive = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-substack.json', import.meta.url), 'utf8'))
+const backfillManifest = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-backfill.json', import.meta.url), 'utf8'))
 const catalog = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-catalog.json', import.meta.url), 'utf8'))
 const highlights = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-highlights.json', import.meta.url), 'utf8'))
 const chinese = JSON.parse(fs.readFileSync(new URL('../src/content/research/catalog.json', import.meta.url), 'utf8'))
@@ -19,7 +20,7 @@ function fullArticle(slug) {
 test('the English reading catalog contains only complete public articles from the source archive', () => {
   assert.equal(new Set(archive.articles.map(article => article.url)).size, archive.articles.length)
   assert.ok(catalog.length >= 300)
-  assert.ok(catalog.length <= archive.articles.length)
+  assert.ok(catalog.length <= archive.articles.length + backfillManifest.articles.length)
   assert.equal(new Set(catalog.map(article => article.slug)).size, catalog.length)
   assert.deepEqual(highlights.map(article => article.slug), catalog.slice(0, highlights.length).map(article => article.slug))
   for (const entry of catalog) {
