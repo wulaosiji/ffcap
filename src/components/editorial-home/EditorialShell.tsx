@@ -56,9 +56,9 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
   const nav = [
     { label: zh ? '研究与洞察' : 'Research', href: zh ? '/research' : '/en/research' },
     { label: zh ? 'AI 榜单' : 'Rankings', href: LINKS.rankingsHub },
+    { label: zh ? '研究方向' : 'Topics', href: '/topics' },
+    { label: zh ? '产品' : 'Products', href: '/products' },
     { label: zh ? '联系我们' : 'Contact', href: LINKS.contact },
-    { label: zh ? '活动与生态' : 'Events', href: '/#ecosystem' },
-    { label: zh ? '产品' : 'Products', href: '/#products' },
     { label: zh ? '给 AI' : 'For AI', href: '/for-ai' },
     { label: zh ? '关于我们' : 'About', href: '/about' },
   ]
@@ -92,7 +92,13 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
               <p className="ed-eyebrow" role="status">{query ? (zh ? `文章库入口 · ${count} 条相关精选与产品` : `Article search · ${count} featured items & products`) : (zh ? '研究文章、精选内容与产品' : 'Articles, featured content & products')}</p>
               <div className="ed-search-results">
                 <Link href={`${zh ? '/research' : '/en/research'}${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`} className="ed-search-result" onClick={() => setSearchOpen(false)}><span><small>{zh ? '站内文章 · 全文检索' : 'ENGLISH ARTICLES · FULL-TEXT SEARCH'}</small><strong>{query.trim() ? (zh ? `搜索研究文章：“${query.trim()}”` : `Search articles: “${query.trim()}”`) : (zh ? '浏览非凡产研全部文章' : 'Browse English research articles')}</strong></span><ArrowRight size={20}/></Link>
-                {results.map(item => <OutLink key={item.id} href={item.href} className="ed-search-result"><span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.title[lang]}</strong></span><ArrowUpRight size={20}/></OutLink>)}
+                {results.map(item => {
+                  const internal = item.href.startsWith('/')
+                  const body = <span><small>{item.kind === 'event' ? (zh ? '活动' : 'EVENT') : (zh ? '发布' : 'PUBLICATION')} / {item.date}</small><strong>{item.title[lang]}</strong></span>
+                  return internal
+                    ? <Link key={item.id} href={item.href} className="ed-search-result" onClick={() => setSearchOpen(false)}>{body}<ArrowRight size={20}/></Link>
+                    : <OutLink key={item.id} href={item.href} className="ed-search-result">{body}<ArrowUpRight size={20}/></OutLink>
+                })}
                 {productResults.map(p => <OutLink key={p.id} href={p.href} className="ed-search-result"><span><small>{p.audience[lang]}</small><strong>{p.name[lang]}</strong></span><ArrowUpRight size={20}/></OutLink>)}
                 {!count && <p className="ed-muted">{zh ? '精选活动与产品中暂无匹配，点击上方入口继续检索全部研究文章。' : 'No featured events or products match. Continue with the full article search above.'}</p>}
               </div>

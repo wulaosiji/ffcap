@@ -11,7 +11,7 @@ async function read(path, status = 200) {
   return { response, body: await response.text() }
 }
 const sample = '/research/20260903a098sq00'
-for (const path of ['/', '/about', '/research', '/for-models', '/for-ai', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
+for (const path of ['/', '/about', '/research', '/for-models', '/for-ai', '/products', '/topics', '/events', '/events/cd2026', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
   const { body } = await read(path)
   assert.match(body, /<html[^>]+lang="zh-CN"/, path)
   const canonical = [...body.matchAll(/<link rel="canonical" href="([^"]+)"/g)]
@@ -49,7 +49,8 @@ for (const a of sampleEntries) {
 }
 for (const path of ['/research/notfound/markdown', '/research/notfound.md', '/products/notfound', '/topics/notfound']) await read(path, 404)
 const { body: llms } = await read('/llms.txt')
-assert.ok(llms.includes('/open.html?slug=cd2026'))
+assert.ok(llms.includes('/events/cd2026'))
+assert.ok(llms.includes('/open.html'))
 assert.ok(llms.includes('/for-ai'))
 assert.ok(llms.includes('/llms-full.txt'))
 assert.ok(llms.includes('/research/{slug}.md'))

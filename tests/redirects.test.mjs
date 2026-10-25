@@ -15,3 +15,15 @@ test('legacy UniqueClub product URLs permanently redirect to UniqueBase', async 
     ],
   )
 })
+
+test('open.html short links permanently redirect to UniqueBloom', async () => {
+  const redirects = await nextConfig.redirects()
+  const open = redirects.filter(r => r.source === '/open.html')
+  assert.deepEqual(
+    open.map(({ source, destination, permanent }) => ({ source, destination, permanent })),
+    [
+      { source: '/open.html', destination: 'https://uniquebloom.cn/:slug', permanent: true },
+      { source: '/open.html', destination: 'https://uniquebloom.cn/', permanent: true },
+    ],
+  )
+})

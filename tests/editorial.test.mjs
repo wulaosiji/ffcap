@@ -22,8 +22,14 @@ test("editorial content preserves verified public destinations and three researc
   assert.ok(EVENTS.some(event => event.date.startsWith('2024')));
   assert.ok(EVENTS.some(event => event.status === 'ended'));
   for (const event of EVENTS) {
-    assert.equal(new URL(event.href).origin, 'https://uniquebloom.cn');
-    assert.equal(new URL(event.href).pathname, event.slug ? `/${event.slug}` : `/activities/${event.id}`);
+    assert.equal(new URL(event.bloomHref).origin, 'https://uniquebloom.cn');
+    assert.equal(new URL(event.bloomHref).pathname, event.slug ? `/${event.slug}` : `/activities/${event.id}`);
+    if (event.articleHref) {
+      assert.equal(event.href, event.articleHref);
+      assert.match(event.href, /^\/events\//);
+    } else {
+      assert.equal(event.href, event.bloomHref);
+    }
     assert.ok(event.date && event.title.zh && event.location.zh);
   }
   assert.equal(CONTENT.filter(item => item.kind === 'publication').length, 1);
@@ -40,11 +46,21 @@ test("editorial content preserves verified public destinations and three researc
   ]);
   const published = JSON.stringify({ TOPICS, CONTENT, PRODUCTS, LINKS });
   assert.doesNotMatch(published, /flash-fundraising|极速融资|Flash Fundraising/i);
-  for (const item of [...TOPICS, ...CONTENT]) {
+  for (const topic of TOPICS) {
+    assert.ok(topic.title.zh && topic.title.en);
+    assert.equal(typeof topic.description.zh, "string");
+    assert.equal(typeof topic.description.en, "string");
+    assert.match(topic.href, /^\/topics\//);
+  }
+  for (const item of CONTENT) {
     assert.ok(item.title.zh && item.title.en);
     assert.equal(typeof item.description.zh, "string");
     assert.equal(typeof item.description.en, "string");
-    assert.equal(new URL(item.href).protocol, "https:");
+    if (item.kind === 'event' && item.articleHref) {
+      assert.match(item.href, /^\/events\//);
+    } else {
+      assert.equal(new URL(item.href).protocol, "https:");
+    }
   }
 });
 

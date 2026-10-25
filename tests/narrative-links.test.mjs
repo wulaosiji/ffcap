@@ -27,7 +27,7 @@ test("keeps desktop and mobile navigation on one internal map", () => {
     { label: "首页", href: "#top" },
     { label: "研究与榜单", href: "#research" },
     { label: "产品矩阵", href: "#products" },
-    { label: "活动与生态", href: "#ecosystem" },
+    { label: "研究方向", href: "/topics" },
     { label: "关于我们", href: "/about" },
   ]);
 });
