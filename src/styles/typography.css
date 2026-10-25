@@ -1,7 +1,7 @@
 /* Shared typography; body qualification keeps route styles from restoring old fonts. */
 body .ed-site,
 body .ed-dialog {
-  font-family: var(--font-sans);
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
   font-size: 17px;
   font-weight: 400;
   line-height: 1.7;
@@ -10,7 +10,7 @@ body .ed-dialog {
 
 body .ed-site :is(h1, h2, h3, h4, h5, h6),
 body .ed-dialog :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-sans);
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
   font-weight: 500;
   letter-spacing: -0.025em;
   text-wrap: balance;
@@ -27,9 +27,17 @@ body .ed-dialog:lang(zh) :is(h1, h2, h3, h4, h5, h6) {
 }
 
 body .ed-site :is(.ed-topic-number, .ed-topic-strip strong, .ed-event-date strong) {
-  font-family: var(--font-sans);
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+body .ed-site .ed-research-hero__copy h1,
+body .ed-dialog .ed-research-hero__copy h1 {
+  font-size: clamp(38px, 5vw, 66px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
 }
 
 /* Reading copy retains its original layout, with one comfortable reading scale. */
