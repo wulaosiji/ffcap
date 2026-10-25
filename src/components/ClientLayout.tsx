@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import { LangProvider, useLang } from "@/context/LangContext"
 import { ViewModeProvider } from "@/context/ViewModeContext"
+import { usesEditorialShell } from "@/lib/uses-editorial-shell.mjs"
 
 function LanguageSetter() {
   const pathname = usePathname()
@@ -27,7 +28,7 @@ function LanguageSetter() {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const immersiveHome = pathname === '/' || pathname === '/about' || pathname === '/world' || pathname === '/faq' || pathname === '/research' || pathname.startsWith('/research/') || pathname.startsWith('/products/') || pathname.startsWith('/topics/') || pathname === '/for-models' || pathname === '/for-ai' || pathname === '/en/research' || pathname.startsWith('/en/research/')
+  const immersiveHome = usesEditorialShell(pathname)
 
   return (
     <LangProvider>
