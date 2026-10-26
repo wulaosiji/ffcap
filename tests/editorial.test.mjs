@@ -342,6 +342,44 @@ test("editorial product surfaces use the shared primary CTA", async () => {
   assert.match(source.detail, /https:\/\/uniqueresearch\.cn|productExternalHref/);
 });
 
+test("editorial chrome follows the UniqueBase micro language", async () => {
+  const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
+  const research = await readFile(new URL("../src/app/research/research.css", import.meta.url), "utf8");
+  const search = await readFile(new URL("../src/components/editorial-home/ResearchHeroSearch.tsx", import.meta.url), "utf8");
+  const hero = await readFile(new URL("../src/components/editorial-home/ResearchHero.tsx", import.meta.url), "utf8");
+  assert.match(css, /font-family:'Segoe UI'/);
+  assert.doesNotMatch(css, /Inter/);
+  assert.match(css, /font-size:15px;line-height:1\.6;/);
+  assert.match(css, /letter-spacing:-\.045em/);
+  assert.match(css, /--ed-button:#263f2f/);
+  assert.match(css, /--ed-focus:#4e8766/);
+  assert.match(css, /--ed-rule:#dce1d8/);
+  assert.match(css, /--ed-accent:#79946a/);
+  assert.match(css, /--ed-cell:#eef2e8/);
+  assert.match(css, /--ed-card-line:#7c986a/);
+  assert.match(css, /--ed-radius-card:6px/);
+  assert.match(css, /--ed-radius-panel:7px/);
+  assert.match(css, /--ed-radius-search:7px/);
+  assert.match(css, /--ed-radius-button:5px/);
+  assert.match(css, /--ed-radius-tag:4px/);
+  assert.match(css, /--ed-radius-pill:999px/);
+  assert.match(css, /--ed-search-shadow:0 3px 10px #20302005/);
+  assert.match(css, /outline:3px solid var\(--ed-focus\);outline-offset:4px/);
+  assert.match(css, /\.ed-research-hero__search\{[^}]*width:min\(100%,550px\)[^}]*padding:6px;[^}]*border-radius:var\(--ed-radius-search\)[^}]*box-shadow:var\(--ed-search-shadow\)/);
+  assert.match(css, /\.ed-research-hero__search input\{[^}]*font-size:13px/);
+  assert.match(css, /\.ed-button,\.ed-research-hero__search button,\.ed-research-hero__cta-primary\{[^}]*border-radius:var\(--ed-radius-button\)[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px/);
+  assert.doesNotMatch(css, /\.ed-research-hero__search button:hover/);
+  assert.match(css, /\.ed-research-hero__dot\{[^}]*width:5px;height:5px/);
+  assert.match(css, /\.ed-research-hero__copy h1 em\{[^}]*Georgia[^}]*font-style:italic/);
+  assert.doesNotMatch(css, /border-radius:1[024]px/);
+  assert.doesNotMatch(css, /@keyframes/);
+  assert.match(search, /className="ed-button"/);
+  assert.match(hero, /<em>\{phrase\}<\/em>/);
+  assert.match(research, /\.rs-search button\{[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px;[^}]*border-radius:var\(--ed-radius-button,5px\)/);
+  assert.match(research, /outline:3px solid var\(--ed-focus,#4e8766\);outline-offset:4px/);
+  assert.doesNotMatch(research, /outline:2px/);
+});
+
 test('source end dates are inclusive and ended activities remain archived', () => {
   const event = { kind: 'event', date: '2026-03-24', endDate: '2026-03-29' };
   assert.equal(eventStatus(event, '2026-03-29T23:59:59+08:00'), 'live');

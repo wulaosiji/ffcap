@@ -77,7 +77,7 @@ export function ResearchHeroSearch() {
               autoComplete="off"
               aria-describedby={SEARCH_HINT_ID}
             />
-            <button type="submit" aria-label={zh ? '在研究库中搜索文章' : 'Search the research library'}>
+            <button type="submit" className="ed-button" aria-label={zh ? '在研究库中搜索文章' : 'Search the research library'}>
               {zh ? '搜索' : 'Search'}
               <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden />
             </button>
