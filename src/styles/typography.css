@@ -2,9 +2,9 @@
 body .ed-site,
 body .ed-dialog {
   font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: normal;
 }
 
@@ -12,7 +12,7 @@ body .ed-site :is(h1, h2, h3, h4, h5, h6),
 body .ed-dialog :is(h1, h2, h3, h4, h5, h6) {
   font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
@@ -23,12 +23,12 @@ body .ed-site .ed-about-intro h1 {
 
 body .ed-site:lang(zh) :is(h1, h2, h3, h4, h5, h6),
 body .ed-dialog:lang(zh) :is(h1, h2, h3, h4, h5, h6) {
-  letter-spacing: normal;
+  letter-spacing: -0.045em;
 }
 
 body .ed-site :is(.ed-topic-number, .ed-topic-strip strong, .ed-event-date strong) {
-  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
-  font-weight: 500;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
@@ -40,14 +40,14 @@ body .ed-dialog .ed-research-hero__copy h1 {
   letter-spacing: -0.045em;
 }
 
-/* Reading copy retains its original layout, with one comfortable reading scale. */
+/* Reading copy stays on the editorial root scale. */
 body .ed-site :is(.ed-intro-aside p, .ed-story p, .ed-product p,
   .ed-section-intro, .ed-about-intro > div p, .ed-about-pillar p:not(.ed-eyebrow),
   .ed-about-directions .ed-section-heading > p, .ed-about-ecosystem > p:not(.ed-eyebrow),
   .ed-research-aside > p:not(.ed-eyebrow), .rs-prose) {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: normal;
 }
 

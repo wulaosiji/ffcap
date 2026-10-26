@@ -378,6 +378,12 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(research, /\.rs-search button\{[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px;[^}]*border-radius:var\(--ed-radius-button,5px\)/);
   assert.match(research, /outline:3px solid var\(--ed-focus,#4e8766\);outline-offset:4px/);
   assert.doesNotMatch(research, /outline:2px/);
+  const type = await readFile(new URL("../src/styles/typography.css", import.meta.url), "utf8");
+  assert.match(type, /body \.ed-site,\nbody \.ed-dialog \{[^}]*font-size: 15px;[^}]*line-height: 1\.6;/);
+  assert.match(type, /letter-spacing: -0\.045em;/);
+  assert.match(type, /:lang\(zh\) :is\(h1, h2, h3, h4, h5, h6\) \{\n  letter-spacing: -0\.045em;\n\}/);
+  assert.match(type, /Georgia, "Times New Roman", serif/);
+  assert.doesNotMatch(type, /Inter/);
 });
 
 test('source end dates are inclusive and ended activities remain archived', () => {
