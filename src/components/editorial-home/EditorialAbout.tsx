@@ -8,6 +8,7 @@ import { useLang } from '@/context/LangContext'
 import { LINKS, PRODUCTS, TOPICS, productExternalHref, productPrimaryHref, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
+import '@/app/research/research.css'
 
 const copy = {
   zh: {
@@ -65,18 +66,18 @@ export function EditorialAbout() {
   return (
     <EditorialShell>
       <DocumentTitle zh="关于我们 · 非凡资本" en="About · UniqueCapital" />
-      <main className="ed-about" id="main-content">
-        <section className="ed-container ed-about-intro" id="top" aria-labelledby="about-title">
-          <p className="ed-eyebrow">{text.eyebrow}</p>
-          <h1 id="about-title">{text.title}</h1>
+      <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
+        <section className="rs-intro" id="top" aria-labelledby="about-title">
           <div>
+            <p className="ed-eyebrow">{text.eyebrow}</p>
+            <h1 id="about-title">{text.title}</h1>
             <p>{text.intro}</p>
             <p>{text.detail}</p>
             <p>{lang === 'zh' ? IDENTITY.research : 'UniqueResearch is the publication name used for this research archive. Its product entry provides public AI rankings; the article archive and rankings are separate destinations.'}</p>
           </div>
         </section>
 
-        <section className="ed-container ed-about-grid" aria-label={text.eyebrow}>
+        <section className="ed-about-grid" aria-label={text.eyebrow}>
           {text.pillars.map(([code, title, description]) => (
             <article className="ed-about-pillar" key={code}>
               <p className="ed-eyebrow">{code}</p>
@@ -86,7 +87,7 @@ export function EditorialAbout() {
           ))}
         </section>
 
-        <section className="ed-container ed-about-directions" aria-labelledby="about-directions-title">
+        <section className="ed-about-directions" aria-labelledby="about-directions-title">
           <div className="ed-section-heading">
             <div>
               <p className="ed-eyebrow">{text.directionsEyebrow}</p>
@@ -108,7 +109,7 @@ export function EditorialAbout() {
           </div>
         </section>
 
-        <section className="ed-container ed-about-directions" aria-labelledby="about-products-title">
+        <section className="ed-about-directions" aria-labelledby="about-products-title">
           <div className="ed-section-heading">
             <div>
               <p className="ed-eyebrow">{text.productsEyebrow}</p>
@@ -145,7 +146,7 @@ export function EditorialAbout() {
           </div>
         </section>
 
-        <section className="ed-container ed-about-ecosystem" id="ecosystem" aria-labelledby="about-ecosystem-title">
+        <section className="ed-about-ecosystem" id="ecosystem" aria-labelledby="about-ecosystem-title">
           <p className="ed-eyebrow">{text.ecosystemEyebrow}</p>
           <h2 id="about-ecosystem-title">{text.ecosystemTitle}</h2>
           <p>{text.ecosystemBody}</p>

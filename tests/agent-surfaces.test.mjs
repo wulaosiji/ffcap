@@ -78,6 +78,8 @@ test('llms.txt points at the hub, llms-full, and the markdown alias', () => {
   assert.match(body, /rel="alternate" type="text\/markdown"/)
   assert.match(body, /HTTP `Link` 头/)
   assert.match(body, /\/events\/cd2026/)
+  assert.match(body, /https:\/\/ffcap\.cn\/research\/events-awards/)
+  assert.doesNotMatch(body, /https:\/\/ffcap\.cn\/events\)/)
   assert.match(body, /\/open\.html/)
   assert.doesNotMatch(body, /postify\.cc/)
   assert.equal(homeLlmsDataPoints().length, 3)

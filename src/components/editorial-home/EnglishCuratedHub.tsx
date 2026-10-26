@@ -16,8 +16,8 @@ export type EnglishHubArticle = {
   title: string
   excerpt: string
   publishedAt: string
-  readingMinutes: number
-  topic: string
+  readingMinutes?: number
+  topic?: string
 }
 
 function storedLang(text: string) {
@@ -61,8 +61,8 @@ export function EnglishCuratedHub({
           <h1>{rankings ? 'Data & Rankings' : 'Events & Awards'}</h1>
           <p>
             {rankings
-              ? 'Funding, subscription revenue, traffic, and top-100 notes, with the ranking articles that explain them. Read the full pieces on ffcap.cn. Titles stay in the language they were published.'
-              : 'Award results, event news, and public conversations. Read the articles here; registration and schedules follow UniqueBloom. Titles stay in the language they were published.'}
+              ? 'Funding, subscription revenue, traffic, and top-100 notes, with the English ranking articles that explain them. Read the full pieces on ffcap.cn.'
+              : 'Award results, event news, and public conversations in English. Read the articles here; registration and schedules follow UniqueBloom.'}
           </p>
           <p>
             <Link href="/en/research">Research</Link>
@@ -95,17 +95,17 @@ export function EnglishCuratedHub({
           {articles.map(article => (
             <article key={article.id} className="rs-card">
               <div className="rs-meta">
-                <span>{topicLabel(article.topic)}</span>
+                {article.topic ? <span>{topicLabel(article.topic)}</span> : null}
                 <span>{badge}</span>
               </div>
-              <Link href={`/research/${article.slug}`} className="rs-card-link">
+              <Link href={`/en/research/${article.slug}`} className="rs-card-link">
                 <h2 lang={storedLang(article.title)}>{article.title}</h2>
                 {article.excerpt ? <p lang={storedLang(article.excerpt)}>{article.excerpt}</p> : null}
               </Link>
               <div className="rs-card-bottom">
                 <time dateTime={article.publishedAt}>{formatHubDate(article.publishedAt)}</time>
-                <span>{article.readingMinutes} min read</span>
-                <Link className="rs-card-read" href={`/research/${article.slug}`} aria-label={`Read article: ${article.title}`}>Read →</Link>
+                {article.readingMinutes ? <span>{article.readingMinutes} min read</span> : null}
+                <Link className="rs-card-read" href={`/en/research/${article.slug}`} aria-label={`Read article: ${article.title}`}>Read →</Link>
               </div>
             </article>
           ))}
@@ -128,9 +128,7 @@ export function EnglishCuratedHub({
         <p className="rs-source-note">
           For registration and the full calendar, visit
           <a href={LINKS.events} target="_blank" rel="noopener noreferrer"> UniqueBloom ↗</a>
-          . On-site event briefs remain at
-          <Link href="/events"> /events</Link>
-          .
+          . The English articles on this page stay on ffcap.cn.
         </p>
       )}
     </main>

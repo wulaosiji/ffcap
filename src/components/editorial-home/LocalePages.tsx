@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { AgentCopyBlocks } from './AgentCopyBlocks'
 import { DocumentTitle } from './DocumentTitle'
-import { LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, researchHubPath } from '@/content/editorial.mjs'
 import { AGENT_CURL_ARTICLE, AGENT_CURL_LATEST, AGENT_CURL_LLMS, AGENT_PROMPT_TEXT, AGENT_PROMPT_TEXT_EN } from '@/content/home-agent-kit.mjs'
 import { AGENT_READ_ORDER, AGENT_SURFACES, absoluteAgentUrl } from '@/content/agent-surfaces.mjs'
 
@@ -55,7 +55,7 @@ export function TopicsHubView({ topics }: { topics: TopicCard[] }) {
           <p>
             <Link href={zh ? '/research' : '/en/research'}>{zh ? '进入研究文章库' : 'Research library'}</Link>
             {' · '}
-            <Link href="/events">{zh ? '活动文章' : 'Event briefs'}</Link>
+            <Link href={researchHubPath('events-awards', lang)}>{zh ? '活动与奖项' : 'Events & Awards'}</Link>
           </p>
         </div>
       </div>
@@ -147,7 +147,7 @@ export function TopicDetailView({
             ))}
           </ul>
         ) : <p>{zh ? '暂无此方向的站内活动导读。' : 'No on-site event brief for this direction yet.'}</p>}
-        <p><Link href="/events">{zh ? '浏览全部活动文章 →' : 'All event briefs →'}</Link></p>
+        <p><Link href={researchHubPath('events-awards', lang)}>{zh ? '浏览活动与奖项 →' : 'Events & awards →'}</Link></p>
         <h2>{zh ? '其他研究方向' : 'Other directions'}</h2>
         <ul>{others.map(other => <li key={other.id}><Link href={`/topics/${other.id}`}>{other.name}</Link></li>)}</ul>
         <p><Link href="/topics">{zh ? '返回研究方向' : 'Back to research directions'}</Link></p>
@@ -204,14 +204,14 @@ export function EventsHubView({ events }: { events: HubEvent[] }) {
                 <span>{topicName}</span>
                 <span>{labels[status] ?? labels.past}</span>
               </div>
-              <Link href={event.articleHref || '/events'} className="rs-card-link">
+              <Link href={event.articleHref || researchHubPath('events-awards', lang)} className="rs-card-link">
                 <h2>{eventChromeTitle(event, lang)}</h2>
                 <p>{zh ? event.description?.zh : eventScheduleLine(event, 'en')}</p>
               </Link>
               <div className="rs-card-bottom">
                 <time dateTime={event.date}>{event.date.replaceAll('-', '.')}</time>
                 <span>{event.location?.zh}</span>
-                <Link href={event.articleHref || '/events'} aria-label={zh ? `阅读：${eventChromeTitle(event, 'zh')}` : `Read: ${eventChromeTitle(event, 'en')}`}>↗</Link>
+                <Link href={event.articleHref || researchHubPath('events-awards', lang)} aria-label={zh ? `阅读：${eventChromeTitle(event, 'zh')}` : `Read: ${eventChromeTitle(event, 'en')}`}>↗</Link>
               </div>
               <p>
                 <a href={event.bloomHref} target="_blank" rel="noopener noreferrer">{zh ? '报名/详情 ↗' : 'Sign up ↗'}</a>
@@ -249,7 +249,7 @@ export function EventArticleView({
     <main id="main-content" className="ed-container rs-detail" lang={zh ? 'zh-CN' : 'en'}>
       <DocumentTitle zh={`${eventChromeTitle(event, 'zh')} | 非凡资本活动`} en={`${eventChromeTitle(event, 'en')} | UniqueCapital`} />
       <nav className="rs-breadcrumb" aria-label={zh ? '当前位置' : 'Breadcrumb'}>
-        <Link href="/events">{zh ? '活动文章' : 'Event briefs'}</Link>
+        <Link href={researchHubPath('events-awards', lang)}>{zh ? '活动与奖项' : 'Events & Awards'}</Link>
         <span>/</span>
         {topicHref ? <Link href={topicHref}>{topicName}</Link> : <span>{zh ? '活动' : 'Event'}</span>}
       </nav>
@@ -295,7 +295,7 @@ export function EventArticleView({
         {zh ? '更多公开活动见 ' : 'More public events: '}
         <a href={LINKS.events} target="_blank" rel="noopener noreferrer">{zh ? 'UniqueBloom 活动日历 ↗' : 'UniqueBloom calendar ↗'}</a>
       </p>
-      <Link href="/events" className="rs-back">{zh ? '← 返回活动文章列表' : '← Back to event briefs'}</Link>
+      <Link href={researchHubPath('events-awards', lang)} className="rs-back">{zh ? '← 返回活动与奖项' : '← Back to events & awards'}</Link>
     </main>
   )
 }
@@ -305,19 +305,21 @@ export function ForAiView({ sampleDate, sampleMarkdown, sampleAlias }: { sampleD
   const zh = lang === 'zh'
 
   return (
-    <main id="main-content" className="ed-container rs-detail" lang={zh ? 'zh-CN' : 'en'}>
+    <main id="main-content" className="ed-container rs-library ed-secondary" lang={zh ? 'zh-CN' : 'en'}>
       <DocumentTitle zh="给 AI 的读取接口 | 非凡资本" en="For AI | UniqueCapital" />
-      <header className="rs-article-header">
-        <p className="ed-eyebrow">{zh ? '机器接口 / 非凡产研' : 'Machine interface / UniqueResearch'}</p>
-        <h1>{zh ? '给 AI 的读取接口' : 'For AI'}</h1>
-        <p>
-          {zh ? (
-            <>本页列出机器入口与建议读取顺序。中文为主要语言。人类读者可以继续去<Link href="/research">研究文章库</Link>。模型请按顺序读取，再按需取单篇 Markdown。</>
-          ) : (
-            <>Machine entry points and a suggested read order. Chinese is the primary archive. People can keep reading in the <Link href="/en/research">English research library</Link>, the <Link href="/en/research/rankings">data and rankings list</Link>, or the <Link href="/en/research/events-awards">events and awards list</Link>. Models should follow the order, then fetch one Markdown article.</>
-          )}
-        </p>
-      </header>
+      <div className="rs-intro">
+        <div>
+          <p className="ed-eyebrow">{zh ? '机器接口 / 非凡产研' : 'Machine interface / UniqueResearch'}</p>
+          <h1>{zh ? '给 AI 的读取接口' : 'For AI'}</h1>
+          <p>
+            {zh ? (
+              <>本页列出机器入口与建议读取顺序。中文为主要语言。人类读者可以继续去<Link href="/research">研究文章库</Link>。模型请按顺序读取，再按需取单篇 Markdown。</>
+            ) : (
+              <>Machine entry points and a suggested read order. Chinese is the primary archive. People can keep reading in the <Link href="/en/research">English research library</Link>, the <Link href="/en/research/rankings">data and rankings list</Link>, or the <Link href="/en/research/events-awards">events and awards list</Link>. Models should follow the order, then fetch one Markdown article.</>
+            )}
+          </p>
+        </div>
+      </div>
       <article className="rs-prose">
         <h2>{zh ? '建议读取顺序' : 'Suggested order'}</h2>
         <ol className="ed-agent-order">
@@ -435,8 +437,8 @@ export function ForModelsView() {
         <ul>
           <li><Link href="/for-ai">{zh ? '给 AI 的读取接口' : 'For AI'}</Link>{zh ? '：机器 URL 目录与单篇 Markdown 取法。' : ': machine URLs and how to fetch one Markdown article.'}</li>
           <li><Link href="/en/research">{zh ? '英文研究文章' : 'English research articles'}</Link>{zh ? '：可在本站阅读全文，每篇保留原始发布链接与 Markdown。' : ': full text on this site, with the original publication link and Markdown.'}</li>
-          {!zh && <li><Link href="/en/research/rankings">Data & Rankings</Link>: curated funding, revenue, traffic, and ranking articles. Titles stay in the language they were published.</li>}
-          {!zh && <li><Link href="/en/research/events-awards">Events & Awards</Link>: award results and event articles. Registration stays on UniqueBloom.</li>}
+          {!zh && <li><Link href="/en/research/rankings">Data & Rankings</Link>: English funding, revenue, traffic, and ranking articles.</li>}
+          {!zh && <li><Link href="/en/research/events-awards">Events & Awards</Link>: English award results and event articles. Registration stays on UniqueBloom.</li>}
           <li><Link href="/research">{zh ? '研究文章库' : 'Chinese research archive'}</Link>{zh ? '：可直接读取的网页正文，每篇文章提供 Markdown 链接。' : ': on-site article text, each with a Markdown link. Titles and bodies are Chinese.'}</li>
           <li><a href="/research/index.json">{zh ? '文章索引 JSON' : 'Article index JSON'}</a>{zh ? '：标题、发布账号、原始日期、来源、标签和正文地址。' : ': titles, byline, original dates, sources, tags, and body URLs.'}</li>
           <li><a href="/llms.txt">llms.txt</a>{zh ? '：简明站点导航。' : ': short site guide.'}</li>
