@@ -37,7 +37,7 @@ body .ed-dialog .ed-research-hero__copy h1 {
   font-size: clamp(38px, 5vw, 66px);
   font-weight: 500;
   line-height: 1.12;
-  letter-spacing: -0.045em;
+  letter-spacing: -3px;
 }
 
 /* Reading copy stays on the editorial root scale. */

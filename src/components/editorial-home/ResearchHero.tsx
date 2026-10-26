@@ -28,7 +28,7 @@ const heroCopy = {
   en: {
     latest: 'Latest research',
     kicker: 'UniqueResearch · Public research library',
-    h1: 'UniqueResearch: an industry capital and ecosystem built on AI research',
+    h1: 'An industry capital and ecosystem built on AI research',
     emphasis: 'AI research',
     lead: 'UniqueCapital is an industry capital and ecosystem organization built on AI research. Its research brand, UniqueResearch, tracks global AI funding, subscription revenue, and product traffic across Agentic AI, Physical AI, and Entertainment AI.',
     shortcuts: 'Shortcuts',
