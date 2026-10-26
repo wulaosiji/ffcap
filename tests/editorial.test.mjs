@@ -355,6 +355,18 @@ test("editorial product surfaces use the shared primary CTA", async () => {
   assert.match(source.detail, /https:\/\/uniqueresearch\.cn|productExternalHref/);
 });
 
+test("homepage hero title drops the brand prefix", async () => {
+  const identity = await readFile(new URL("../src/content/site-identity.mjs", import.meta.url), "utf8");
+  const hero = await readFile(new URL("../src/components/editorial-home/ResearchHero.tsx", import.meta.url), "utf8");
+  const faq = await readFile(new URL("../src/content/home-faq.mjs", import.meta.url), "utf8");
+  assert.match(identity, /export const HOME_H1 = '以 AI 研究为基础的产业资本与生态机构'/);
+  assert.doesNotMatch(identity, /HOME_H1 = '非凡产研：/);
+  assert.match(hero, /h1: HOME_H1/);
+  assert.match(hero, /h1: 'An industry capital and ecosystem built on AI research'/);
+  assert.doesNotMatch(hero, /UniqueResearch:\s*an industry/);
+  assert.match(faq, /非凡产研（UniqueResearch）是其研究品牌/);
+});
+
 test("editorial chrome follows the UniqueBase micro language", async () => {
   const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
   const research = await readFile(new URL("../src/app/research/research.css", import.meta.url), "utf8");
@@ -380,7 +392,11 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(css, /outline:3px solid var\(--ed-focus\);outline-offset:4px/);
   assert.match(css, /\.ed-research-hero__search\{[^}]*width:min\(100%,550px\)[^}]*padding:6px;[^}]*border-radius:var\(--ed-radius-search\)[^}]*box-shadow:var\(--ed-search-shadow\)/);
   assert.match(css, /\.ed-research-hero__search input\{[^}]*font-size:13px/);
-  assert.match(css, /\.ed-button,\.ed-research-hero__search button,\.ed-research-hero__cta-primary\{[^}]*border-radius:var\(--ed-radius-button\)[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px/);
+  assert.match(css, /\.ed-button,\.ed-research-hero__search button,\.ed-research-hero__cta-primary\{[^}]*border-radius:var\(--ed-radius-button\)[^}]*min-height:43px;padding:12px 20px;[^}]*gap:18px;[^}]*font-size:12px/);
+  assert.match(css, /\.ed-research-hero\{[^}]*padding:120px 0 88px/);
+  assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-size:clamp\(38px,5vw,66px\);font-weight:500;line-height:1\.12;letter-spacing:-3px/);
+  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*font-size:14px;line-height:1\.85;color:#7a8378/);
+  assert.match(css, /\.ed-site \.ed-research-hero__kicker\{[^}]*margin:0 auto 36px/);
   assert.doesNotMatch(css, /\.ed-research-hero__search button:hover/);
   assert.match(css, /\.ed-research-hero__dot\{[^}]*width:5px;height:5px/);
   assert.match(css, /\.ed-research-hero__copy h1 em\{[^}]*Georgia[^}]*font-style:italic/);
@@ -389,12 +405,15 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(search, /className="ed-button"/);
   assert.match(hero, /<em>\{phrase\}<\/em>/);
   assert.match(research, /\.rs-search button\{[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px;[^}]*border-radius:var\(--ed-radius-button,5px\)/);
+  assert.match(research, /\.rs-search input:not\(\[type=hidden\]\),\.rs-search select\{[^}]*font-size:13px[^}]*background:#fbfcfa[^}]*height:44px;min-height:44px/);
+  assert.doesNotMatch(research, /\.rs-search input\{font-size:18px/);
   assert.match(research, /outline:3px solid var\(--ed-focus,#4e8766\);outline-offset:4px/);
   assert.doesNotMatch(research, /outline:2px/);
   const type = await readFile(new URL("../src/styles/typography.css", import.meta.url), "utf8");
   assert.match(type, /body \.ed-site,\nbody \.ed-dialog \{[^}]*font-size: 15px;[^}]*line-height: 1\.6;/);
   assert.match(type, /letter-spacing: -0\.045em;/);
   assert.match(type, /:lang\(zh\) :is\(h1, h2, h3, h4, h5, h6\) \{\n  letter-spacing: -0\.045em;\n\}/);
+  assert.match(type, /ed-research-hero__copy h1 \{[^}]*letter-spacing: -3px;/);
   assert.match(type, /Georgia, "Times New Roman", serif/);
   assert.doesNotMatch(type, /Inter/);
 });
