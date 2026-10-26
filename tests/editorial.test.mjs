@@ -396,6 +396,7 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(css, /\.ed-research-hero\{[^}]*padding:120px 0 88px/);
   assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-size:clamp\(38px,5vw,66px\);font-weight:500;line-height:1\.12;letter-spacing:-3px/);
   assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*font-size:14px;line-height:1\.85;color:#7a8378/);
+  assert.match(css, /\.ed-site \.ed-research-hero__kicker\{[^}]*margin:0 auto 36px/);
   assert.doesNotMatch(css, /\.ed-research-hero__search button:hover/);
   assert.match(css, /\.ed-research-hero__dot\{[^}]*width:5px;height:5px/);
   assert.match(css, /\.ed-research-hero__copy h1 em\{[^}]*Georgia[^}]*font-style:italic/);
