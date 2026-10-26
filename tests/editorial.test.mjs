@@ -175,6 +175,19 @@ test("site chrome does not invite AI ranking applications", async () => {
   assert.doesNotMatch(src, /申报 AI 榜单|申报榜单|我要申报|Apply for AI rankings|Apply for AI Rankings|立即提交您的AI应用|submit to our leaderboard|官方申报表单/);
 });
 
+test("homepage hero copy is centered and desktop nav is not shifted right", async () => {
+  const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
+  const home = await readFile(new URL("../src/components/editorial-home/EditorialHome.tsx", import.meta.url), "utf8");
+  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*width:min\(40rem,100%\)/);
+  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*margin-inline:auto/);
+  assert.match(css, /\.ed-site \.ed-research-hero__scale\{[^}]*width:min\(36rem,100%\)/);
+  assert.doesNotMatch(css, /\.ed-desktop-nav\{[^}]*padding-left:\s*5%/);
+  assert.match(home, /researchHubPath\('events-awards', lang\)/);
+  assert.match(home, /uniqueBaseHref\(lang\)/);
+  assert.doesNotMatch(home, /href="\/events"/);
+  assert.doesNotMatch(home, /href=\{`\/events`\}/);
+});
+
 test("hero suggestions overlay instead of growing the ticker row", async () => {
   const search = await readFile(new URL("../src/components/editorial-home/ResearchHeroSearch.tsx", import.meta.url), "utf8");
   const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");

@@ -68,7 +68,7 @@ export default function EventArticlePage({ params }: { params: { slug: string } 
       <StructuredData data={structured} />
       <StructuredData
         data={breadcrumbs([
-          { name: '活动文章', url: '/events' },
+          { name: '活动与奖项', url: '/research/events-awards' },
           { name: record.title, url: eventArticlePath(params.slug) },
         ])}
       />

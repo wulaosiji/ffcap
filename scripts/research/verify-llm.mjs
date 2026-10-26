@@ -11,7 +11,7 @@ async function read(path, status = 200) {
   return { response, body: await response.text() }
 }
 const sample = '/research/20260903a098sq00'
-for (const path of ['/', '/about', '/research', '/for-models', '/for-ai', '/products', '/topics', '/events', '/events/cd2026', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
+for (const path of ['/', '/about', '/research', '/for-models', '/for-ai', '/products', '/topics', '/research/events-awards', '/events/cd2026', sample, ...PRODUCTS.map(p => `/products/${p.id}`), ...TOPICS.map(t => `/topics/${t.id}`)]) {
   const { body } = await read(path)
   assert.match(body, /<html[^>]+lang="zh-CN"/, path)
   const canonical = [...body.matchAll(/<link rel="canonical" href="([^"]+)"/g)]
@@ -48,6 +48,9 @@ for (const a of sampleEntries) {
   checks.push({ path, status: 200, warnings: a.warnings.length })
 }
 for (const path of ['/research/notfound/markdown', '/research/notfound.md', '/products/notfound', '/topics/notfound']) await read(path, 404)
+const eventsList = await fetch(new URL('/events', origin), { redirect: 'manual' })
+assert.ok([301, 308].includes(eventsList.status), `expected /events redirect, got ${eventsList.status}`)
+assert.match(eventsList.headers.get('location') || '', /\/research\/events-awards\/?$/)
 const { body: llms } = await read('/llms.txt')
 assert.ok(llms.includes('/events/cd2026'))
 assert.ok(llms.includes('/open.html'))

@@ -52,8 +52,8 @@ ${CITATION_NOTE}
 
 - [中文文章库](${siteUrl}/research)
 - [English article archive](${siteUrl}/en/research)：可在本站阅读全文并获取 Markdown，保留 Unique Research Substack 原始来源。
-- [English data & rankings](${siteUrl}/en/research/rankings)：英文界面的数据与榜单精选，条目标题保持原文语言。
-- [English events & awards](${siteUrl}/en/research/events-awards)：英文界面的活动与奖项文章列表，条目标题保持原文语言。
+- [English data & rankings](${siteUrl}/en/research/rankings)：英文数据与榜单文章，标题为英文。
+- [English events & awards](${siteUrl}/en/research/events-awards)：英文活动与奖项文章，标题为英文。
 - [公开文章索引 JSON](${siteUrl}/research/index.json)：含标题、原始日期、发布账号、出处、正文 Markdown 地址及内容缺口。
 - [最新研究 Markdown](${siteUrl}/research/latest.md)、[RSS 2.0](${siteUrl}/research/rss.xml)
 ${TOPICS.map(topic => `- [${topic.name}](${siteUrl}/topics/${topic.id})：${topic.description.zh}`).join('\n')}
@@ -68,9 +68,9 @@ ${PRODUCTS.map(product => `- [${product.name.zh}](${siteUrl}/products/${product.
 - [研究方向枢纽](${siteUrl}/topics)
 ${TOPICS.map(topic => `- [${topic.name}](${siteUrl}/topics/${topic.id})：${topic.description.zh}`).join('\n')}
 
-## 活动文章
+## 活动与奖项
 
-- [活动文章列表](${siteUrl}/events)
+- [活动与奖项](${siteUrl}/research/events-awards)
 - [成都 AI 文娱大会导读](${siteUrl}/events/cd2026)（报名见 UniqueBloom）
 
 ## 功能入口
@@ -153,7 +153,7 @@ ${highlightLines}
 
 - 元数据全量：${siteUrl}/research/index.json。字段含 title、originalPublishedAt、publicationAccount、sourceUrl、markdownUrl、warnings。不含 html 或 text。
 - 英文全文目录：${siteUrl}/en/research。每篇另有 Markdown。
-- 英文数据与榜单：${siteUrl}/en/research/rankings。英文活动与奖项：${siteUrl}/en/research/events-awards。条目标题保持原文语言。
+- 英文数据与榜单：${siteUrl}/en/research/rankings。英文活动与奖项：${siteUrl}/en/research/events-awards。标题为英文。
 - 本文件到此结束。不要把未出现的段落当成原文。
 `
 }

@@ -7,6 +7,7 @@ import { CONTACT } from '@/content/contact.mjs'
 import { LINKS, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell, OutLink } from './EditorialShell'
+import '@/app/research/research.css'
 
 const copy = {
   zh: {
@@ -39,31 +40,34 @@ export function EditorialContact() {
   return (
     <EditorialShell>
       <DocumentTitle zh="联系我们 · 非凡资本 UniqueCapital" en="Contact · UniqueCapital" />
-      <main className="ed-about" id="main-content">
-        <section className="ed-container ed-about-intro" aria-labelledby="contact-title">
-          <p className="ed-eyebrow">{text.eyebrow}</p>
-          <h1 id="contact-title">{text.title}</h1>
+      <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
+        <section className="rs-intro" id="top" aria-labelledby="contact-title">
           <div>
+            <p className="ed-eyebrow">{text.eyebrow}</p>
+            <h1 id="contact-title">{text.title}</h1>
             <p>{text.intro}</p>
-            <dl className="ed-contact-card">
-              <div>
-                <dt className="ed-eyebrow">{lang === 'zh' ? '联系人' : 'Contact'}</dt>
-                <dd><strong>{CONTACT.name[lang]}</strong></dd>
-              </div>
-              <div>
-                <dt className="ed-eyebrow">{text.emailLabel}</dt>
-                <dd><a className="ed-link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></dd>
-              </div>
-              <div>
-                <dt className="ed-eyebrow">{text.addressLabel}</dt>
-                <dd>{CONTACT.officeCities[lang]}</dd>
-                <dd className="ed-muted" style={{ marginTop: '0.75rem', fontSize: '14px' }}>{CONTACT.officeDetailPlaceholder[lang]}</dd>
-              </div>
-            </dl>
           </div>
         </section>
 
-        <section className="ed-container ed-about-ecosystem" aria-labelledby="contact-links-title">
+        <section className="ed-contact-panel" aria-label={text.eyebrow}>
+          <dl className="ed-contact-card">
+            <div>
+              <dt className="ed-eyebrow">{lang === 'zh' ? '联系人' : 'Contact'}</dt>
+              <dd><strong>{CONTACT.name[lang]}</strong></dd>
+            </div>
+            <div>
+              <dt className="ed-eyebrow">{text.emailLabel}</dt>
+              <dd><a className="ed-link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></dd>
+            </div>
+            <div>
+              <dt className="ed-eyebrow">{text.addressLabel}</dt>
+              <dd>{CONTACT.officeCities[lang]}</dd>
+              <dd className="ed-muted" style={{ marginTop: '0.75rem', fontSize: '14px' }}>{CONTACT.officeDetailPlaceholder[lang]}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="ed-about-ecosystem" aria-labelledby="contact-links-title">
           <p className="ed-eyebrow">{lang === 'zh' ? '研究 · 榜单 · 数据' : 'RESEARCH · RANKINGS · DATA'}</p>
           <h2 id="contact-links-title">{lang === 'zh' ? '站内阅读与数据入口' : 'On-site reading & data'}</h2>
           <p>{lang === 'zh' ? '研究报告与榜单文章在本站阅读；需要结构化公司事实时可使用 UniqueBase。' : 'Read reports and ranking articles on ffcap.cn; use UniqueBase when you need structured company facts.'}</p>

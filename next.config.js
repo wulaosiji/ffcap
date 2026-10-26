@@ -87,6 +87,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/events',
+        destination: '/research/events-awards',
+        permanent: true,
+      },
+      {
         source: '/products/uniqueclub',
         destination: '/products/uniquebase',
         permanent: true,

@@ -65,11 +65,9 @@ export default function ResearchEventsAwardsHubPage() {
       </div>
 
       <p className="rs-source-note">
-        活动报名与完整列表请访问
+        活动报名与完整日历请访问
         <a href={LINKS.events} target="_blank" rel="noopener noreferrer"> UniqueBloom ↗</a>
-        。站内活动导读页仍保留在
-        <Link href="/events"> /events</Link>
-        。
+        。相关文章在本页阅读。
       </p>
     </main>
   )

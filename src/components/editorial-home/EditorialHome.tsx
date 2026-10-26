@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLang } from '@/context/LangContext'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, researchHubPath } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -96,12 +96,24 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
             {zh && topic !== 'all' && <div className="ed-topic-summary"><p className="ed-eyebrow">研究议题</p><h3>{TOPICS.find(t => t.id === topic)?.title[lang]}</h3><p>{TOPICS.find(t => t.id === topic)?.description[lang]}</p></div>}
             <ResearchHighlights topic={topic}/>
           </div>
-          <aside className="ed-research-aside"><p className="ed-eyebrow">{zh ? '非凡产研' : 'UNIQUERESEARCH'}</p><h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3><p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p><Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察文章库' : 'Research article library'}</span><ArrowRight size={17}/></Link><Link href={researchHubPath('rankings', lang)} className="ed-aside-link"><span>{zh ? 'AI 榜单精选' : 'Curated rankings'}</span><ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-aside-link"><span>{zh ? '活动与公开交流' : 'Events & conversations'}</span><ArrowUpRight size={17}/></OutLink><p className="ed-aside-note">{zh ? '文章与榜单在本站阅读；查库请使用 UniqueBase。' : 'Read articles and rankings on ffcap.cn; use UniqueBase to query structured data.'}</p></aside>
+          <aside className="ed-research-aside">
+            <p className="ed-eyebrow">{zh ? '非凡产研' : 'UNIQUERESEARCH'}</p>
+            <h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3>
+            <p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p>
+            <Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察' : 'Research'}</span><ArrowRight size={17}/></Link>
+            <Link href={researchHubPath('rankings', lang)} className="ed-aside-link"><span>{zh ? '数据与榜单' : 'Data & Rankings'}</span><ArrowRight size={17}/></Link>
+            <Link href={researchHubPath('events-awards', lang)} className="ed-aside-link"><span>{zh ? '活动与奖项' : 'Events & Awards'}</span><ArrowRight size={17}/></Link>
+            <p className="ed-aside-note">
+              {zh ? '文章与榜单在本站阅读；结构化查询请使用 ' : 'Read articles and rankings on this site. Query structured data on '}
+              <a href={uniqueBaseHref(lang)} target="_blank" rel="noopener noreferrer">UniqueBase</a>
+              {zh ? '。' : '.'}
+            </p>
+          </aside>
         </div>
       </section>
 
       <section id="ecosystem" className="ed-events ed-reveal"><div className="ed-container">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '与同路人' : 'IN GOOD COMPANY'} {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href="/events" className="ed-link">{zh ? '更多活动文章' : 'More event briefs'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '与同路人' : 'IN GOOD COMPANY'} {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href={researchHubPath('events-awards', lang)} className="ed-link">{zh ? '活动与奖项' : 'Events & awards'}<ArrowRight size={19}/></Link></div>
         <p className="ed-section-intro">{zh ? '列表顺序与 UniqueBloom 公开活动一致；点击前往报名页。完整日历见 UniqueBloom。' : 'Listed in UniqueBloom public order; each row opens sign-up on UniqueBloom.'}</p>
         <div className="ed-event-list">{homeEvents.map(event => {
           const status = now === null ? 'event' : eventStatus(event, now)

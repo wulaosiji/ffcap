@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { primaryNavItems, researchHubPath, researchLanguageCounterpart, researchRouteLang } from '../src/content/editorial.mjs'
+import {
+  getCuratedEnglishEventsAwardsArticles,
+  getCuratedEnglishRankingArticles,
+  isEnglishRankingArticle,
+} from '../src/content/english-hub-curation.mjs'
 import { articleMarkdownLinkHeader } from '../src/lib/agent-markdown-routes.mjs'
 import { buildLlmsFull, buildLlmsTxt } from '../src/lib/llms-documents.mjs'
 
@@ -59,8 +65,14 @@ test('english hub pages are locale-pure and reuse the curated lists', async () =
   for (const [name, src] of [['rankings', rankings], ['events', events], ['hub', hub]]) {
     assert.doesNotMatch(src, /[\u3400-\u9fff]/, name)
   }
-  assert.match(rankings, /getCuratedRankingArticles/)
-  assert.match(events, /getCuratedEventsAwardsArticles/)
+  assert.match(rankings, /getEnglishResearchCatalog/)
+  assert.match(rankings, /getCuratedEnglishRankingArticles/)
+  assert.match(events, /getEnglishResearchCatalog/)
+  assert.match(events, /getCuratedEnglishEventsAwardsArticles/)
+  assert.doesNotMatch(rankings, /@\/lib\/research['"]/)
+  assert.doesNotMatch(events, /@\/lib\/research['"]/)
+  assert.doesNotMatch(rankings, /rankings-curation/)
+  assert.doesNotMatch(events, /events-awards-curation/)
   assert.match(hub, /article\.title/)
   assert.match(hub, /No articles yet/)
   assert.match(hub, /Read article:/)
@@ -68,11 +80,21 @@ test('english hub pages are locale-pure and reuse the curated lists', async () =
   assert.match(hub, /rs-card-read/)
   assert.match(hub, /Data & Rankings/)
   assert.match(hub, /Events & Awards/)
-  assert.match(hub, /href=\{`\/research\/\$\{article\.slug\}`\}/)
+  assert.match(hub, /href=\{`\/en\/research\/\$\{article\.slug\}`\}/)
+  assert.doesNotMatch(hub, /href=\{`\/research\/\$\{article\.slug\}`\}/)
+  assert.doesNotMatch(hub, /href="\/events"/)
+  assert.doesNotMatch(hub, /Titles stay in the language/)
+  assert.match(chineseRankings, /getResearchCatalog/)
+  assert.match(chineseRankings, /getCuratedRankingArticles/)
+  assert.match(chineseEvents, /getResearchCatalog/)
+  assert.match(chineseEvents, /getCuratedEventsAwardsArticles/)
+  assert.doesNotMatch(chineseRankings, /getEnglishResearchCatalog/)
+  assert.doesNotMatch(chineseEvents, /getEnglishResearchCatalog/)
   assert.match(chineseRankings, /数据与榜单/)
   assert.match(chineseEvents, /活动与奖项/)
   assert.doesNotMatch(chineseRankings, /Data & Rankings/)
   assert.doesNotMatch(chineseEvents, /Events & Awards/)
+  assert.doesNotMatch(chineseEvents, /href="\/events"/)
   const toggle = shell.slice(shell.indexOf('const switchLanguage'), shell.indexOf('const [menuOpen'))
   assert.match(shell, /researchRouteLang\(pathname\) \|\| lang/)
   assert.ok(toggle.includes('researchLanguageCounterpart'))
@@ -84,10 +106,35 @@ test('sitemap and llms documents list the english hubs', async () => {
   const sitemap = await readFile(new URL('../src/app/sitemap.ts', import.meta.url), 'utf8')
   assert.match(sitemap, /https:\/\/ffcap\.cn\/en\/research\/rankings/)
   assert.match(sitemap, /https:\/\/ffcap\.cn\/en\/research\/events-awards/)
+  assert.doesNotMatch(sitemap, /url: 'https:\/\/ffcap\.cn\/events'/)
   const llms = buildLlmsTxt()
   const full = buildLlmsFull()
   assert.match(llms, /https:\/\/ffcap\.cn\/en\/research\/rankings/)
   assert.match(llms, /https:\/\/ffcap\.cn\/en\/research\/events-awards/)
   assert.match(full, /https:\/\/ffcap\.cn\/en\/research\/rankings/)
   assert.match(full, /https:\/\/ffcap\.cn\/en\/research\/events-awards/)
+  assert.match(llms, /https:\/\/ffcap\.cn\/research\/events-awards/)
+  assert.doesNotMatch(llms, /https:\/\/ffcap\.cn\/events\)/)
+  assert.match(llms, /https:\/\/ffcap\.cn\/events\/cd2026/)
+})
+
+test('english hubs curate english catalog titles, not the chinese archive', () => {
+  const catalog = JSON.parse(fs.readFileSync(new URL('../src/content/research/english-catalog.json', import.meta.url), 'utf8'))
+  const rankings = getCuratedEnglishRankingArticles(catalog)
+  const events = getCuratedEnglishEventsAwardsArticles(catalog)
+  assert.ok(rankings.length > 5)
+  assert.ok(events.length > 5)
+  assert.ok(rankings.some(article => /Entertainment AI 100/i.test(article.title)))
+  assert.ok(rankings.some(article => /Global AI 100/i.test(article.title)))
+  assert.ok(rankings.some(article => /CHINA AI 100/i.test(article.title)))
+  assert.equal(isEnglishRankingArticle({ title: 'September subscription revenue ranking', summary: '' }), true)
+  assert.ok(events.some(article => /Unique Awards/i.test(article.title)))
+  assert.ok(events.some(article => /Registration Open|Call for Entries/i.test(article.title)))
+  for (const article of [...rankings, ...events]) {
+    assert.equal(article.excerpt, catalog.find(entry => entry.slug === article.slug).summary)
+    assert.equal(typeof article.title, 'string')
+  }
+  const chinese = JSON.parse(fs.readFileSync(new URL('../src/content/research/catalog.json', import.meta.url), 'utf8'))
+  const chineseSlugs = new Set(chinese.map(entry => entry.slug))
+  assert.equal(rankings.some(article => chineseSlugs.has(article.slug) && /[\u3400-\u9fff]/.test(article.title)), false)
 })

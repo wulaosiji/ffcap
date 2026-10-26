@@ -28,7 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://ffcap.cn/world', changeFrequency: 'yearly', priority: .3 },
     { url: 'https://ffcap.cn/products', changeFrequency: 'monthly', priority: .65 },
     { url: 'https://ffcap.cn/topics', changeFrequency: 'monthly', priority: .75 },
-    { url: 'https://ffcap.cn/events', changeFrequency: 'weekly', priority: .7 },
     ...PRODUCTS.map(p => ({ url: `https://ffcap.cn/products/${p.id}`, priority: .6 })),
     ...TOPICS.map(t => ({ url: `https://ffcap.cn/topics/${t.id}`, priority: .8 })),
     ...EVENT_ARTICLE_SLUGS.map(slug => ({ url: `https://ffcap.cn${eventArticlePath(slug)}`, changeFrequency: 'weekly' as const, priority: .68 })),
