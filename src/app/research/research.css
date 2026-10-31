@@ -11,3 +11,8 @@
 .rs-chinese-link{white-space:nowrap}
 .rs-card-bottom>a.rs-card-read{font-size:13px;min-width:0;white-space:nowrap}
 .rs-grid>.rs-card,.rs-card-link{min-width:0}
+.rs-prose,.rs-article-header{background:var(--ed-paper)}
+.rs-card-link .ed-cover--card{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--ed-radius-card);margin:0 0 14px;background:var(--ed-cell)}
+.rs-card:has(.ed-cover--card) :is(h2,h3){margin-top:12px}
+.rs-article-cover{margin:6px 0 0}
+.rs-article-cover .ed-cover--header{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--ed-radius-card);background:var(--ed-cell)}

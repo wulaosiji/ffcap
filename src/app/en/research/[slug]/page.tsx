@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { StructuredData } from '@/components/StructuredData'
+import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
+import { firstSubstackImage, substackVariant, withoutLeadingCover } from '@/content/research/cover-image.mjs'
 import { relatedChineseSlugForArticle } from '@/content/research/english-related.mjs'
 import { breadcrumbs } from '@/content/site-identity.mjs'
 import { englishResearchUrl, getEnglishResearchArticle } from '@/lib/english-research'
@@ -13,12 +15,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const article = getEnglishResearchArticle(params.slug)
   if (!article) return { title: 'Article not found | Unique Research' }
   const canonical = `https://ffcap.cn${englishResearchUrl(article.slug)}`
+  const cover = firstSubstackImage(article.html)
+  const image = cover ? substackVariant(cover, 1456) || cover : null
   return {
     title: `${article.title} | Unique Research`,
     description: article.summary,
     authors: [{ name: article.author }],
     alternates: { canonical, types: { 'text/markdown': `${canonical}/markdown` } },
-    openGraph: { type: 'article', title: article.title, description: article.summary, publishedTime: article.publishedAt, authors: [article.author], url: canonical },
+    openGraph: { type: 'article', title: article.title, description: article.summary, publishedTime: article.publishedAt, authors: [article.author], url: canonical, ...(image ? { images: [{ url: image }] } : {}) },
   }
 }
 
@@ -30,6 +34,8 @@ export default function EnglishArticlePage({ params }: { params: { slug: string 
   const canonical = `https://ffcap.cn${englishResearchUrl(article.slug)}`
   const publishedDate = new Date(article.publishedAt).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })
   const readingMinutes = Math.max(1, Math.ceil(article.text.trim().split(/\s+/).length / 220))
+  const cover = firstSubstackImage(article.html)
+  const proseHtml = cover ? withoutLeadingCover(article.html, cover) : article.html
   const structured = {
     '@context': 'https://schema.org', '@type': 'Article', inLanguage: 'en',
     url: canonical, headline: article.title, description: article.summary,
@@ -53,9 +59,10 @@ export default function EnglishArticlePage({ params }: { params: { slug: string 
         <a href={`${englishResearchUrl(article.slug)}/markdown`}>Markdown</a>
         {relatedChinese && <ChineseArticleLink href={`/research/${relatedChinese}`}>Related Chinese article →</ChineseArticleLink>}
       </div>
+      {cover ? <div className="rs-article-cover"><ArticleCoverImage src={cover} variant="header" /></div> : null}
     </header>
     {article.missingSourceImageCount ? <p className="rs-media-note">Some images are already unavailable in the public original and are omitted here; the readable article text is preserved.</p> : null}
-    <article className="rs-prose" lang="en" dangerouslySetInnerHTML={{ __html: article.html }}/>
+    <article className="rs-prose" lang="en" dangerouslySetInnerHTML={{ __html: proseHtml }}/>
     <div className="rs-attribution">{isBackfill ? <p>Editorial English edition by {article.author}, published on UniqueCapital on {publishedDate}. {article.cnSourceUrl ? 'This translation is based on an earlier Chinese article; the Chinese source is credited separately and is not treated as a line-by-line mirror.' : 'This article is published in the FFCAP English research library.'}</p> : <p>Originally published by {article.author} on Unique Research Substack on {publishedDate}. This page preserves the public article for reading on UniqueCapital.</p>}{article.cnSourceUrl ? <a href={article.cnSourceUrl} target="_blank" rel="noopener noreferrer">View the Chinese source article ↗</a> : <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">{isBackfill ? 'Canonical on-site edition ↗' : 'View the original publication ↗'}</a>}</div>
     <Link href="/en/research" className="rs-back">← Back to English research</Link>
   </main>

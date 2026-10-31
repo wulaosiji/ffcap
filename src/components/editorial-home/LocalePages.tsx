@@ -169,7 +169,7 @@ export function EventsHubView({ events }: { events: HubEvent[] }) {
   const labels = eventStatusLabel[lang]
 
   return (
-    <main id="main-content" className="ed-container rs-library" lang={zh ? 'zh-CN' : 'en'}>
+    <main id="main-content" className="ed-container rs-library ed-topo-hub" lang={zh ? 'zh-CN' : 'en'}>
       <DocumentTitle zh="活动文章 · 非凡资本" en="Event briefs · UniqueCapital" />
       <div className="rs-intro">
         <div>
@@ -304,7 +304,7 @@ export function ForAiView({ sampleDate, sampleMarkdown, sampleAlias }: { sampleD
   const zh = lang === 'zh'
 
   return (
-    <main id="main-content" className="ed-container rs-library ed-secondary" lang={zh ? 'zh-CN' : 'en'}>
+    <main id="main-content" className="ed-container rs-library ed-secondary ed-topo-quiet" lang={zh ? 'zh-CN' : 'en'}>
       <DocumentTitle zh="给 AI 的读取接口 | 非凡资本" en="For AI | UniqueCapital" />
       <div className="rs-intro">
         <div>

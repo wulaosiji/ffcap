@@ -28,7 +28,7 @@ export function ProductsHub() {
   const text = copy[lang]
 
   return (
-    <main id="main-content" className="ed-container rs-library" lang={lang === 'en' ? 'en' : 'zh-CN'}>
+    <main id="main-content" className="ed-container rs-library ed-topo-quiet" lang={lang === 'en' ? 'en' : 'zh-CN'}>
       <DocumentTitle zh="产品矩阵 · 非凡资本" en="Products · UniqueCapital" />
       <div className="rs-intro">
         <div>

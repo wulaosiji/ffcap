@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { HOME_H1, HOME_LEAD } from '@/content/site-identity.mjs'
 import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
+import { ArticleCoverImage } from './ArticleCover'
 import { ResearchHeroAgents, ResearchHeroSearch } from './ResearchHeroSearch'
 
 export type HomeAnnouncement = {
@@ -12,6 +13,7 @@ export type HomeAnnouncement = {
   href: string
   stat?: string | null
   summary?: string
+  coverSrc?: string | null
 } | null
 
 const heroCopy = {
@@ -73,8 +75,12 @@ export function ResearchHero({
 
           {announcement && (
             <div className="ed-research-hero__status">
-              <Link href={announcement.href} className="ed-research-hero__announce-link">
-                <span className="ed-research-hero__dot" aria-hidden />
+              <Link href={announcement.href} className={`ed-research-hero__announce-link${announcement.coverSrc ? ' ed-research-hero__announce-link--cover' : ''}`}>
+                {announcement.coverSrc ? (
+                  <ArticleCoverImage src={announcement.coverSrc} variant="thumb" />
+                ) : (
+                  <span className="ed-research-hero__dot" aria-hidden />
+                )}
                 <span className="ed-research-hero__status-kicker">{text.latest}</span>
                 <span className="ed-research-hero__announce-title">{announcement.title}</span>
                 {(announcement.stat || announcement.summary) && (

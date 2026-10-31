@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { coverForChineseSlug, coverForEnglishSlug } from './research/article-cover.mjs'
 
 const researchDir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'research')
 
@@ -40,6 +41,7 @@ export function homeLatestAnnouncement() {
     stat: announcementKeyStat(latest.title, latest.excerpt),
     summary: announcementSummary(latest.excerpt),
     source: highlights[0]?.slug === latest.slug ? 'highlights' : 'catalog',
+    coverSrc: coverForChineseSlug(latest.slug),
   }
 }
 
@@ -55,5 +57,6 @@ export function homeLatestEnglishAnnouncement() {
     stat: announcementKeyStat(latest.title, latest.summary),
     summary: announcementSummary(latest.summary),
     source: 'english-highlights',
+    coverSrc: coverForEnglishSlug(latest.slug),
   }
 }

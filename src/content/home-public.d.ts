@@ -7,7 +7,15 @@ export const FAQ_ITEMS: { question: string; answer: string }[]
 export const FAQ_ITEMS_EN: { question: string; answer: string }[]
 export function homeLibraryStatLabel(): string
 export function homeLibraryCount(): number
-export function homeLatestAnnouncement(): { title: string; date: string; href: string } | null
+export function homeLatestAnnouncement(): {
+  title: string
+  date: string
+  href: string
+  stat: string | null
+  summary: string
+  source: string
+  coverSrc: string | null
+} | null
 export function homeLatestEnglishAnnouncement(): {
   title: string
   date: string
@@ -15,6 +23,7 @@ export function homeLatestEnglishAnnouncement(): {
   stat: string | null
   summary: string
   source: string
+  coverSrc: string | null
 } | null
 export function homeItemListGraph(): Record<string, unknown>
 export function homeFaqGraph(): Record<string, unknown>
