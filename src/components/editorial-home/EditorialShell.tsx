@@ -70,7 +70,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
               </div>
               <Dialog.Description className="ed-muted">{zh ? '搜索研究方向、活动和产品。' : 'Find research topics, events, and products.'}</Dialog.Description>
               <div className="ed-search-field"><Search size={23} strokeWidth={1.5}/><input ref={searchInput} aria-label={zh ? '搜索关键词' : 'Search keywords'} placeholder={zh ? '试试「智能体」或 UniqueBase' : 'Try “agents” or UniqueBase'} value={query} onChange={e => setQuery(e.target.value)} />{query && <button className="ed-icon-button" onClick={() => { setQuery(''); searchInput.current?.focus() }} aria-label={zh ? '清空搜索' : 'Clear search'}><X size={18}/></button>}</div>
-              <p className="ed-eyebrow" role="status">{query ? (zh ? `文章库入口 · ${count} 条相关精选与产品` : `Article search · ${count} featured items & products`) : (zh ? '研究文章、精选内容与产品' : 'Articles, featured content & products')}</p>
+              <p className="ed-eyebrow" role="status">{query ? (zh ? `文章库入口 · ${count} 条相关精选与产品` : `Article Search · ${count} Featured Items & Products`) : (zh ? '研究文章、精选内容与产品' : 'Articles, Featured Content & Products')}</p>
               <div className="ed-search-results">
                 <Link href={`${zh ? '/research' : '/en/research'}${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`} className="ed-search-result" onClick={() => setSearchOpen(false)}><span><small>{zh ? '站内文章 · 全文检索' : 'English articles · full-text search'}</small><strong>{query.trim() ? (zh ? `搜索研究文章：“${query.trim()}”` : `Search articles: “${query.trim()}”`) : (zh ? '浏览非凡产研全部文章' : 'Browse English research articles')}</strong></span><ArrowRight size={20}/></Link>
                 {results.map(item => {
@@ -112,7 +112,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
         <div><Link href={zh ? '/' : '/en'} className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={displayed} /></div>
         <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
         <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
-        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'Our products'}</span>{PRODUCTS.map(p => {
+        <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'Our Products'}</span>{PRODUCTS.map(p => {
           const href = productPrimaryHref(p, displayed)
           const external = href.startsWith('http')
           return external

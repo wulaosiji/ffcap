@@ -341,8 +341,10 @@
 }
 
 /* Option B panels: D topo wash + lower-right motif. Reading hub is quiet topo only.
-   Rest is muted warm-paper line art. Hover / :focus-within bloom lives here;
-   short motion is in editorial-motion.css and stops under prefers-reduced-motion. */
+   Rest is muted warm-paper line art. Hover / :focus-within lifts grayscale so
+   the botanical motif's own greens / creams bloom, plus a soft cream wash —
+   no sepia, hue-rotate, terracotta, or forest saturate(1.4). Short motion is
+   in editorial-motion.css and stops under prefers-reduced-motion. */
 .ed-panel{position:relative;overflow:hidden;isolation:isolate;background:var(--ed-paper);min-height:360px}
 .ed-panel::before,.ed-panel[data-motif]::after{content:'';position:absolute;z-index:0;pointer-events:none}
 .ed-panel::before{inset:-12%}
@@ -355,9 +357,9 @@
 .ed-panel[data-motif="goodprojects"]::after{background-image:url('/editorial/motifs/goodprojects.jpg');background-position:right 42%;background-size:auto 100%}
 .ed-panel>*{position:relative;z-index:1}
 .ed-panel p{max-width:19rem}
-.ed-panel.ed-product:is(:hover,:focus-within){background:var(--ed-paper)}
-.ed-panel.ed-product:is(:hover,:focus-within)::before{opacity:.22;filter:grayscale(0) saturate(1.2)}
-.ed-panel.ed-product:is(:hover,:focus-within)::after{opacity:.44;filter:grayscale(0) saturate(1.4) brightness(1)}
+.ed-panel.ed-product:is(:hover,:focus-within){background:radial-gradient(ellipse at 80% 70%,rgba(232,196,148,.10) 0%,transparent 56%),radial-gradient(ellipse at 18% 18%,rgba(243,234,214,.28) 0%,transparent 46%),var(--ed-paper)}
+.ed-panel.ed-product:is(:hover,:focus-within)::before{opacity:.2;filter:grayscale(0) saturate(1)}
+.ed-panel.ed-product:is(:hover,:focus-within)::after{opacity:.4;filter:grayscale(0) saturate(1) brightness(1.02)}
 .ed-about-ecosystem.ed-reading-hub{position:relative;isolation:isolate;overflow:hidden;background:var(--ed-paper);border-block:1px solid var(--ed-rule);padding:64px 0 72px;margin-bottom:48px}
 .ed-reading-hub::before{content:'';position:absolute;z-index:0;pointer-events:none;inset:-18% -6% -28% 18%;background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:right center;background-size:min(1040px,96%) auto;opacity:.16;-webkit-mask-image:radial-gradient(ellipse at 90% 55%,#000 0%,transparent 70%);mask-image:radial-gradient(ellipse at 90% 55%,#000 0%,transparent 70%)}
 .ed-reading-hub>*{position:relative;z-index:1}

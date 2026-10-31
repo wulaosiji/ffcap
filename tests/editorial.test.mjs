@@ -149,7 +149,7 @@ test("footer renders explore, For AI, and products as peer columns", async () =>
   const ai = main.indexOf("explore.ai.eyebrow");
   const products = main.indexOf("进入产品");
   assert.ok(site > -1 && ai > site && products > ai);
-  assert.match(main, /Our products/);
+  assert.match(main, /Our Products/);
   assert.match(css, /\.ed-footer-main\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(css, /\.ed-footer-explore/);
 });
@@ -369,6 +369,7 @@ test("homepage hero title drops the brand prefix", async () => {
   assert.doesNotMatch(identity, /HOME_H1 = '非凡产研：/);
   assert.match(hero, /h1: HOME_H1/);
   assert.match(hero, /h1: 'An industry capital and ecosystem built on AI research'/);
+  assert.match(hero, /UniqueResearch · Public Research Library/);
   assert.doesNotMatch(hero, /UniqueResearch:\s*an industry/);
   assert.match(faq, /非凡产研（UniqueResearch）是其研究品牌/);
 });
@@ -446,6 +447,7 @@ test("secondary pages share the research-journal display stack and sentence-case
   assert.equal(productsHubPath("en"), "/en/products");
   assert.equal(productDetailPath("uniquebase", "en"), "/en/products/uniquebase");
   const files = Object.fromEntries(await Promise.all([
+    ["zhArchive", "../src/app/research/page.tsx"],
     ["enArchive", "../src/app/en/research/page.tsx"],
     ["enArticle", "../src/app/en/research/[slug]/page.tsx"],
     ["enProducts", "../src/app/en/products/page.tsx"],
@@ -455,10 +457,19 @@ test("secondary pages share the research-journal display stack and sentence-case
     ["contact", "../src/components/editorial-home/EditorialContact.tsx"],
     ["world", "../src/components/editorial-home/InfiniteWorldHero.tsx"],
   ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")])));
-  assert.match(files.enArchive, /Unique research/);
+  assert.match(files.zhArchive, /把分散的行业信号，放回同一张图景。/);
+  assert.match(files.zhArchive, /ed-secondary ed-topo-quiet/);
+  assert.match(files.zhArchive, /rs-feed/);
+  assert.doesNotMatch(files.zhArchive, /rs-directions|rs-search|role="search"|检索文章|全部方向/);
+  assert.match(files.enArchive, /Read the English research articles in full\./);
+  assert.match(files.enArchive, /ed-secondary ed-topo-quiet/);
+  assert.match(files.enArchive, /rs-feed/);
+  assert.match(files.enArchive, /ed-eyebrow">UniqueResearch</);
+  assert.match(files.enArchive, /<span>Unique research<\/span>/);
   assert.match(files.enArchive, /English article/);
+  assert.doesNotMatch(files.enArchive, /rs-directions|rs-search|role="search"|Search English articles/);
   assert.doesNotMatch(files.enArchive, /UNIQUE RESEARCH|ENGLISH ARCHIVE|ENGLISH ARTICLE/);
-  assert.match(files.enArticle, /English article/);
+  assert.match(files.enArticle, /English Article/);
   assert.match(files.enArticle, /rs-article-header/);
   assert.doesNotMatch(files.enArticle, /UNIQUE RESEARCH|ENGLISH ARTICLE/);
   assert.match(files.enProducts, /ProductsHub/);
@@ -472,8 +483,8 @@ test("secondary pages share the research-journal display stack and sentence-case
   assert.doesNotMatch(files.about, /01 \/ RESEARCH/);
   assert.match(files.contact, /联系人/);
   assert.doesNotMatch(files.contact, /RESEARCH · RANKINGS · DATA/);
-  assert.match(files.world, /The future is not a spectator sport/);
-  assert.match(files.world, /Exploration mode/);
+  assert.match(files.world, /The Future Is Not a Spectator Sport/);
+  assert.match(files.world, /Exploration Mode/);
   assert.doesNotMatch(files.world, /THE FUTURE IS NOT A SPECTATOR SPORT|EXPLORATION MODE|UNIQUE WORLDS/);
 });
 
@@ -485,13 +496,14 @@ test('source end dates are inclusive and ended activities remain archived', () =
 });
 
 test("option B panels keep topo, per-product motifs, and reduced motion", async () => {
-  const [css, motion, hub, home, contact, motifs] = await Promise.all([
+  const [css, motion, hub, home, contact, motifs, docs] = await Promise.all([
     "../src/app/editorial-home.css",
     "../src/app/editorial-motion.css",
     "../src/components/editorial-home/ProductsHub.tsx",
     "../src/components/editorial-home/EditorialHome.tsx",
     "../src/components/editorial-home/EditorialContact.tsx",
     "../src/components/editorial-home/panel-motifs.mjs",
+    "../docs/design/panel-backgrounds-b.md",
   ].map(file => readFile(new URL(file, import.meta.url), "utf8")));
   assert.match(css, /\.ed-panel/);
   assert.match(css, /\.ed-reading-hub/);
@@ -510,7 +522,15 @@ test("option B panels keep topo, per-product motifs, and reduced motion", async 
   assert.doesNotMatch(motion, /\.ed-panel::(?:before|after)[\s\S]{0,80}transition:\s*none\s*!important/);
   assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::after/);
   assert.match(css, /filter:grayscale/);
-  assert.match(css, /saturate\(1\.4\)/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)\{[^}]*radial-gradient/);
+  assert.match(css, /rgba\(232,196,148/);
+  assert.match(css, /rgba\(243,234,214/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::before\{[^}]*grayscale\(0\)[^}]*saturate\(1\)/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::after\{[^}]*grayscale\(0\)[^}]*saturate\(1\)/);
+  assert.doesNotMatch(css, /sepia\(/);
+  assert.doesNotMatch(css, /hue-rotate\(/);
+  assert.doesNotMatch(css, /rgba\(196,112,74/);
+  assert.doesNotMatch(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::(?:before|after)\{[^}]*saturate\(1\.[24]\)/);
   assert.match(hub, /productPrimaryHref/);
   assert.match(hub, /data-motif/);
   assert.match(hub, /ed-panel/);
@@ -520,4 +540,9 @@ test("option B panels keep topo, per-product motifs, and reduced motion", async 
   assert.match(contact, /ed-reading-hub/);
   assert.doesNotMatch(contact, /editorial\/motifs/);
   assert.match(motifs, /"good-projects": "goodprojects"/);
+  assert.match(docs, /cream \/ amber/);
+  assert.match(docs, /植物标本/);
+  assert.match(docs, /去掉 `grayscale`/);
+  assert.doesNotMatch(docs, /饱和到林绿/);
+  assert.doesNotMatch(docs, /sepia \+ `hue-rotate`/);
 });
