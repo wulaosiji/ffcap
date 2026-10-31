@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { PRODUCTS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
+import { OutLink } from './EditorialShell'
+import { panelMotif } from './panel-motifs.mjs'
 
 const copy = {
   zh: {
@@ -41,48 +43,39 @@ export function ProductsHub() {
           <span>{text.count}</span>
         </div>
       </div>
-      <div className="rs-grid">
+      <div className="ed-products">
         {PRODUCTS.map(product => {
           const primary = productPrimaryHref(product, lang)
           const external = productExternalHref(product, lang)
           const primaryExternal = primary.startsWith('http')
           const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
-          const title = (
+          const motif = panelMotif(product.id)
+          const body = (
             <>
+              <div className="ed-product-top"><span>{product.audience[lang]}</span></div>
               <h2>{product.name[lang]}</h2>
-              <div className="rs-product-desc">
-                <p>{product.description[lang]}</p>
-              </div>
+              <p>{product.description[lang]}</p>
+              <span className="ed-link">
+                {secondary || !primaryExternal ? text.details : product.action[lang]}
+                {primary.startsWith('/') ? <ArrowRight size={20} /> : <ArrowUpRight size={20} />}
+              </span>
             </>
           )
+          if (!secondary) {
+            return primaryExternal ? (
+              <OutLink key={product.id} href={primary} className="ed-product ed-panel" motif={motif}>{body}</OutLink>
+            ) : (
+              <Link key={product.id} href={primary} className="ed-product ed-panel" {...(motif ? { 'data-motif': motif } : {})}>{body}</Link>
+            )
+          }
           return (
-            <article key={product.id} className="rs-card rs-product-card">
-              <div className="rs-meta">
-                <span>{product.audience[lang]}</span>
-              </div>
+            <article key={product.id} className="ed-product ed-panel" {...(motif ? { 'data-motif': motif } : {})}>
               {primaryExternal ? (
-                <a href={primary} className="rs-card-link" target="_blank" rel="noopener noreferrer">
-                  {title}
-                </a>
+                <OutLink href={primary} className="ed-product-main">{body}</OutLink>
               ) : (
-                <Link href={primary} className="rs-card-link">
-                  {title}
-                </Link>
+                <Link href={primary} className="ed-product-main">{body}</Link>
               )}
-              <div className="rs-card-bottom">
-                {primaryExternal ? (
-                  <a href={primary} target="_blank" rel="noopener noreferrer">
-                    {product.action[lang]} <ArrowUpRight size={14} />
-                  </a>
-                ) : (
-                  <Link href={primary}>{text.details} →</Link>
-                )}
-                {secondary && (
-                  <a className="rs-card-external" href={external} target="_blank" rel="noopener noreferrer">
-                    {product.action[lang]} <ArrowUpRight size={14} />
-                  </a>
-                )}
-              </div>
+              <OutLink href={external} className="ed-product-external">{product.action[lang]}<ArrowUpRight size={14} /></OutLink>
             </article>
           )
         })}

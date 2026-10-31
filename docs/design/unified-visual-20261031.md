@@ -53,3 +53,5 @@ Gentle research-journal magazine feel.
 ```
 
 出字或出 Logo 就整张重来。存量封面照用，不在这次改动里重画。
+
+产品 2×2 与阅读枢纽的面板底纹见 `docs/design/panel-backgrounds-b.md`。社媒封面标准不在这次改动里。
