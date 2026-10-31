@@ -17,6 +17,7 @@ import {
   productDetailPath,
   productExternalHref,
   productPrimaryHref,
+  productsHubPath,
 } from "../src/content/editorial.mjs";
 
 test("editorial content preserves verified public destinations and three research directions", () => {
@@ -55,7 +56,7 @@ test("editorial content preserves verified public destinations and three researc
     { label: "Research", href: "/en/research" },
     { label: "Data & Rankings", href: "/en/research/rankings" },
     { label: "Events & Awards", href: "/en/research/events-awards" },
-    { label: "Products & Services", href: "/products" },
+    { label: "Products & Services", href: "/en/products" },
     { label: "For AI", href: "/for-ai" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
@@ -121,6 +122,7 @@ test("footer explore splits the site menu from the For AI group", () => {
   assert.equal(en.site.items[0].href, "/en/research");
   assert.equal(en.site.items[1].href, "/en/research/rankings");
   assert.equal(en.site.items[2].href, "/en/research/events-awards");
+  assert.equal(en.site.items[3].href, "/en/products");
   assert.deepEqual(en.ai.items.map(({ label, href }) => ({ label, href })), [
     { label: "For AI", href: "/for-ai" },
     { label: "llms.txt", href: "/llms.txt" },
@@ -307,7 +309,7 @@ test("product card CTAs open on-site descriptions before external product sites"
       id: "uniqueresearch",
       detail: "/products/uniqueresearch",
       primaryZh: "/products/uniqueresearch",
-      primaryEn: "/products/uniqueresearch",
+      primaryEn: "/en/products/uniqueresearch",
       externalZh: "https://uniqueresearch.cn",
       externalEn: "https://uniqueresearch.cn",
     },
@@ -315,7 +317,7 @@ test("product card CTAs open on-site descriptions before external product sites"
       id: "uniquebase",
       detail: "/products/uniquebase",
       primaryZh: "/products/uniquebase",
-      primaryEn: "/products/uniquebase",
+      primaryEn: "/en/products/uniquebase",
       externalZh: "https://uniquebase.cn/",
       externalEn: "https://uniquebase.ai/",
     },
@@ -323,7 +325,7 @@ test("product card CTAs open on-site descriptions before external product sites"
       id: "uniquebloom",
       detail: "/products/uniquebloom",
       primaryZh: "/products/uniquebloom",
-      primaryEn: "/products/uniquebloom",
+      primaryEn: "/en/products/uniquebloom",
       externalZh: "https://uniquebloom.cn/",
       externalEn: "https://uniquebloom.cn/",
     },
@@ -331,7 +333,7 @@ test("product card CTAs open on-site descriptions before external product sites"
       id: "good-projects",
       detail: "/products/good-projects",
       primaryZh: "/products/good-projects",
-      primaryEn: "/products/good-projects",
+      primaryEn: "/en/products/good-projects",
       externalZh: "https://ffcap.cn/bp.html",
       externalEn: "https://ffcap.cn/bp.html",
     },
@@ -403,6 +405,9 @@ test("editorial chrome uses the distinct research-journal identity", async () =>
   assert.match(css, /\.ed-button,\.ed-research-hero__search button,\.ed-research-hero__cta-primary\{[^}]*border-radius:var\(--ed-radius-button\)[^}]*min-height:43px;padding:12px 20px;[^}]*gap:18px;[^}]*font-size:12px/);
   assert.match(css, /\.ed-research-hero\{[^}]*padding:96px 0 80px/);
   assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-family:var\(--ed-display\)|\.ed-site :is\(\.ed-research-hero__copy h1/);
+  assert.match(css, /\.rs-article-header h1/);
+  assert.match(css, /\.rs-related h2/);
+  assert.match(css, /\.rs-page-heading/);
   assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-weight:400;line-height:1\.18;letter-spacing:-\.025em/);
   assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*font-size:16px;line-height:1\.75;color:var\(--ed-muted\)/);
   assert.match(css, /\.ed-site \.ed-research-hero__kicker\{[^}]*margin:0 0 28px/);
@@ -421,12 +426,55 @@ test("editorial chrome uses the distinct research-journal identity", async () =>
   assert.doesNotMatch(research, /\.rs-search input\{font-size:18px/);
   assert.match(research, /outline:3px solid var\(--ed-focus,#4e8766\);outline-offset:4px/);
   assert.doesNotMatch(research, /outline:2px/);
+  assert.match(research, /\.rs-meta\{[^}]*font-size:11px;color:var\(--ed-muted\)/);
+  assert.doesNotMatch(research, /\.rs-meta\{[^}]*text-transform:uppercase/);
+  assert.match(research, /var\(--ed-accent,#3f6b52\)/);
+  assert.doesNotMatch(research, /#79946a/);
   const type = await readFile(new URL("../src/styles/typography.css", import.meta.url), "utf8");
   assert.match(type, /body \.ed-site,\nbody \.ed-dialog \{[^}]*font-size: 15px;[^}]*line-height: 1\.6;/);
   assert.match(type, /letter-spacing: -0\.03em;/);
   assert.match(type, /Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif/);
   assert.match(type, /ed-research-hero__copy h1 \{[^}]*letter-spacing: -0\.025em;/);
+  assert.match(type, /\.rs-article-header h1/);
+  assert.match(type, /\.rs-related h2/);
+  assert.match(type, /\.rs-page-heading/);
   assert.doesNotMatch(type, /Inter/);
+});
+
+test("secondary pages share the research-journal display stack and sentence-case chrome", async () => {
+  assert.equal(productsHubPath("zh"), "/products");
+  assert.equal(productsHubPath("en"), "/en/products");
+  assert.equal(productDetailPath("uniquebase", "en"), "/en/products/uniquebase");
+  const files = Object.fromEntries(await Promise.all([
+    ["enArchive", "../src/app/en/research/page.tsx"],
+    ["enArticle", "../src/app/en/research/[slug]/page.tsx"],
+    ["enProducts", "../src/app/en/products/page.tsx"],
+    ["enProductDetail", "../src/app/en/products/[slug]/page.tsx"],
+    ["productDetail", "../src/components/editorial-home/ProductDetail.tsx"],
+    ["about", "../src/components/editorial-home/EditorialAbout.tsx"],
+    ["contact", "../src/components/editorial-home/EditorialContact.tsx"],
+    ["world", "../src/components/editorial-home/InfiniteWorldHero.tsx"],
+  ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")])));
+  assert.match(files.enArchive, /Unique research/);
+  assert.match(files.enArchive, /English article/);
+  assert.doesNotMatch(files.enArchive, /UNIQUE RESEARCH|ENGLISH ARCHIVE|ENGLISH ARTICLE/);
+  assert.match(files.enArticle, /English article/);
+  assert.match(files.enArticle, /rs-article-header/);
+  assert.doesNotMatch(files.enArticle, /UNIQUE RESEARCH|ENGLISH ARTICLE/);
+  assert.match(files.enProducts, /ProductsHub/);
+  assert.match(files.enProducts, /\/en\/products/);
+  assert.match(files.enProductDetail, /ProductDetail/);
+  assert.match(files.enProductDetail, /\/en\/products/);
+  assert.match(files.productDetail, /rs-article-header/);
+  assert.match(files.productDetail, /rs-page-heading/);
+  assert.match(files.about, /01 \/ 研究/);
+  assert.match(files.about, /01 \/ Research/);
+  assert.doesNotMatch(files.about, /01 \/ RESEARCH/);
+  assert.match(files.contact, /联系人/);
+  assert.doesNotMatch(files.contact, /RESEARCH · RANKINGS · DATA/);
+  assert.match(files.world, /The future is not a spectator sport/);
+  assert.match(files.world, /Exploration mode/);
+  assert.doesNotMatch(files.world, /THE FUTURE IS NOT A SPECTATOR SPORT|EXPLORATION MODE|UNIQUE WORLDS/);
 });
 
 test('source end dates are inclusive and ended activities remain archived', () => {

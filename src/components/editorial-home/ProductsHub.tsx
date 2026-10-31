@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { useLang } from '@/context/LangContext'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { PRODUCTS, productExternalHref, productPrimaryHref } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 
@@ -15,7 +15,7 @@ const copy = {
     details: '查看介绍',
   },
   en: {
-    eyebrow: 'BUILT FOR BUILDERS',
+    eyebrow: 'Built for builders',
     title: 'Products',
     intro: 'From insight to action: in-mini-program surveys and research lookup, global web data and events, and investor project matching.',
     count: 'products',
@@ -24,7 +24,7 @@ const copy = {
 }
 
 export function ProductsHub() {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const text = copy[lang]
 
   return (

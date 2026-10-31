@@ -57,11 +57,23 @@ function normalizePath(pathname) {
   return String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
 }
 
-/** Route language for homepages and research pages. Null elsewhere keeps the saved language. */
+/** Route language for homepages, research pages, and product pages. Null elsewhere keeps the saved language. */
 export function researchRouteLang(pathname) {
   const path = normalizePath(pathname);
-  if (path === "/en" || path === "/en/research" || path.startsWith("/en/research/")) return "en";
-  if (path === "/" || path === "/research" || path.startsWith("/research/")) return "zh";
+  if (
+    path === "/en"
+    || path === "/en/research"
+    || path.startsWith("/en/research/")
+    || path === "/en/products"
+    || path.startsWith("/en/products/")
+  ) return "en";
+  if (
+    path === "/"
+    || path === "/research"
+    || path.startsWith("/research/")
+    || path === "/products"
+    || path.startsWith("/products/")
+  ) return "zh";
   return null;
 }
 
@@ -89,13 +101,27 @@ export function siteLanguageCounterpart(pathname, nextLang) {
   const path = normalizePath(pathname);
   if (path === "/" && nextLang === "en") return "/en";
   if (path === "/en" && nextLang === "zh") return "/";
+  if (path === "/products" || path === "/en/products") {
+    return nextLang === "en" ? "/en/products" : "/products";
+  }
+  if (path.startsWith("/products/")) {
+    return nextLang === "en" ? `/en${path}` : path;
+  }
+  if (path.startsWith("/en/products/")) {
+    return nextLang === "en" ? path : path.slice(3);
+  }
   return researchLanguageCounterpart(pathname, nextLang);
 }
 
+/** On-site product hub. English uses a paired /en/products route. */
+export function productsHubPath(lang = "zh") {
+  return lang === "en" ? "/en/products" : "/products";
+}
+
 /** On-site advanced description for a matrix product. */
-export function productDetailPath(product) {
+export function productDetailPath(product, lang = "zh") {
   const id = typeof product === "string" ? product : product?.id;
-  return `/products/${id}`;
+  return `${productsHubPath(lang)}/${id}`;
 }
 
 /**
@@ -104,7 +130,7 @@ export function productDetailPath(product) {
  * External product sites stay on the secondary “enter the product” CTA.
  */
 export function productPrimaryHref(product, lang = "zh") {
-  return productDetailPath(product);
+  return productDetailPath(product, lang);
 }
 
 /**
@@ -123,7 +149,7 @@ export function primaryNavItems(lang = "zh") {
     { label: zh ? "研究与洞察" : "Research", href: zh ? "/research" : "/en/research" },
     { label: zh ? "数据与榜单" : "Data & Rankings", href: researchHubPath("rankings", lang) },
     { label: zh ? "活动与奖项" : "Events & Awards", href: researchHubPath("events-awards", lang) },
-    { label: zh ? "产品与服务" : "Products & Services", href: "/products" },
+    { label: zh ? "产品与服务" : "Products & Services", href: productsHubPath(lang) },
     { label: zh ? "给 AI" : "For AI", href: "/for-ai" },
     { label: zh ? "关于我们" : "About", href: "/about" },
     { label: zh ? "联系我们" : "Contact", href: LINKS.contact },

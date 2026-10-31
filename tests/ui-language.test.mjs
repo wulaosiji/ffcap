@@ -91,10 +91,7 @@ test('home and product chrome render one language at a time', async () => {
     name,
     await readFile(new URL(file, import.meta.url), 'utf8'),
   ])))
-  for (const name of ['hub', 'detail']) {
-    assert.match(src[name], /useLang/, name)
-  }
-  for (const name of ['hero', 'search', 'faq', 'world']) {
+  for (const name of ['hub', 'detail', 'hero', 'search', 'faq', 'world']) {
     assert.match(src[name], /useDisplayedLang/, name)
   }
   assert.match(src.hub, /productPrimaryHref\(product, lang\)/)
@@ -117,6 +114,9 @@ test('home and product chrome render one language at a time', async () => {
   assert.match(src.faq, /查看全部问题/)
   assert.match(src.world, /Enter the cloud settlement/)
   assert.match(src.world, /进入云上的聚落/)
-  assert.match(src.contact, /研究 · 榜单 · 数据/)
+  assert.match(src.contact, /站内阅读与数据入口/)
+  assert.doesNotMatch(src.contact, /RESEARCH · RANKINGS · DATA|研究 · 榜单 · 数据/)
+  assert.match(src.hub, /Built for builders/)
+  assert.doesNotMatch(src.hub, /BUILT FOR BUILDERS/)
   assert.match(src.shell, /研究。连接。构建。/)
 })

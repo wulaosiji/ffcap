@@ -16,7 +16,7 @@ body .ed-dialog :is(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
 }
 
-body .ed-site :is(.ed-research-hero__copy h1, .ed-section-heading h2, .ed-closing h2, .ed-about-intro h1, .ed-feature-copy h2, .ed-about-ecosystem h2, .rs-intro h1),
+body .ed-site :is(.ed-research-hero__copy h1, .ed-section-heading h2, .ed-closing h2, .ed-about-intro h1, .ed-feature-copy h2, .ed-about-ecosystem h2, .rs-intro h1, .rs-article-header h1, .rs-related h2, .rs-page-heading),
 body .ed-dialog :is(.ed-research-hero__copy h1, .ed-section-heading h2) {
   font-family: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif;
   font-weight: 400;
@@ -33,7 +33,7 @@ body .ed-dialog:lang(zh) :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: -0.03em;
 }
 
-body .ed-site:lang(zh) :is(.ed-research-hero__copy h1, .ed-section-heading h2, .ed-closing h2, .ed-about-intro h1, .ed-feature-copy h2, .ed-about-ecosystem h2, .rs-intro h1) {
+body .ed-site:lang(zh) :is(.ed-research-hero__copy h1, .ed-section-heading h2, .ed-closing h2, .ed-about-intro h1, .ed-feature-copy h2, .ed-about-ecosystem h2, .rs-intro h1, .rs-article-header h1, .rs-related h2, .rs-page-heading) {
   letter-spacing: -0.02em;
 }
 

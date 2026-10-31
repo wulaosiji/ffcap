@@ -57,7 +57,7 @@ export function EnglishCuratedHub({
     <main id="main-content" className="ed-container rs-library" lang="en">
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">{rankings ? 'UNIQUE RESEARCH / DATA & RANKINGS' : 'UNIQUE RESEARCH / EVENTS & AWARDS'}</p>
+          <p className="ed-eyebrow">Unique research</p>
           <h1>{rankings ? 'Data & Rankings' : 'Events & Awards'}</h1>
           <p>
             {rankings
@@ -77,7 +77,7 @@ export function EnglishCuratedHub({
               <>
                 <a href={uniqueBaseHref('en')} target="_blank" rel="noopener noreferrer">Query UniqueBase ↗</a>
                 {' · '}
-                <Link href="/products/uniquebase">UniqueBase product</Link>
+                <Link href="/en/products/uniquebase">UniqueBase product</Link>
               </>
             ) : (
               <a href={LINKS.events} target="_blank" rel="noopener noreferrer">UniqueBloom event calendar ↗</a>
@@ -121,7 +121,7 @@ export function EnglishCuratedHub({
       {rankings ? (
         <p className="rs-source-note">
           The legacy static entry rankings.html remains available. This page is the default place to read ranking articles. Company facts are on the
-          <Link href="/products/uniquebase"> UniqueBase product page</Link>
+          <Link href="/en/products/uniquebase"> UniqueBase product page</Link>
           .
         </p>
       ) : (
