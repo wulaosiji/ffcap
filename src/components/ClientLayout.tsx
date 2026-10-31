@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import { LangProvider, useLang } from "@/context/LangContext"
 import { ViewModeProvider } from "@/context/ViewModeContext"
+import { researchRouteLang } from "@/content/editorial.mjs"
 import { usesEditorialShell } from "@/lib/uses-editorial-shell.mjs"
 
 function LanguageSetter() {
@@ -15,7 +16,7 @@ function LanguageSetter() {
 
   useEffect(() => {
     if (!isInitialized) return
-    const routeLang = pathname === '/en/research' || pathname.startsWith('/en/research/') ? 'en' : pathname === '/research' || pathname.startsWith('/research/') ? 'zh' : null
+    const routeLang = researchRouteLang(pathname)
     if (routeLang && routeLang !== lang) {
       setLang(routeLang)
       try { localStorage.setItem('lang', routeLang) } catch {}

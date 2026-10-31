@@ -53,10 +53,14 @@ export function researchHubPath(hub, lang = "zh") {
   return lang === "en" ? pair[1] : pair[0];
 }
 
-/** Route language for research pages. Null on the rest of the site, which keeps the saved language. */
+function normalizePath(pathname) {
+  return String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+}
+
+/** Route language for research pages and the English homepage. Null elsewhere keeps the saved language. */
 export function researchRouteLang(pathname) {
-  const path = String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
-  if (path === "/en/research" || path.startsWith("/en/research/")) return "en";
+  const path = normalizePath(pathname);
+  if (path === "/en" || path === "/en/research" || path.startsWith("/en/research/")) return "en";
   if (path === "/research" || path.startsWith("/research/")) return "zh";
   return null;
 }
@@ -66,7 +70,7 @@ export function researchRouteLang(pathname) {
  * `nextLang` is the language being switched to.
  */
 export function researchLanguageCounterpart(pathname, nextLang) {
-  const path = String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  const path = normalizePath(pathname);
   const index = nextLang === "en" ? 1 : 0;
   for (const pair of RESEARCH_LANGUAGE_PAIRS) {
     const curatedList = pair[0] !== "/research";
@@ -75,6 +79,17 @@ export function researchLanguageCounterpart(pathname, nextLang) {
     if (hit) return pair[index];
   }
   return null;
+}
+
+/**
+ * Homepage and research-hub counterpart for the language toggle.
+ * Article slugs stay null so the caller can pair related Chinese/English posts.
+ */
+export function siteLanguageCounterpart(pathname, nextLang) {
+  const path = normalizePath(pathname);
+  if (path === "/" && nextLang === "en") return "/en";
+  if (path === "/en" && nextLang === "zh") return "/";
+  return researchLanguageCounterpart(pathname, nextLang);
 }
 
 /** On-site advanced description for a matrix product. */
@@ -120,7 +135,7 @@ export function footerExploreGroups(lang = "zh") {
   const zh = lang !== "en";
   return {
     site: {
-      eyebrow: zh ? "探索" : "EXPLORE",
+      eyebrow: zh ? "探索" : "Explore",
       items: primaryNavItems(lang).filter((item) => item.href !== "/for-ai"),
     },
     ai: {

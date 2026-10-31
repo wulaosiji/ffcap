@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useLang } from '@/context/LangContext'
-import { SectionIndex } from './SectionIndex'
-import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell } from './EditorialShell'
 
@@ -23,7 +21,7 @@ function FaqList({ items }: { items: FaqItem[] }) {
 }
 
 export function HomeFaq({ zhItems, enItems }: { zhItems: FaqItem[]; enItems: FaqItem[] }) {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
   const items = (zh ? zhItems : enItems).slice(0, 6)
 
@@ -31,7 +29,7 @@ export function HomeFaq({ zhItems, enItems }: { zhItems: FaqItem[]; enItems: Faq
     <section id="faq" className="ed-container ed-section ed-home-faq" aria-labelledby="home-faq-title">
       <div className="ed-section-heading">
         <div>
-          <p className="ed-eyebrow">{zh ? '问答' : 'FAQ'} <SectionIndex index={HOME_SECTION_INDEX.faq} /></p>
+          <p className="ed-eyebrow">{zh ? '问答' : 'FAQ'}</p>
           <h2 id="home-faq-title">{zh ? '常见问题' : 'Frequently asked questions'}</h2>
         </div>
         <Link href="/faq" className="ed-link">
@@ -45,7 +43,7 @@ export function HomeFaq({ zhItems, enItems }: { zhItems: FaqItem[]; enItems: Faq
 }
 
 export function EditorialFaq({ zhItems, enItems }: { zhItems: FaqItem[]; enItems: FaqItem[] }) {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
   const items = zh ? zhItems : enItems
 

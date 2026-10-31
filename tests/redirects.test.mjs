@@ -2,6 +2,15 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import nextConfig from '../next.config.js'
 
+test('English homepage trailing slash permanently redirects to /en', async () => {
+  const redirects = await nextConfig.redirects()
+  const en = redirects.filter(r => r.source === '/en/')
+  assert.deepEqual(
+    en.map(({ source, destination, permanent }) => ({ source, destination, permanent })),
+    [{ source: '/en/', destination: '/en', permanent: true }],
+  )
+})
+
 test('legacy UniqueClub product URLs permanently redirect to UniqueBase', async () => {
   const redirects = await nextConfig.redirects()
   const uniqueclub = redirects.filter(

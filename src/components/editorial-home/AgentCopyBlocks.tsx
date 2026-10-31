@@ -20,7 +20,7 @@ function CopyBlock({ label, text, lang = 'zh' }: { label: string; text: string; 
       <div className="ed-agent-copy__head">
         <span className="ed-agent-copy__label">{label}</span>
         <button type="button" className="ed-agent-copy__btn" onClick={onCopy}>
-          {copied ? (lang === 'en' ? 'Copied' : '已复制') : (lang === 'en' ? 'Copy' : '复制')}
+          {copied ? (lang === 'en' ? 'Copied' : '已复制') : (lang === 'en' ? 'Copy for an assistant' : '复制给助手')}
         </button>
       </div>
       <pre className="ed-agent-copy__text">{text}</pre>
