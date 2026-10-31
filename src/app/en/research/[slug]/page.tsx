@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { StructuredData } from '@/components/StructuredData'
 import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
+import { coverForEnglishSlug } from '@/content/research/article-cover.mjs'
 import { firstSubstackImage, substackVariant, withoutLeadingCover } from '@/content/research/cover-image.mjs'
 import { relatedChineseSlugForArticle } from '@/content/research/english-related.mjs'
 import { breadcrumbs } from '@/content/site-identity.mjs'
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const article = getEnglishResearchArticle(params.slug)
   if (!article) return { title: 'Article not found | Unique Research' }
   const canonical = `https://ffcap.cn${englishResearchUrl(article.slug)}`
-  const cover = firstSubstackImage(article.html)
+  const cover = coverForEnglishSlug(article.slug)
   const image = cover ? substackVariant(cover, 1456) || cover : null
   return {
     title: `${article.title} | Unique Research`,
@@ -34,8 +35,9 @@ export default function EnglishArticlePage({ params }: { params: { slug: string 
   const canonical = `https://ffcap.cn${englishResearchUrl(article.slug)}`
   const publishedDate = new Date(article.publishedAt).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })
   const readingMinutes = Math.max(1, Math.ceil(article.text.trim().split(/\s+/).length / 220))
-  const cover = firstSubstackImage(article.html)
-  const proseHtml = cover ? withoutLeadingCover(article.html, cover) : article.html
+  const cover = coverForEnglishSlug(article.slug)
+  const substackCover = firstSubstackImage(article.html)
+  const proseHtml = substackCover ? withoutLeadingCover(article.html, substackCover) : article.html
   const structured = {
     '@context': 'https://schema.org', '@type': 'Article', inLanguage: 'en',
     url: canonical, headline: article.title, description: article.summary,

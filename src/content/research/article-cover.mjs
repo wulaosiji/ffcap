@@ -7,7 +7,10 @@ import { englishSlugForChinese } from './english-related.mjs'
 const researchDir = path.join(path.dirname(fileURLToPath(import.meta.url)))
 const articlesDir = path.join(researchDir, 'english-articles')
 const zhCoverDir = path.join(researchDir, '../../../public/editorial/covers/zh')
-const ZH_COVER_EXTS = ['.webp', '.jpg', '.png']
+const enCoverDir = path.join(researchDir, '../../../public/editorial/covers/en')
+const COVER_EXTS = ['.webp', '.jpg', '.png']
+const EN_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const ZH_SLUG = /^[a-z0-9]+$/
 
 let listedSlugs = null
 
@@ -22,9 +25,42 @@ function publishedEnglishSlugs() {
   return listedSlugs
 }
 
-/** First Substack image of a published English article, or null. */
+/**
+ * Local cover under `public/editorial/covers/<locale>/`. Primary file is
+ * `<slug>.webp`. `.jpg` and `.png` are used only when the earlier extension
+ * is missing. Missing files and a missing directory are normal and return null.
+ */
+function localCoverUrl(dir, locale, slug, slugRe) {
+  if (typeof slug !== 'string' || !slugRe.test(slug)) return null
+  for (const ext of COVER_EXTS) {
+    try {
+      if (!fs.statSync(path.join(dir, `${slug}${ext}`)).isFile()) continue
+    } catch {
+      continue
+    }
+    return `/editorial/covers/${locale}/${slug}${ext}`
+  }
+  return null
+}
+
+function localEnglishCoverUrl(slug) {
+  return localCoverUrl(enCoverDir, 'en', slug, EN_SLUG)
+}
+
+function localChineseCoverUrl(slug) {
+  return localCoverUrl(zhCoverDir, 'zh', slug, ZH_SLUG)
+}
+
+/**
+ * English cover resolution:
+ * 1. `public/editorial/covers/en/<slug>.webp` (else `.jpg`, else `.png`)
+ * 2. first Substack image of a published English article
+ * 3. null
+ */
 export function coverForEnglishSlug(slug) {
-  if (typeof slug !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return null
+  const local = localEnglishCoverUrl(slug)
+  if (local) return local
+  if (typeof slug !== 'string' || !EN_SLUG.test(slug)) return null
   if (!publishedEnglishSlugs().has(slug)) return null
   const file = path.join(articlesDir, `${slug}.json`)
   let article
@@ -38,27 +74,9 @@ export function coverForEnglishSlug(slug) {
 }
 
 /**
- * Local Chinese cover. Primary file is `<slug>.webp`. `.jpg` and `.png` are
- * used only when the earlier extension is missing. Missing files and a missing
- * directory are normal and return null.
- */
-function localChineseCoverUrl(slug) {
-  if (typeof slug !== 'string' || !/^[a-z0-9]+$/.test(slug)) return null
-  for (const ext of ZH_COVER_EXTS) {
-    try {
-      if (!fs.statSync(path.join(zhCoverDir, `${slug}${ext}`)).isFile()) continue
-    } catch {
-      continue
-    }
-    return `/editorial/covers/zh/${slug}${ext}`
-  }
-  return null
-}
-
-/**
  * Chinese cover resolution:
  * 1. `public/editorial/covers/zh/<slug>.webp` (else `.jpg`, else `.png`)
- * 2. related English Substack cover when ENGLISH_RELATED records that pair
+ * 2. related English cover (`coverForEnglishSlug`) when ENGLISH_RELATED records that pair
  * 3. null
  */
 export function coverForChineseSlug(slug) {

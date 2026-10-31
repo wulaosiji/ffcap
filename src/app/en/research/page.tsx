@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
 import archive from '@/content/research/english-substack.json'
-import { firstSubstackImage } from '@/content/research/cover-image.mjs'
+import { coverForEnglishSlug } from '@/content/research/article-cover.mjs'
 import { englishResearchUrl, getEnglishResearchArticle, getEnglishResearchCatalog } from '@/lib/english-research'
 import { relatedChineseSlugForArticle, relatedEnglishArticle } from '@/content/research/english-related.mjs'
 import { ChineseArticleLink } from './SetResearchLanguage'
@@ -39,7 +39,7 @@ export default function EnglishResearchPage({ searchParams }: { searchParams: Pa
     {visible.length ? <div className="rs-grid">{visible.map(article => {
       const full = getEnglishResearchArticle(article.slug)
       const cnSlug = full ? relatedChineseSlugForArticle(full) : null
-      const cover = full ? firstSubstackImage(full.html) : null
+      const cover = coverForEnglishSlug(article.slug)
       return <article key={article.slug} className="rs-card" lang="en"><div className="rs-meta"><span>Unique research</span><span>English article</span></div><Link className="rs-card-link" href={englishResearchUrl(article.slug)}>{cover ? <ArticleCoverImage src={cover} variant="card" /> : null}<h2>{article.title}</h2>{article.summary && <p>{article.summary}</p>}</Link><div className="rs-card-bottom"><time dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' })}</time><Link href={englishResearchUrl(article.slug)} aria-label={`Read article: ${article.title}`}>Read article →</Link></div>{cnSlug ? <ChineseArticleLink className="rs-translation-link" href={`/research/${cnSlug}`}>Related Chinese article →</ChineseArticleLink> : null}</article>
     })}</div> : <div className="rs-empty"><h2>No matching articles</h2><p>Try fewer or shorter words.</p><Link href="/en/research">View all English articles →</Link></div>}
     <nav className="rs-pagination" aria-label="Article pages">{page > 1 && <Link href={path(page - 1)}>← Previous</Link>}<span>{page} / {totalPages}</span>{page < totalPages && <Link href={path(page + 1)}>Next →</Link>}</nav>

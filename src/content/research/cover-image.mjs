@@ -1,6 +1,6 @@
 /**
- * Cover src helpers. English cards use a Substack CDN width variant of the
- * first image. Local Chinese covers pass through unchanged.
+ * Cover src helpers. Substack CDN URLs become a width variant. Local English
+ * and Chinese covers pass through unchanged.
  */
 
 const FETCH_PREFIX = 'https://substackcdn.com/image/fetch/'
@@ -32,16 +32,16 @@ export function substackVariant(url, width) {
   return url.replace('/image/fetch/', `/image/fetch/w_${width},`)
 }
 
-const LOCAL_ZH_COVER = /^\/editorial\/covers\/zh\/[a-z0-9]+\.(webp|jpg|png)$/
+const LOCAL_COVER = /^\/editorial\/covers\/(?:zh\/[a-z0-9]+|en\/[a-z0-9]+(?:-[a-z0-9]+)*)\.(webp|jpg|png)$/
 
 /**
- * Card and header src. Substack URLs become a width variant. A local Chinese
- * cover is returned unchanged. Anything else is omitted.
+ * Card and header src. Substack URLs become a width variant. A local English
+ * or Chinese cover is returned unchanged. Anything else is omitted.
  */
 export function coverImageSrc(src, width) {
   const sized = substackVariant(src, width)
   if (sized) return sized
-  if (typeof src === 'string' && LOCAL_ZH_COVER.test(src)) return src
+  if (typeof src === 'string' && LOCAL_COVER.test(src)) return src
   return null
 }
 
