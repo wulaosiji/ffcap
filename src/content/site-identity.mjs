@@ -33,7 +33,7 @@ export function organizationGraph() {
         alternateName: IDENTITY.alternateName,
         url: SITE_URL,
         description: IDENTITY.description,
-        logo: `${SITE_URL}/globe.svg`,
+        logo: `${SITE_URL}/favicon.svg`,
         brand: { '@type': 'Brand', name: '非凡产研', alternateName: 'UniqueResearch' },
         sameAs: [...VERIFIED_SAME_AS],
       },

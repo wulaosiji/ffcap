@@ -18,7 +18,7 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <Logo size={32} />
+              <Logo size={32} animated={false} />
             </div>
             <SocialLinks lang={lang} />
           </div>
