@@ -4,9 +4,11 @@
  */
 export function usesEditorialShell(pathname) {
   if (!pathname) return false
+  pathname = String(pathname).split("?")[0].split("#")[0].replace(/\/+$/, "") || "/"
 
   const exact = new Set([
     '/',
+    '/en',
     '/about',
     '/world',
     '/faq',

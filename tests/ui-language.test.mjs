@@ -91,8 +91,11 @@ test('home and product chrome render one language at a time', async () => {
     name,
     await readFile(new URL(file, import.meta.url), 'utf8'),
   ])))
-  for (const name of ['hub', 'detail', 'hero', 'search', 'faq', 'world']) {
+  for (const name of ['hub', 'detail']) {
     assert.match(src[name], /useLang/, name)
+  }
+  for (const name of ['hero', 'search', 'faq', 'world']) {
+    assert.match(src[name], /useDisplayedLang/, name)
   }
   assert.match(src.hub, /productPrimaryHref\(product, lang\)/)
   assert.match(src.hub, /description\[lang\]/)
@@ -100,13 +103,12 @@ test('home and product chrome render one language at a time', async () => {
   assert.match(src.detail, /productExternalHref\(product, lang\)/)
   assert.match(src.detail, /action\[lang\]/)
   assert.doesNotMatch(src.detail, /action\.zh|action\.en|lang="en"/)
-  assert.match(src.home, /研究视角/)
+  assert.match(src.home, /公开研究/)
   assert.match(src.home, /与同路人/)
   assert.match(src.home, /为构建者而生/)
   assert.match(src.home, /未来是共同的事业/)
   assert.match(src.home, /eventScheduleLine\(event, lang\)/)
-  assert.doesNotMatch(src.home, /ed-eyebrow">OUR PERSPECTIVE/)
-  assert.doesNotMatch(src.home, /ed-eyebrow">THE FUTURE IS A COLLECTIVE EFFORT/)
+  assert.doesNotMatch(src.home, /OUR PERSPECTIVE|IN GOOD COMPANY|BUILT FOR BUILDERS|THE FUTURE IS A COLLECTIVE EFFORT|UNIQUERESEARCH/)
   assert.match(src.hero, /Latest research/)
   assert.match(src.hero, /最新研究/)
   assert.match(src.search, /AGENT_PROMPT_TEXT_EN/)

@@ -87,6 +87,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/en/',
+        destination: '/en',
+        permanent: true,
+      },
+      {
         source: '/events',
         destination: '/research/events-awards',
         permanent: true,

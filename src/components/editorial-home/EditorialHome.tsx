@@ -3,18 +3,18 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { useLang } from '@/context/LangContext'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
-function ProductCard({ product, lang, index }: { product: (typeof PRODUCTS)[number]; lang: 'zh' | 'en'; index: number }) {
+function ProductCard({ product, lang }: { product: (typeof PRODUCTS)[number]; lang: 'zh' | 'en' }) {
   const primary = productPrimaryHref(product, lang)
   const external = productExternalHref(product, lang)
   const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
   const body = (
     <>
-      <div className="ed-product-top"><span>0{index + 1}</span><span>{product.audience[lang]}</span></div>
+      <div className="ed-product-top"><span>{product.audience[lang]}</span></div>
       <h3>{product.name[lang]}</h3>
       <p>{product.description[lang]}</p>
       <span className="ed-link">
@@ -37,16 +37,14 @@ function ProductCard({ product, lang, index }: { product: (typeof PRODUCTS)[numb
 }
 import { DocumentTitle } from './DocumentTitle'
 import { ResearchHighlights } from './ResearchHighlights'
-import { SectionIndex } from './SectionIndex'
-import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
 import '@/app/research/research.css'
 const statusLabels = {
   zh: { upcoming: '即将举行', live: '正在举行', past: '活动档案', publication: '正式发布', event: '活动' },
-  en: { upcoming: 'UPCOMING', live: 'HAPPENING NOW', past: 'PAST EVENT', publication: 'PUBLISHED', event: 'EVENT' },
+  en: { upcoming: 'Upcoming', live: 'Happening now', past: 'Past event', publication: 'Published', event: 'Event' },
 }
 
 export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNode }) {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
   const [topic, setTopic] = useState('all')
   const [now, setNow] = useState<number | null>(null)
@@ -89,7 +87,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div>
 
       <section id="research" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '研究视角' : 'OUR PERSPECTIVE'} {zh && <SectionIndex index={HOME_SECTION_INDEX.research} />}</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入完整研究库' : 'Explore the research library'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '公开研究' : 'Published research'}</p><h2>{zh ? '研究与洞察' : 'Ideas & perspectives'}</h2></div><Link href={zh ? '/research' : '/en/research'} className="ed-link">{zh ? '进入研究库' : 'Enter the research library'}<ArrowRight size={19}/></Link></div>
         {zh && <div className="ed-filters" role="group" aria-label="按研究方向筛选">{[{ id: 'all', name: '全部' }, ...TOPICS].map(t => <button key={t.id} aria-pressed={topic === t.id} onClick={() => setTopic(t.id)}>{t.name}</button>)}</div>}
         <div className="ed-research-layout">
           <div>
@@ -97,7 +95,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
             <ResearchHighlights topic={topic}/>
           </div>
           <aside className="ed-research-aside">
-            <p className="ed-eyebrow">{zh ? '非凡产研' : 'UNIQUERESEARCH'}</p>
+            <p className="ed-eyebrow">{zh ? '非凡产研' : 'UniqueResearch'}</p>
             <h3>{zh ? <>不止于观察，<br/>更走向现场。</> : <>Ideas meet<br/>the real world.</>}</h3>
             <p>{zh ? '从技术信号到商业实践，非凡产研持续关注 AI 创造真实价值的方式。' : 'From technical signals to commercial practice, we follow how AI creates real value.'}</p>
             <Link href={zh ? '/research' : '/en/research'} className="ed-aside-link"><span>{zh ? '研究与洞察' : 'Research'}</span><ArrowRight size={17}/></Link>
@@ -113,7 +111,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </section>
 
       <section id="ecosystem" className="ed-events ed-reveal"><div className="ed-container">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '与同路人' : 'IN GOOD COMPANY'} {zh && <SectionIndex index={HOME_SECTION_INDEX.events} />}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href={researchHubPath('events-awards', lang)} className="ed-link">{zh ? '活动与奖项' : 'Events & awards'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '与同路人' : 'In good company'}</p><h2>{zh ? '让连接，真实发生。' : 'Where ideas meet people.'}</h2></div><Link href={researchHubPath('events-awards', lang)} className="ed-link">{zh ? '活动与奖项' : 'Events & awards'}<ArrowRight size={19}/></Link></div>
         <p className="ed-section-intro">{zh ? '列表顺序与 UniqueBloom 公开活动一致；点击前往报名页。完整日历见 UniqueBloom。' : 'Listed in UniqueBloom public order; each row opens sign-up on UniqueBloom.'}</p>
         <div className="ed-event-list">{homeEvents.map(event => {
           const status = now === null ? 'event' : eventStatus(event, now)
@@ -129,13 +127,13 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div></section>
 
       <section id="products" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '为构建者而生' : 'BUILT FOR BUILDERS'} {zh && <SectionIndex index={HOME_SECTION_INDEX.products} />}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
-        <div className="ed-products">{PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} lang={lang} index={i} />)}</div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '为构建者而生' : 'Built for builders'}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-products">{PRODUCTS.map(p => <ProductCard key={p.id} product={p} lang={lang} />)}</div>
       </section>
 
       {tail}
 
-      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">{zh ? '未来是共同的事业' : 'THE FUTURE IS A COLLECTIVE EFFORT.'}</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link><Link href={LINKS.contact} className="ed-link" style={{ marginLeft: '1.5rem' }}>{zh ? '联系我们' : 'Contact us'}<ArrowRight size={25}/></Link></div></section>
+      <section className="ed-closing ed-reveal"><div className="ed-container"><p className="ed-eyebrow">{zh ? '未来是共同的事业' : 'The future is a collective effort'}</p><h2>{zh ? <>未来不是旁观席。<br/>一起，参与构建。</> : <>The future has no sidelines.<br/>Let’s build it together.</>}</h2><Link href="/about" className="ed-link">{zh ? '认识非凡资本' : 'Discover UniqueCapital'}<ArrowRight size={25}/></Link><Link href={LINKS.contact} className="ed-link" style={{ marginLeft: '1.5rem' }}>{zh ? '联系我们' : 'Contact us'}<ArrowRight size={25}/></Link></div></section>
     </main>
   </EditorialShell>
 }

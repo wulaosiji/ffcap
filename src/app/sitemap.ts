@@ -8,6 +8,7 @@ import { getEnglishResearchCatalog } from '@/lib/english-research'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: 'https://ffcap.cn', changeFrequency: 'weekly', priority: 1 },
+    { url: 'https://ffcap.cn/en', changeFrequency: 'weekly', priority: .9 },
     { url: 'https://ffcap.cn/about', changeFrequency: 'monthly', priority: .6 },
     { url: 'https://ffcap.cn/contact', changeFrequency: 'monthly', priority: .55 },
     { url: 'https://ffcap.cn/research', changeFrequency: 'weekly', priority: .9 },

@@ -3,12 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { useLang } from '@/context/LangContext'
-import { SectionIndex } from './SectionIndex'
-import { HOME_SECTION_INDEX } from '@/content/home-sections.mjs'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 
 export function WorldTeaser() {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
 
   return (
@@ -24,7 +22,7 @@ export function WorldTeaser() {
           />
         </div>
         <div className="ed-world-teaser__copy">
-          <p className="ed-eyebrow">{zh ? '可选体验' : 'THE CLOUD SETTLEMENT'} <SectionIndex index={HOME_SECTION_INDEX.world} /></p>
+          <p className="ed-eyebrow">{zh ? '三维庭院' : 'The cloud settlement'}</p>
           <h2 id="world-teaser-title">{zh ? '云上的聚落' : 'The cloud settlement'}</h2>
           <p>
             {zh

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
-import { primaryNavItems, researchHubPath, researchLanguageCounterpart, researchRouteLang } from '../src/content/editorial.mjs'
+import { primaryNavItems, researchHubPath, researchLanguageCounterpart, researchRouteLang, siteLanguageCounterpart } from '../src/content/editorial.mjs'
 import {
   getCuratedEnglishEventsAwardsArticles,
   getCuratedEnglishRankingArticles,
@@ -25,6 +25,12 @@ test('research hubs switch as exact language pairs', () => {
   assert.equal(researchLanguageCounterpart('/en/research', 'zh'), '/research')
   assert.equal(researchLanguageCounterpart('/research/20261014a0cmpf00', 'en'), null)
   assert.equal(researchLanguageCounterpart('/en/research/some-english-slug', 'zh'), null)
+  assert.equal(researchRouteLang('/'), 'zh')
+  assert.equal(researchRouteLang('/en'), 'en')
+  assert.equal(researchRouteLang('/en/'), 'en')
+  assert.equal(siteLanguageCounterpart('/', 'en'), '/en')
+  assert.equal(siteLanguageCounterpart('/en', 'zh'), '/')
+  assert.equal(siteLanguageCounterpart('/en/', 'zh'), '/')
   assert.equal(researchRouteLang('/en/research/rankings'), 'en')
   assert.equal(researchRouteLang('/en/research/events-awards'), 'en')
   assert.equal(researchRouteLang('/research/rankings'), 'zh')
@@ -95,15 +101,19 @@ test('english hub pages are locale-pure and reuse the curated lists', async () =
   assert.doesNotMatch(chineseRankings, /Data & Rankings/)
   assert.doesNotMatch(chineseEvents, /Events & Awards/)
   assert.doesNotMatch(chineseEvents, /href="\/events"/)
-  const toggle = shell.slice(shell.indexOf('const switchLanguage'), shell.indexOf('const [menuOpen'))
-  assert.match(shell, /researchRouteLang\(pathname\) \|\| lang/)
-  assert.ok(toggle.includes('researchLanguageCounterpart'))
-  assert.ok(toggle.indexOf('researchLanguageCounterpart') < toggle.indexOf("startsWith('/en/research/')"))
-  assert.ok(toggle.indexOf('researchLanguageCounterpart') < toggle.indexOf("startsWith('/research/')"))
+  const hook = await readFile(new URL('../src/hooks/useSwitchSiteLanguage.ts', import.meta.url), 'utf8')
+  const toggle = hook.slice(hook.indexOf('const switchLanguage'), hook.indexOf('return { displayed'))
+  assert.match(hook, /researchRouteLang\(pathname\) \|\| lang/)
+  assert.match(shell, /useSwitchSiteLanguage/)
+  assert.match(shell, /<LangToggle/)
+  assert.ok(toggle.includes('siteLanguageCounterpart'))
+  assert.ok(toggle.indexOf('siteLanguageCounterpart') < toggle.indexOf("startsWith('/en/research/')"))
+  assert.ok(toggle.indexOf('siteLanguageCounterpart') < toggle.indexOf("startsWith('/research/')"))
 })
 
 test('sitemap and llms documents list the english hubs', async () => {
   const sitemap = await readFile(new URL('../src/app/sitemap.ts', import.meta.url), 'utf8')
+  assert.match(sitemap, /https:\/\/ffcap\.cn\/en'/)
   assert.match(sitemap, /https:\/\/ffcap\.cn\/en\/research\/rankings/)
   assert.match(sitemap, /https:\/\/ffcap\.cn\/en\/research\/events-awards/)
   assert.doesNotMatch(sitemap, /url: 'https:\/\/ffcap\.cn\/events'/)

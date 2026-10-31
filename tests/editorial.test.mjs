@@ -113,7 +113,7 @@ test("footer explore splits the site menu from the For AI group", () => {
     { label: "常见问题", href: "/faq" },
   ]);
   const en = footerExploreGroups("en");
-  assert.equal(en.site.eyebrow, "EXPLORE");
+  assert.equal(en.site.eyebrow, "Explore");
   assert.equal(en.ai.eyebrow, "For AI");
   assert.deepEqual(en.site.items.map(({ label }) => label), [
     "Research", "Data & Rankings", "Events & Awards", "Products & Services", "About", "Contact",
@@ -147,7 +147,7 @@ test("footer renders explore, For AI, and products as peer columns", async () =>
   const ai = main.indexOf("explore.ai.eyebrow");
   const products = main.indexOf("进入产品");
   assert.ok(site > -1 && ai > site && products > ai);
-  assert.match(main, /OUR PRODUCTS/);
+  assert.match(main, /Our products/);
   assert.match(css, /\.ed-footer-main\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(css, /\.ed-footer-explore/);
 });
@@ -175,12 +175,16 @@ test("site chrome does not invite AI ranking applications", async () => {
   assert.doesNotMatch(src, /申报 AI 榜单|申报榜单|我要申报|Apply for AI rankings|Apply for AI Rankings|立即提交您的AI应用|submit to our leaderboard|官方申报表单/);
 });
 
-test("homepage hero copy is centered and desktop nav is not shifted right", async () => {
+test("homepage hero is left copy and right tools without a nav pill wall", async () => {
   const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
   const home = await readFile(new URL("../src/components/editorial-home/EditorialHome.tsx", import.meta.url), "utf8");
+  const hero = await readFile(new URL("../src/components/editorial-home/ResearchHero.tsx", import.meta.url), "utf8");
+  assert.match(css, /\.ed-research-hero__main\{[^}]*grid-template-columns:minmax\(0,7fr\) minmax\(280px,5fr\)/);
   assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*width:min\(40rem,100%\)/);
-  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*margin-inline:auto/);
+  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*text-align:left/);
   assert.match(css, /\.ed-site \.ed-research-hero__scale\{[^}]*width:min\(36rem,100%\)/);
+  assert.doesNotMatch(css, /\.ed-research-hero__pills/);
+  assert.doesNotMatch(hero, /ed-research-hero__pill|primaryNavItems|withEmphasis/);
   assert.doesNotMatch(css, /\.ed-desktop-nav\{[^}]*padding-left:\s*5%/);
   assert.match(home, /researchHubPath\('events-awards', lang\)/);
   assert.match(home, /uniqueBaseHref\(lang\)/);
@@ -367,7 +371,7 @@ test("homepage hero title drops the brand prefix", async () => {
   assert.match(faq, /非凡产研（UniqueResearch）是其研究品牌/);
 });
 
-test("editorial chrome follows the UniqueBase micro language", async () => {
+test("editorial chrome uses the distinct research-journal identity", async () => {
   const css = await readFile(new URL("../src/app/editorial-home.css", import.meta.url), "utf8");
   const research = await readFile(new URL("../src/app/research/research.css", import.meta.url), "utf8");
   const search = await readFile(new URL("../src/components/editorial-home/ResearchHeroSearch.tsx", import.meta.url), "utf8");
@@ -375,13 +379,17 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(css, /font-family:'Segoe UI'/);
   assert.doesNotMatch(css, /Inter/);
   assert.match(css, /font-size:15px;line-height:1\.6;/);
-  assert.match(css, /letter-spacing:-\.045em/);
-  assert.match(css, /--ed-button:#263f2f/);
+  assert.match(css, /--ed-paper:#f7f6f1/);
+  assert.match(css, /--ed-ink:#1a221c/);
+  assert.match(css, /--ed-muted:#5c6758/);
+  assert.match(css, /--ed-button:#1e3328/);
   assert.match(css, /--ed-focus:#4e8766/);
-  assert.match(css, /--ed-rule:#dce1d8/);
-  assert.match(css, /--ed-accent:#79946a/);
-  assert.match(css, /--ed-cell:#eef2e8/);
-  assert.match(css, /--ed-card-line:#7c986a/);
+  assert.match(css, /--ed-rule:#ddd8cc/);
+  assert.match(css, /--ed-accent:#3f6b52/);
+  assert.match(css, /--ed-cell:#efece4/);
+  assert.match(css, /--ed-card-line:#3f6b52/);
+  assert.doesNotMatch(css, /#79946a|#263f2f|#f8f9f6|#dce1d8|#eef2e8|#7c986a/);
+  assert.doesNotMatch(css, /purple|#6b5|#7c3|#8b5cf6/i);
   assert.match(css, /--ed-radius-card:6px/);
   assert.match(css, /--ed-radius-panel:7px/);
   assert.match(css, /--ed-radius-search:7px/);
@@ -390,20 +398,24 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.match(css, /--ed-radius-pill:999px/);
   assert.match(css, /--ed-search-shadow:0 3px 10px #20302005/);
   assert.match(css, /outline:3px solid var\(--ed-focus\);outline-offset:4px/);
-  assert.match(css, /\.ed-research-hero__search\{[^}]*width:min\(100%,550px\)[^}]*padding:6px;[^}]*border-radius:var\(--ed-radius-search\)[^}]*box-shadow:var\(--ed-search-shadow\)/);
+  assert.match(css, /\.ed-research-hero__search\{[^}]*width:100%[^}]*padding:6px;[^}]*border-radius:var\(--ed-radius-search\)[^}]*box-shadow:var\(--ed-search-shadow\)/);
   assert.match(css, /\.ed-research-hero__search input\{[^}]*font-size:13px/);
   assert.match(css, /\.ed-button,\.ed-research-hero__search button,\.ed-research-hero__cta-primary\{[^}]*border-radius:var\(--ed-radius-button\)[^}]*min-height:43px;padding:12px 20px;[^}]*gap:18px;[^}]*font-size:12px/);
-  assert.match(css, /\.ed-research-hero\{[^}]*padding:120px 0 88px/);
-  assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-size:clamp\(38px,5vw,66px\);font-weight:500;line-height:1\.12;letter-spacing:-3px/);
-  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*font-size:14px;line-height:1\.85;color:#7a8378/);
-  assert.match(css, /\.ed-site \.ed-research-hero__kicker\{[^}]*margin:0 auto 36px/);
+  assert.match(css, /\.ed-research-hero\{[^}]*padding:96px 0 80px/);
+  assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-family:var\(--ed-display\)|\.ed-site :is\(\.ed-research-hero__copy h1/);
+  assert.match(css, /\.ed-research-hero__copy h1\{[^}]*font-weight:400;line-height:1\.18;letter-spacing:-\.025em/);
+  assert.match(css, /\.ed-site \.ed-research-hero__lead\{[^}]*font-size:16px;line-height:1\.75;color:var\(--ed-muted\)/);
+  assert.match(css, /\.ed-site \.ed-research-hero__kicker\{[^}]*margin:0 0 28px/);
+  assert.match(css, /\.ed-site\{overflow-x:clip/);
+  assert.doesNotMatch(css, /\.ed-site\{overflow:clip/);
   assert.doesNotMatch(css, /\.ed-research-hero__search button:hover/);
   assert.match(css, /\.ed-research-hero__dot\{[^}]*width:5px;height:5px/);
-  assert.match(css, /\.ed-research-hero__copy h1 em\{[^}]*Georgia[^}]*font-style:italic/);
+  assert.doesNotMatch(css, /\.ed-research-hero__copy h1 em/);
+  assert.doesNotMatch(css, /font-style:italic/);
   assert.doesNotMatch(css, /border-radius:1[024]px/);
   assert.doesNotMatch(css, /@keyframes/);
   assert.match(search, /className="ed-button"/);
-  assert.match(hero, /<em>\{phrase\}<\/em>/);
+  assert.doesNotMatch(hero, /<em>|withEmphasis|emphasis:/);
   assert.match(research, /\.rs-search button\{[^}]*min-height:43px;padding:12px 20px;[^}]*font-size:12px;[^}]*border-radius:var\(--ed-radius-button,5px\)/);
   assert.match(research, /\.rs-search input:not\(\[type=hidden\]\),\.rs-search select\{[^}]*font-size:13px[^}]*background:#fbfcfa[^}]*height:44px;min-height:44px/);
   assert.doesNotMatch(research, /\.rs-search input\{font-size:18px/);
@@ -411,10 +423,9 @@ test("editorial chrome follows the UniqueBase micro language", async () => {
   assert.doesNotMatch(research, /outline:2px/);
   const type = await readFile(new URL("../src/styles/typography.css", import.meta.url), "utf8");
   assert.match(type, /body \.ed-site,\nbody \.ed-dialog \{[^}]*font-size: 15px;[^}]*line-height: 1\.6;/);
-  assert.match(type, /letter-spacing: -0\.045em;/);
-  assert.match(type, /:lang\(zh\) :is\(h1, h2, h3, h4, h5, h6\) \{\n  letter-spacing: -0\.045em;\n\}/);
-  assert.match(type, /ed-research-hero__copy h1 \{[^}]*letter-spacing: -3px;/);
-  assert.match(type, /Georgia, "Times New Roman", serif/);
+  assert.match(type, /letter-spacing: -0\.03em;/);
+  assert.match(type, /Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif/);
+  assert.match(type, /ed-research-hero__copy h1 \{[^}]*letter-spacing: -0\.025em;/);
   assert.doesNotMatch(type, /Inter/);
 });
 

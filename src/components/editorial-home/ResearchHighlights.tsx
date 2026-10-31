@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import articles from '@/content/research/highlights.json'
 import englishArticles from '@/content/research/english-highlights.json'
-import { useLang } from '@/context/LangContext'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { ARTICLE_TYPES, DIRECTIONS } from '@/content/research/taxonomy.mjs'
 function formatDate(iso: string, lang: 'zh' | 'en') {
   if (lang === 'en') {
@@ -22,33 +22,28 @@ function DenseResearchList({
   items,
   lang,
   topic,
-  total,
 }: {
   items: typeof articles
   lang: 'zh' | 'en'
   topic: string
-  total: number
 }) {
   const zh = lang === 'zh'
   const listHref = zh ? `/research${topic === 'all' ? '' : `?topic=${topic}`}` : '/en/research'
 
   return (
     <div className="ed-research-dense">
-      <p className="ed-result-count">{zh ? '非凡产研 · 研究精选' : 'UNIQUERESEARCH · FEATURED'}</p>
+      <p className="ed-result-count">{zh ? '非凡产研 · 研究精选' : 'UniqueResearch · featured'}</p>
       <ol className="ed-research-dense__list">
-        {items.map((article, index) => {
+        {items.map((article) => {
           const direction =
             lang === 'en' && article.topic === 'english'
-              ? 'UNIQUE RESEARCH · ENGLISH'
+              ? 'Unique Research · English'
               : DIRECTIONS.find(d => d.id === article.topic)?.name || article.topic
           const typeLabel = ARTICLE_TYPES.find(t => t.id === article.type)?.label
           const href = lang === 'zh' ? `/research/${article.slug}` : `/en/research/${article.slug}`
           const line = dataLine(article.excerpt)
           return (
             <li key={article.id} className="ed-research-dense__row">
-              <span className="ed-research-dense__index" aria-hidden>
-                [{String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}]
-              </span>
               <time className="ed-research-dense__date" dateTime={article.publishedAt}>
                 {formatDate(article.publishedAt, lang)}
               </time>
@@ -70,14 +65,14 @@ function DenseResearchList({
         })}
       </ol>
       <Link className="ed-link" href={listHref}>
-        {zh ? '进入完整研究库' : 'Explore all articles'} →
+        {zh ? '进入研究库' : 'Enter the research library'} →
       </Link>
     </div>
   )
 }
 
 export function ResearchHighlights({ topic }: { topic: string }) {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
 
   if (lang === 'en') {
     const selected = englishArticles.slice(0, 6)
@@ -91,11 +86,10 @@ export function ResearchHighlights({ topic }: { topic: string }) {
       tags: [] as string[],
       publishedAt: a.publishedAt,
     }))
-    return <DenseResearchList items={mapped} lang="en" topic={topic} total={selected.length} />
+    return <DenseResearchList items={mapped} lang="en" topic={topic} />
   }
 
   const filtered = articles.filter(a => topic === 'all' || a.topic === topic)
   const selected = filtered.slice(0, 6)
-  const total = selected.length
-  return <DenseResearchList items={selected} lang="zh" topic={topic} total={total} />
+  return <DenseResearchList items={selected} lang="zh" topic={topic} />
 }

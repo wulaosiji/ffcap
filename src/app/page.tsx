@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { EditorialHome } from "@/components/editorial-home/EditorialHome";
-import { ResearchHero } from "@/components/editorial-home/ResearchHero";
-import { HomeStructuredData } from "@/components/editorial-home/HomeStructuredData";
-import { HomeFaq } from "@/components/editorial-home/HomeFaq";
-import { WorldTeaser } from "@/components/editorial-home/WorldTeaser";
-import { FAQ_ITEMS, FAQ_ITEMS_EN, HOME_META_DESCRIPTION, HOME_OG_IMAGE, HOME_TITLE, homeLatestAnnouncement, homeLatestEnglishAnnouncement, homeLibraryCount, homeLibraryStatLabel } from "@/content/home-public.mjs";
+import { HomeView } from "@/components/editorial-home/HomeView";
+import { HOME_META_DESCRIPTION, HOME_OG_IMAGE, HOME_TITLE } from "@/content/home-public.mjs";
 import "./editorial-home.css";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://ffcap.cn/" },
+  alternates: {
+    canonical: "https://ffcap.cn/",
+    languages: { "zh-CN": "https://ffcap.cn/", en: "https://ffcap.cn/en" },
+  },
   title: HOME_TITLE,
   description: HOME_META_DESCRIPTION,
   openGraph: {
@@ -29,25 +28,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <>
-      <HomeStructuredData />
-      <EditorialHome
-        hero={
-          <ResearchHero
-            announcementZh={homeLatestAnnouncement()}
-            announcementEn={homeLatestEnglishAnnouncement()}
-            libraryStatZh={homeLibraryStatLabel()}
-            libraryCount={homeLibraryCount()}
-          />
-        }
-        tail={
-          <>
-            <HomeFaq zhItems={FAQ_ITEMS} enItems={FAQ_ITEMS_EN} />
-            <WorldTeaser />
-          </>
-        }
-      />
-    </>
-  );
+  return <HomeView />;
 }

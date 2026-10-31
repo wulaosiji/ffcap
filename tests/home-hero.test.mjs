@@ -7,6 +7,7 @@ import {
   homeSearchImplicitSubmitNavigates,
   previewArticleMatches,
 } from '../src/content/home-hero-search.mjs'
+import { readFile } from 'node:fs/promises'
 import { formatSectionIndex, HOME_SECTION_TOTAL } from '../src/content/home-sections.mjs'
 
 test('announcement uses highlights first and exposes summary fields', () => {
@@ -44,7 +45,26 @@ test('preview search matches index-shaped articles', () => {
   assert.equal(hits[0].slug, 'a')
 })
 
-test('homepage section index formatting', () => {
+test('homepage drops decorative section indexes and keeps three direction hubs', async () => {
   assert.equal(formatSectionIndex(1, HOME_SECTION_TOTAL), '[01 / 05]')
-  assert.equal(formatSectionIndex(5), '[05 / 05]')
+  const home = await readFile(new URL('../src/components/editorial-home/EditorialHome.tsx', import.meta.url), 'utf8')
+  const faq = await readFile(new URL('../src/components/editorial-home/HomeFaq.tsx', import.meta.url), 'utf8')
+  const world = await readFile(new URL('../src/components/editorial-home/WorldTeaser.tsx', import.meta.url), 'utf8')
+  const hero = await readFile(new URL('../src/components/editorial-home/ResearchHero.tsx', import.meta.url), 'utf8')
+  const highlights = await readFile(new URL('../src/components/editorial-home/ResearchHighlights.tsx', import.meta.url), 'utf8')
+  assert.doesNotMatch(home, /SectionIndex|HOME_SECTION_INDEX|\[01 \/ 05\]/)
+  assert.doesNotMatch(faq, /SectionIndex|HOME_SECTION_INDEX/)
+  assert.doesNotMatch(world, /SectionIndex|HOME_SECTION_INDEX/)
+  assert.doesNotMatch(hero, /ed-research-hero__pill|withEmphasis|<em>/)
+  assert.doesNotMatch(highlights, /ed-research-dense__index|padStart\(2/)
+  assert.match(home, /ed-topic-number/)
+})
+
+test('English homepage route reuses the shared home view', async () => {
+  const page = await readFile(new URL('../src/app/en/page.tsx', import.meta.url), 'utf8')
+  const zh = await readFile(new URL('../src/app/page.tsx', import.meta.url), 'utf8')
+  assert.match(page, /HomeView/)
+  assert.match(page, /https:\/\/ffcap\.cn\/en/)
+  assert.match(zh, /HomeView/)
+  assert.match(zh, /https:\/\/ffcap\.cn\/en/)
 })

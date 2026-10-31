@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowUpRight, Search } from 'lucide-react'
-import { useLang } from '@/context/LangContext'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { AGENT_PROMPT_TEXT, AGENT_PROMPT_TEXT_EN } from '@/content/home-agent-kit.mjs'
 import { previewArticleMatches } from '@/content/home-hero-search.mjs'
 import { AgentCopyBlocks } from './AgentCopyBlocks'
@@ -18,7 +18,7 @@ type IndexArticle = {
 const SEARCH_HINT_ID = 'home-research-search-hint'
 
 export function ResearchHeroSearch() {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
   const [query, setQuery] = useState('')
   const [indexArticles, setIndexArticles] = useState<IndexArticle[] | null>(null)
@@ -56,7 +56,7 @@ export function ResearchHeroSearch() {
     zh && query.trim().length >= 2 && indexArticles && previews.length === 0
 
   return (
-    <div className="ed-research-hero__tools">
+    <div className="ed-research-hero__search-panel">
       <form
         className="ed-research-hero__search-wrap"
         action={zh ? '/research' : '/en/research'}
@@ -113,7 +113,7 @@ export function ResearchHeroSearch() {
 }
 
 export function ResearchHeroAgents() {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const zh = lang === 'zh'
 
   return (

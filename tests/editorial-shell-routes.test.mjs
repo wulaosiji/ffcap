@@ -5,6 +5,8 @@ import { usesEditorialShell } from '../src/lib/uses-editorial-shell.mjs'
 test('usesEditorialShell hides legacy Navbar on editorial routes', () => {
   for (const path of [
     '/',
+    '/en',
+    '/en/',
     '/contact',
     '/events',
     '/events/cd2026',
