@@ -17,7 +17,7 @@ const copy = {
     details: '查看介绍',
   },
   en: {
-    eyebrow: 'Built for builders',
+    eyebrow: 'Built for Builders',
     title: 'Products',
     intro: 'From insight to action: in-mini-program surveys and research lookup, global web data and events, and investor project matching.',
     count: 'products',

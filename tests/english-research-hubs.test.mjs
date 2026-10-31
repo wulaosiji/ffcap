@@ -100,7 +100,7 @@ test('english hub pages are locale-pure and reuse the curated lists', async () =
   assert.doesNotMatch(hub, /href=\{`\/research\/\$\{article\.slug\}`\}/)
   assert.doesNotMatch(hub, /href="\/events"/)
   assert.doesNotMatch(hub, /Titles stay in the language/)
-  assert.match(hub, /Unique research/)
+  assert.match(hub, /UniqueResearch/)
   assert.doesNotMatch(hub, /UNIQUE RESEARCH|DATA & RANKINGS|EVENTS & AWARDS/)
   assert.match(hub, /href="\/en\/products\/uniquebase"/)
   assert.match(chineseRankings, /getResearchCatalog/)
