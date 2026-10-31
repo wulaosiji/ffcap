@@ -149,7 +149,7 @@ test("footer renders explore, For AI, and products as peer columns", async () =>
   const ai = main.indexOf("explore.ai.eyebrow");
   const products = main.indexOf("进入产品");
   assert.ok(site > -1 && ai > site && products > ai);
-  assert.match(main, /Our products/);
+  assert.match(main, /Our Products/);
   assert.match(css, /\.ed-footer-main\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(css, /\.ed-footer-explore/);
 });
@@ -460,7 +460,7 @@ test("secondary pages share the research-journal display stack and sentence-case
   assert.match(files.enArchive, /<span>Unique research<\/span>/);
   assert.match(files.enArchive, /English article/);
   assert.doesNotMatch(files.enArchive, /UNIQUE RESEARCH|ENGLISH ARCHIVE|ENGLISH ARTICLE/);
-  assert.match(files.enArticle, /English article/);
+  assert.match(files.enArticle, /English Article/);
   assert.match(files.enArticle, /rs-article-header/);
   assert.doesNotMatch(files.enArticle, /UNIQUE RESEARCH|ENGLISH ARTICLE/);
   assert.match(files.enProducts, /ProductsHub/);
@@ -474,8 +474,8 @@ test("secondary pages share the research-journal display stack and sentence-case
   assert.doesNotMatch(files.about, /01 \/ RESEARCH/);
   assert.match(files.contact, /联系人/);
   assert.doesNotMatch(files.contact, /RESEARCH · RANKINGS · DATA/);
-  assert.match(files.world, /The future is not a spectator sport/);
-  assert.match(files.world, /Exploration mode/);
+  assert.match(files.world, /The Future Is Not a Spectator Sport/);
+  assert.match(files.world, /Exploration Mode/);
   assert.doesNotMatch(files.world, /THE FUTURE IS NOT A SPECTATOR SPORT|EXPLORATION MODE|UNIQUE WORLDS/);
 });
 

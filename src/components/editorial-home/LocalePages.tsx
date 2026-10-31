@@ -114,7 +114,7 @@ export function TopicDetailView({
     <main id="main-content" className="ed-container rs-detail" lang={zh ? 'zh-CN' : 'en'}>
       <DocumentTitle zh={`${topic.name} | 非凡资本研究方向`} en={`${topic.name} | UniqueCapital`} />
       <header className="rs-article-header">
-        <p className="ed-eyebrow">{zh ? '研究方向' : 'Research direction'}</p>
+        <p className="ed-eyebrow">{zh ? '研究方向' : 'Research Direction'}</p>
         <h1>{topic.name}</h1>
       </header>
       <article className="rs-prose">
@@ -141,7 +141,7 @@ export function TopicDetailView({
                 {' — '}
                 <time dateTime={event.date}>{event.date}</time>
                 {' · '}
-                <a href={event.bloomHref} target="_blank" rel="noopener noreferrer">{zh ? '报名 ↗' : 'Sign up ↗'}</a>
+                <a href={event.bloomHref} target="_blank" rel="noopener noreferrer">{zh ? '报名 ↗' : 'Sign Up ↗'}</a>
               </li>
             ))}
           </ul>
@@ -170,11 +170,11 @@ export function EventsHubView({ events }: { events: HubEvent[] }) {
 
   return (
     <main id="main-content" className="ed-container rs-library ed-topo-hub" lang={zh ? 'zh-CN' : 'en'}>
-      <DocumentTitle zh="活动文章 · 非凡资本" en="Event briefs · UniqueCapital" />
+      <DocumentTitle zh="活动文章 · 非凡资本" en="Event Briefs · UniqueCapital" />
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">{zh ? '活动文章' : 'Event briefs'}</p>
-          <h1>{zh ? '活动文章' : 'Event briefs'}</h1>
+          <p className="ed-eyebrow">{zh ? '活动文章' : 'Event Briefs'}</p>
+          <h1>{zh ? '活动文章' : 'Event Briefs'}</h1>
           <p>{zh ? '把公开活动的时间、地点与议题留在本站，便于阅读与引用；报名与现场信息以 UniqueBloom 为准。' : 'Time, place, and topic stay on this site for reading and citation. Sign-up and on-site details stay on UniqueBloom.'}</p>
           <p>
             <Link href={zh ? '/research' : '/en/research'}>{zh ? '研究与洞察' : 'Research'}</Link>
@@ -213,7 +213,7 @@ export function EventsHubView({ events }: { events: HubEvent[] }) {
                 <Link href={event.articleHref || researchHubPath('events-awards', lang)} aria-label={zh ? `阅读：${eventChromeTitle(event, 'zh')}` : `Read: ${eventChromeTitle(event, 'en')}`}>↗</Link>
               </div>
               <p>
-                <a href={event.bloomHref} target="_blank" rel="noopener noreferrer">{zh ? '报名/详情 ↗' : 'Sign up ↗'}</a>
+                <a href={event.bloomHref} target="_blank" rel="noopener noreferrer">{zh ? '报名/详情 ↗' : 'Sign Up ↗'}</a>
               </p>
             </article>
           )
@@ -253,7 +253,7 @@ export function EventArticleView({
         {topicHref ? <Link href={topicHref}>{topicName}</Link> : <span>{zh ? '活动' : 'Event'}</span>}
       </nav>
       <header className="rs-article-header">
-        <p className="ed-eyebrow">{zh ? '活动导读' : 'Event brief'}</p>
+        <p className="ed-eyebrow">{zh ? '活动导读' : 'Event Brief'}</p>
         <h1>{title}</h1>
         <div className="rs-byline">
           {event.city && <span>{event.location?.zh || event.city}</span>}
@@ -265,19 +265,19 @@ export function EventArticleView({
       {!zh && <p className="rs-media-note">The brief below is the Chinese on-site write-up. Sign-up and the agenda stay on UniqueBloom.</p>}
       <article className="rs-prose" lang="zh-CN" dangerouslySetInnerHTML={{ __html: html }} />
       <section className="rs-related">
-        <p className="ed-eyebrow">{zh ? '报名' : 'Sign up'}</p>
+        <p className="ed-eyebrow">{zh ? '报名' : 'Sign Up'}</p>
         <h2>{zh ? '报名与详情' : 'Sign-up and details'}</h2>
         <p>
           <a href={event.bloomHref} target="_blank" rel="noopener noreferrer" className="ed-link">
-            {zh ? '在 UniqueBloom 查看报名与议程 ↗' : 'Sign up and view the agenda on UniqueBloom ↗'}
+            {zh ? '在 UniqueBloom 查看报名与议程 ↗' : 'Sign Up and view the agenda on UniqueBloom ↗'}
           </a>
         </p>
         <p className="ed-muted">{zh ? '完整日程、嘉宾与票务以活动页实时信息为准。' : 'The live agenda, speakers, and tickets are on the event page.'}</p>
       </section>
       {related.length > 0 && (
         <section className="rs-related">
-          <p className="ed-eyebrow">{zh ? '相关研究' : 'Related research'}</p>
-          <h2>{zh ? '相关研究文章' : 'Related research'}</h2>
+          <p className="ed-eyebrow">{zh ? '相关研究' : 'Related Research'}</p>
+          <h2>{zh ? '相关研究文章' : 'Related Research'}</h2>
           {!zh && <p className="ed-muted">Titles below are from the Chinese archive.</p>}
           <div>
             {related.map(article => (
@@ -308,7 +308,7 @@ export function ForAiView({ sampleDate, sampleMarkdown, sampleAlias }: { sampleD
       <DocumentTitle zh="给 AI 的读取接口 | 非凡资本" en="For AI | UniqueCapital" />
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">{zh ? '机器接口 / 非凡产研' : 'Machine interface / UniqueResearch'}</p>
+          <p className="ed-eyebrow">{zh ? '机器接口 / 非凡产研' : 'Machine Interface / UniqueResearch'}</p>
           <h1>{zh ? '给 AI 的读取接口' : 'For AI'}</h1>
           <p>
             {zh ? (

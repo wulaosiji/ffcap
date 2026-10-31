@@ -50,7 +50,7 @@ export default function EnglishArticlePage({ params }: { params: { slug: string 
     <StructuredData data={breadcrumbs([{ name: 'English research', url: '/en/research' }, { name: article.title, url: englishResearchUrl(article.slug) }])}/>
     <nav className="rs-breadcrumb" aria-label="Breadcrumb"><Link href="/en/research">English research articles</Link><span>/</span><span>Article</span></nav>
     <header className="rs-article-header">
-      <p className="ed-eyebrow">English article</p>
+      <p className="ed-eyebrow">English Article</p>
       <h1>{article.title}</h1>
       <div className="rs-byline">
         <span>By {article.author}</span>
