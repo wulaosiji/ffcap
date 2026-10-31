@@ -1,9 +1,16 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import fs from 'node:fs'
+import path from 'node:path'
 import { readFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
 import { coverForChineseSlug, coverForEnglishSlug } from '../src/content/research/article-cover.mjs'
-import { firstSubstackImage, substackVariant, withoutLeadingCover } from '../src/content/research/cover-image.mjs'
+import { coverImageSrc, firstSubstackImage, substackVariant, withoutLeadingCover } from '../src/content/research/cover-image.mjs'
 import { homeLatestAnnouncement, homeLatestEnglishAnnouncement } from '../src/content/home-announcement.mjs'
+
+const zhCoverDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../public/editorial/covers/zh')
+const TINY_JPG = Buffer.from('/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgEBAQEBAUFBQUFBQYGBgYGBgYGBgYGBgYHBwcICAgHBwcGBgcHCAgICAkJCQgICAgJCQoKCgwMCwsODg4RERT/xABLAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAIAAgMBIgACEQADEQD/2gAMAwEAAhEDEQA/AL+AD//Z', 'base64')
+const TINY_PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAABAAAAAQBPJcTWAAAADklEQVR4nGP4DwYMEAoAU7oL9ZisIGcAAAAASUVORK5CYII=', 'base64')
 
 const SAMPLE = 'https://substackcdn.com/image/fetch/$s_!EPjj!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff4306d51-ea86-4e58-99c7-bdd2fb3cfacc_2730x1536.jpeg'
 
@@ -13,6 +20,13 @@ test('substack width variants stay on the same CDN asset', () => {
   assert.equal(substackVariant('https://example.com/a.jpg', 640), null)
   assert.equal(substackVariant(SAMPLE, 2048), null)
   assert.equal(substackVariant(`${SAMPLE}?x=1`, 640), null)
+  assert.match(coverImageSrc(SAMPLE, 640), /w_640/)
+  assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverlocalfixture.webp', 640), '/editorial/covers/zh/zhcoverlocalfixture.webp')
+  assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverjpgfixture.jpg', 640), '/editorial/covers/zh/zhcoverjpgfixture.jpg')
+  assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverpngfixture.png', 960), '/editorial/covers/zh/zhcoverpngfixture.png')
+  assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverjpgfixture.jpeg', 640), null)
+  assert.equal(coverImageSrc('/editorial/covers/zh/../secret.webp', 640), null)
+  assert.equal(coverImageSrc('https://example.com/a.webp', 640), null)
 })
 
 test('leading cover figure is removed once and body text stays', () => {
@@ -26,11 +40,40 @@ test('leading cover figure is removed once and body text stays', () => {
   assert.equal(withoutLeadingCover('<p><img src="https://inews.gtimg.com/a.jpg"></p>', SAMPLE), '<p><img src="https://inews.gtimg.com/a.jpg"></p>')
 })
 
-test('chinese cards reuse a cover only for a verified english pair', () => {
-  assert.equal(coverForChineseSlug('20261014a0cmpf00'), null)
-  assert.match(coverForChineseSlug('20260830a09nqd00'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
-  assert.match(coverForEnglishSlug('only-45-of-americans-pay-for-ai-these'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
-  assert.equal(coverForEnglishSlug('../package'), null)
+test.describe('chinese cover resolution', { concurrency: 1 }, () => {
+  test('chinese cards reuse a cover only for a verified english pair', () => {
+    assert.equal(coverForChineseSlug('20261014a0cmpf00'), null)
+    assert.match(coverForChineseSlug('20260830a09nqd00'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
+    assert.match(coverForEnglishSlug('only-45-of-americans-pay-for-ai-these'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
+    assert.equal(coverForEnglishSlug('../package'), null)
+    assert.equal(coverForChineseSlug('../package'), null)
+  })
+
+  test('a local zh file wins over a related english substack cover', () => {
+    const fixture = path.join(zhCoverDir, 'zhcoverlocalfixture.webp')
+    assert.equal(fs.statSync(fixture).isFile(), true)
+    assert.equal(coverForChineseSlug('zhcoverlocalfixture'), '/editorial/covers/zh/zhcoverlocalfixture.webp')
+
+    const mapped = path.join(zhCoverDir, '20260830a09nqd00.webp')
+    const jpgOnly = path.join(zhCoverDir, 'zhcoverjpgfixture.jpg')
+    const pngOnly = path.join(zhCoverDir, 'zhcoverpngfixture.png')
+    const bothWebp = path.join(zhCoverDir, 'zhcoverbothfixture.webp')
+    const bothJpg = path.join(zhCoverDir, 'zhcoverbothfixture.jpg')
+    fs.copyFileSync(fixture, mapped)
+    fs.writeFileSync(jpgOnly, TINY_JPG)
+    fs.writeFileSync(pngOnly, TINY_PNG)
+    fs.copyFileSync(fixture, bothWebp)
+    fs.writeFileSync(bothJpg, TINY_JPG)
+    try {
+      assert.equal(coverForChineseSlug('20260830a09nqd00'), '/editorial/covers/zh/20260830a09nqd00.webp')
+      assert.equal(coverForChineseSlug('zhcoverjpgfixture'), '/editorial/covers/zh/zhcoverjpgfixture.jpg')
+      assert.equal(coverForChineseSlug('zhcoverpngfixture'), '/editorial/covers/zh/zhcoverpngfixture.png')
+      assert.equal(coverForChineseSlug('zhcoverbothfixture'), '/editorial/covers/zh/zhcoverbothfixture.webp')
+    } finally {
+      for (const file of [mapped, jpgOnly, pngOnly, bothWebp, bothJpg]) fs.rmSync(file, { force: true })
+    }
+    assert.match(coverForChineseSlug('20260830a09nqd00'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
+  })
 })
 
 test('home announcements expose a cover only when one already exists', () => {
@@ -38,7 +81,11 @@ test('home announcements expose a cover only when one already exists', () => {
   const zh = homeLatestAnnouncement()
   assert.match(en.coverSrc, /^https:\/\/substackcdn\.com\/image\/fetch\//)
   assert.equal(substackVariant(en.coverSrc, 640) !== en.coverSrc, true)
-  assert.ok(zh.coverSrc === null || zh.coverSrc.startsWith('https://substackcdn.com/image/fetch/'))
+  assert.ok(
+    zh.coverSrc === null ||
+    zh.coverSrc.startsWith('https://substackcdn.com/image/fetch/') ||
+    /^\/editorial\/covers\/zh\/[a-z0-9]+\.(webp|jpg|png)$/.test(zh.coverSrc),
+  )
 })
 
 test('topo chrome stays faint and does not blur covers into the page', async () => {

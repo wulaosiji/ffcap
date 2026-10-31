@@ -6,6 +6,8 @@ import { englishSlugForChinese } from './english-related.mjs'
 
 const researchDir = path.join(path.dirname(fileURLToPath(import.meta.url)))
 const articlesDir = path.join(researchDir, 'english-articles')
+const zhCoverDir = path.join(researchDir, '../../../public/editorial/covers/zh')
+const ZH_COVER_EXTS = ['.webp', '.jpg', '.png']
 
 let listedSlugs = null
 
@@ -36,10 +38,32 @@ export function coverForEnglishSlug(slug) {
 }
 
 /**
- * Chinese articles reuse an English cover only when ENGLISH_RELATED already
- * records that pair. Unmapped articles stay as they are.
+ * Local Chinese cover. Primary file is `<slug>.webp`. `.jpg` and `.png` are
+ * used only when the earlier extension is missing. Missing files and a missing
+ * directory are normal and return null.
+ */
+function localChineseCoverUrl(slug) {
+  if (typeof slug !== 'string' || !/^[a-z0-9]+$/.test(slug)) return null
+  for (const ext of ZH_COVER_EXTS) {
+    try {
+      if (!fs.statSync(path.join(zhCoverDir, `${slug}${ext}`)).isFile()) continue
+    } catch {
+      continue
+    }
+    return `/editorial/covers/zh/${slug}${ext}`
+  }
+  return null
+}
+
+/**
+ * Chinese cover resolution:
+ * 1. `public/editorial/covers/zh/<slug>.webp` (else `.jpg`, else `.png`)
+ * 2. related English Substack cover when ENGLISH_RELATED records that pair
+ * 3. null
  */
 export function coverForChineseSlug(slug) {
+  const local = localChineseCoverUrl(slug)
+  if (local) return local
   const englishSlug = englishSlugForChinese(slug)
   if (!englishSlug) return null
   return coverForEnglishSlug(englishSlug)
