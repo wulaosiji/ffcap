@@ -1,4 +1,4 @@
-import { substackVariant } from '@/content/research/cover-image.mjs'
+import { coverImageSrc } from '@/content/research/cover-image.mjs'
 
 const WIDTH = { card: 640, header: 960, thumb: 640 } as const
 
@@ -10,7 +10,7 @@ export function ArticleCoverImage({
   variant: keyof typeof WIDTH
 }) {
   const width = WIDTH[variant]
-  const sized = substackVariant(src, width)
+  const sized = coverImageSrc(src, width)
   if (!sized) return null
   return (
     <img
