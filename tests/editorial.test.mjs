@@ -502,6 +502,15 @@ test("option B panels keep topo, per-product motifs, and reduced motion", async 
   }
   assert.match(motion, /ed-topo-drift/);
   assert.match(motion, /prefers-reduced-motion:\s*reduce/);
+  assert.match(motion, /\.ed-topo-hub::before/);
+  assert.match(motion, /ed-topo-drift 56s ease-in-out infinite/);
+  assert.doesNotMatch(motion, /\.ed-panel::before[\s\S]{0,120}ed-topo-drift[\s\S]{0,80}infinite/);
+  assert.match(motion, /\.ed-panel\.ed-product:is\(:hover,\s*:focus-within\)/);
+  assert.match(motion, /prefers-reduced-motion:\s*reduce[\s\S]*transition:\s*opacity[^;]+,\s*filter/);
+  assert.doesNotMatch(motion, /\.ed-panel::(?:before|after)[\s\S]{0,80}transition:\s*none\s*!important/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::after/);
+  assert.match(css, /filter:grayscale/);
+  assert.match(css, /saturate\(1\.4\)/);
   assert.match(hub, /productPrimaryHref/);
   assert.match(hub, /data-motif/);
   assert.match(hub, /ed-panel/);
