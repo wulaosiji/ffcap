@@ -341,22 +341,23 @@
 }
 
 /* Option B panels: D topo wash + lower-right motif. Reading hub is quiet topo only.
-   Motion lives in editorial-motion.css and stops under prefers-reduced-motion. */
+   Rest is muted warm-paper line art. Hover / :focus-within bloom lives here;
+   short motion is in editorial-motion.css and stops under prefers-reduced-motion. */
 .ed-panel{position:relative;overflow:hidden;isolation:isolate;background:var(--ed-paper);min-height:360px}
 .ed-panel::before,.ed-panel[data-motif]::after{content:'';position:absolute;z-index:0;pointer-events:none}
 .ed-panel::before{inset:-12%}
 .ed-panel[data-motif]::after{inset:0}
-.ed-panel::before{background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:72% 46%;background-size:168% auto;opacity:.15;-webkit-mask-image:radial-gradient(ellipse at 80% 58%,#000 0%,transparent 76%);mask-image:radial-gradient(ellipse at 80% 58%,#000 0%,transparent 76%)}
-.ed-panel[data-motif]::after{background-repeat:no-repeat;background-position:right bottom;background-size:auto 100%;opacity:.3;-webkit-mask-image:linear-gradient(90deg,transparent 0%,transparent 50%,#000 74%);mask-image:linear-gradient(90deg,transparent 0%,transparent 50%,#000 74%)}
+.ed-panel::before{background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:72% 46%;background-size:168% auto;opacity:.15;filter:grayscale(.3) saturate(.45);-webkit-mask-image:radial-gradient(ellipse at 80% 58%,#000 0%,transparent 76%);mask-image:radial-gradient(ellipse at 80% 58%,#000 0%,transparent 76%)}
+.ed-panel[data-motif]::after{background-repeat:no-repeat;background-position:right bottom;background-size:auto 100%;opacity:.3;filter:grayscale(.28) saturate(.5) brightness(1.02);-webkit-mask-image:linear-gradient(90deg,transparent 0%,transparent 50%,#000 74%);mask-image:linear-gradient(90deg,transparent 0%,transparent 50%,#000 74%)}
 .ed-panel[data-motif="uniqueresearch"]::after{background-image:url('/editorial/motifs/uniqueresearch.jpg')}
 .ed-panel[data-motif="uniquebase"]::after{background-image:url('/editorial/motifs/uniquebase.jpg')}
 .ed-panel[data-motif="uniquebloom"]::after{background-image:url('/editorial/motifs/uniquebloom.jpg')}
 .ed-panel[data-motif="goodprojects"]::after{background-image:url('/editorial/motifs/goodprojects.jpg');background-position:right 42%;background-size:auto 100%}
 .ed-panel>*{position:relative;z-index:1}
 .ed-panel p{max-width:19rem}
-.ed-panel.ed-product:hover{background:var(--ed-paper)}
-.ed-panel.ed-product:hover::before{opacity:.18}
-.ed-panel.ed-product:hover::after{opacity:.32}
+.ed-panel.ed-product:is(:hover,:focus-within){background:var(--ed-paper)}
+.ed-panel.ed-product:is(:hover,:focus-within)::before{opacity:.22;filter:grayscale(0) saturate(1.2)}
+.ed-panel.ed-product:is(:hover,:focus-within)::after{opacity:.44;filter:grayscale(0) saturate(1.4) brightness(1)}
 .ed-about-ecosystem.ed-reading-hub{position:relative;isolation:isolate;overflow:hidden;background:var(--ed-paper);border-block:1px solid var(--ed-rule);padding:64px 0 72px;margin-bottom:48px}
 .ed-reading-hub::before{content:'';position:absolute;z-index:0;pointer-events:none;inset:-18% -6% -28% 18%;background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:right center;background-size:min(1040px,96%) auto;opacity:.16;-webkit-mask-image:radial-gradient(ellipse at 90% 55%,#000 0%,transparent 70%);mask-image:radial-gradient(ellipse at 90% 55%,#000 0%,transparent 70%)}
 .ed-reading-hub>*{position:relative;z-index:1}
