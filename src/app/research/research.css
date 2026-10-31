@@ -16,3 +16,20 @@
 .rs-card:has(.ed-cover--card) :is(h2,h3){margin-top:12px}
 .rs-article-cover{margin:6px 0 0}
 .rs-article-cover .ed-cover--header{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--ed-radius-card);background:var(--ed-cell)}
+
+.rs-feed{display:flex;flex-direction:column;border-top:1px solid var(--ed-ink)}
+.rs-feed .rs-row{padding:22px 0;border-bottom:1px solid var(--ed-rule)}
+.rs-feed .rs-row-link{display:grid;grid-template-columns:1fr;gap:12px 24px;align-items:start;min-width:0}
+.rs-feed .rs-row-link:has(.ed-cover--card){grid-template-columns:minmax(140px,200px) minmax(0,1fr)}
+.rs-feed .rs-row-link .ed-cover--card{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--ed-radius-card);margin:0;background:var(--ed-cell)}
+.rs-feed .rs-row-copy{display:flex;flex-direction:column;min-width:0}
+.rs-feed .rs-row-copy .rs-meta{justify-content:flex-start;gap:14px}
+.rs-feed .rs-row-copy h2{font-size:clamp(20px,2.1vw,26px);line-height:1.4;letter-spacing:-.03em;font-weight:500;margin:10px 0 0}
+.rs-feed .rs-row-link:hover h2{text-decoration:underline;text-underline-offset:5px}
+.rs-feed .rs-row-copy .rs-card-bottom{padding-top:12px}
+.rs-feed .rs-translation-link{display:inline-block;margin-top:8px}
+@media(max-width:600px){
+  .rs-feed .rs-row{padding:18px 0}
+  .rs-feed .rs-row-link:has(.ed-cover--card){grid-template-columns:1fr}
+  .rs-feed .rs-row-copy h2{font-size:20px}
+}

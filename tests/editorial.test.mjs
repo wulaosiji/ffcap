@@ -447,6 +447,7 @@ test("secondary pages share the research-journal display stack and sentence-case
   assert.equal(productsHubPath("en"), "/en/products");
   assert.equal(productDetailPath("uniquebase", "en"), "/en/products/uniquebase");
   const files = Object.fromEntries(await Promise.all([
+    ["zhArchive", "../src/app/research/page.tsx"],
     ["enArchive", "../src/app/en/research/page.tsx"],
     ["enArticle", "../src/app/en/research/[slug]/page.tsx"],
     ["enProducts", "../src/app/en/products/page.tsx"],
@@ -456,9 +457,17 @@ test("secondary pages share the research-journal display stack and sentence-case
     ["contact", "../src/components/editorial-home/EditorialContact.tsx"],
     ["world", "../src/components/editorial-home/InfiniteWorldHero.tsx"],
   ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")])));
+  assert.match(files.zhArchive, /把分散的行业信号，放回同一张图景。/);
+  assert.match(files.zhArchive, /ed-secondary ed-topo-quiet/);
+  assert.match(files.zhArchive, /rs-feed/);
+  assert.doesNotMatch(files.zhArchive, /rs-directions|rs-search|role="search"|检索文章|全部方向/);
+  assert.match(files.enArchive, /Read the English research articles in full\./);
+  assert.match(files.enArchive, /ed-secondary ed-topo-quiet/);
+  assert.match(files.enArchive, /rs-feed/);
   assert.match(files.enArchive, /ed-eyebrow">UniqueResearch</);
   assert.match(files.enArchive, /<span>Unique research<\/span>/);
   assert.match(files.enArchive, /English article/);
+  assert.doesNotMatch(files.enArchive, /rs-directions|rs-search|role="search"|Search English articles/);
   assert.doesNotMatch(files.enArchive, /UNIQUE RESEARCH|ENGLISH ARCHIVE|ENGLISH ARTICLE/);
   assert.match(files.enArticle, /English Article/);
   assert.match(files.enArticle, /rs-article-header/);
