@@ -369,6 +369,7 @@ test("homepage hero title drops the brand prefix", async () => {
   assert.doesNotMatch(identity, /HOME_H1 = '非凡产研：/);
   assert.match(hero, /h1: HOME_H1/);
   assert.match(hero, /h1: 'An industry capital and ecosystem built on AI research'/);
+  assert.match(hero, /UniqueResearch · Public Research Library/);
   assert.doesNotMatch(hero, /UniqueResearch:\s*an industry/);
   assert.match(faq, /非凡产研（UniqueResearch）是其研究品牌/);
 });
@@ -455,7 +456,8 @@ test("secondary pages share the research-journal display stack and sentence-case
     ["contact", "../src/components/editorial-home/EditorialContact.tsx"],
     ["world", "../src/components/editorial-home/InfiniteWorldHero.tsx"],
   ].map(async ([name, file]) => [name, await readFile(new URL(file, import.meta.url), "utf8")])));
-  assert.match(files.enArchive, /Unique research/);
+  assert.match(files.enArchive, /ed-eyebrow">UniqueResearch</);
+  assert.match(files.enArchive, /<span>Unique research<\/span>/);
   assert.match(files.enArchive, /English article/);
   assert.doesNotMatch(files.enArchive, /UNIQUE RESEARCH|ENGLISH ARCHIVE|ENGLISH ARTICLE/);
   assert.match(files.enArticle, /English article/);

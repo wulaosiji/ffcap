@@ -59,7 +59,7 @@ export function EnglishCuratedHub({
     <main id="main-content" className="ed-container rs-library ed-topo-hub" lang="en">
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">Unique research</p>
+          <p className="ed-eyebrow">UniqueResearch</p>
           <h1>{rankings ? 'Data & Rankings' : 'Events & Awards'}</h1>
           <p>
             {rankings
