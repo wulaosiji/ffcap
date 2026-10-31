@@ -9,9 +9,9 @@
 | 层 | 用在哪里 | 做法 |
 |---|---|---|
 | Chrome 底纹 D | 首页 hero 外缘；研究库、榜单、活动 hub 页眉侧缘；产品 / 关于 / 联系 / 给 AI 只轻轻带一下 | `public/editorial/topo-contour.svg`，墨线用 accent / muted，层透明度 8–18%。类名：`ed-topo-hub`、`ed-topo-quiet`，首页用 `.ed-research-hero::before` |
-| 内容封面 | 英文文章卡、详情头图、OG 与首页英文缩略图；中文列表、详情、OG 与首页中文缩略图 | 英文仍是正文第一张 Substack CDN 图。中文先用本地 `/editorial/covers/zh/<slug>.webp`。卡片 `w_640`，头图 `w_960`。不重画已有英文文件 |
+| 内容封面 | 英文文章卡、详情头图、OG 与首页英文缩略图；中文列表、详情、OG 与首页中文缩略图 | 英文先用本地 `/editorial/covers/en/<slug>.webp`，没有文件时才用正文第一张 Substack CDN 图。中文先用本地 `/editorial/covers/zh/<slug>.webp`。卡片 `w_640`，头图 `w_960`。不重画已有英文文件 |
 
-中文封面文件放在 `public/editorial/covers/zh/<slug>.webp`，页面地址是 `/editorial/covers/zh/<slug>.webp`。同名 `.jpg`、`.png` 只在没有 webp 时使用。没有本地文件时，才沿用现在的规则：`ENGLISH_RELATED` 已核实对照上的英文 Substack 首图。目录为空不影响构建。英文路径不变。本地中文封面仍是社媒暖色编辑插画（amber / terracotta / sage），不要画成站点林绿 chrome，也不要套用下面的林绿 prompt。
+中文封面文件放在 `public/editorial/covers/zh/<slug>.webp`，页面地址是 `/editorial/covers/zh/<slug>.webp`。英文封面文件放在 `public/editorial/covers/en/<slug>.webp`。同名 `.jpg`、`.png` 只在没有 webp 时使用。没有本地中文文件时，才沿用现在的规则：`ENGLISH_RELATED` 已核实对照上的英文封面（本地英文 webp，否则 Substack 首图）。目录为空不影响构建。本地封面仍是社媒暖色编辑插画（amber / terracotta / sage），不要画成站点林绿 chrome，也不要套用下面的林绿 prompt。
 
 阅读列（`.rs-prose`、`.rs-article-header`）保持实色 paper。不要把封面模糊铺成整页背景。
 

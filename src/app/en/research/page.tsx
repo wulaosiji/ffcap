@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
 import archive from '@/content/research/english-substack.json'
-import { firstSubstackImage } from '@/content/research/cover-image.mjs'
+import { coverForEnglishSlug } from '@/content/research/article-cover.mjs'
 import { englishResearchUrl, getEnglishResearchArticle, getEnglishResearchCatalog } from '@/lib/english-research'
 import { relatedChineseSlugForArticle, relatedEnglishArticle } from '@/content/research/english-related.mjs'
 import { ChineseArticleLink } from './SetResearchLanguage'
@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 }
 
 type Params = Record<string, string | string[] | undefined>
-
 export default function EnglishResearchPage({ searchParams }: { searchParams: Params }) {
   const value = (key: string) => typeof searchParams[key] === 'string' ? (searchParams[key] as string).slice(0, 200) : ''
   const query = value('q').trim()
@@ -74,7 +73,7 @@ export default function EnglishResearchPage({ searchParams }: { searchParams: Pa
           {visible.map(article => {
             const full = getEnglishResearchArticle(article.slug)
             const cnSlug = full ? relatedChineseSlugForArticle(full) : null
-            const cover = full ? firstSubstackImage(full.html) : null
+            const cover = coverForEnglishSlug(article.slug)
             return (
               <article key={article.slug} className="rs-row" lang="en">
                 <Link className="rs-row-link" href={englishResearchUrl(article.slug)}>

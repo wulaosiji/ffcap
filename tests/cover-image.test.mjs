@@ -9,6 +9,7 @@ import { coverImageSrc, firstSubstackImage, substackVariant, withoutLeadingCover
 import { homeLatestAnnouncement, homeLatestEnglishAnnouncement } from '../src/content/home-announcement.mjs'
 
 const zhCoverDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../public/editorial/covers/zh')
+const enCoverDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../public/editorial/covers/en')
 const TINY_JPG = Buffer.from('/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgEBAQEBAUFBQUFBQYGBgYGBgYGBgYGBgYHBwcICAgHBwcGBgcHCAgICAkJCQgICAgJCQoKCgwMCwsODg4RERT/xABLAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAIAAgMBIgACEQADEQD/2gAMAwEAAhEDEQA/AL+AD//Z', 'base64')
 const TINY_PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAABAAAAAQBPJcTWAAAADklEQVR4nGP4DwYMEAoAU7oL9ZisIGcAAAAASUVORK5CYII=', 'base64')
 
@@ -24,8 +25,13 @@ test('substack width variants stay on the same CDN asset', () => {
   assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverlocalfixture.webp', 640), '/editorial/covers/zh/zhcoverlocalfixture.webp')
   assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverjpgfixture.jpg', 640), '/editorial/covers/zh/zhcoverjpgfixture.jpg')
   assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverpngfixture.png', 960), '/editorial/covers/zh/zhcoverpngfixture.png')
+  assert.equal(coverImageSrc('/editorial/covers/en/encoverlocalfixture.webp', 640), '/editorial/covers/en/encoverlocalfixture.webp')
+  assert.equal(coverImageSrc('/editorial/covers/en/only-45-of-americans-pay-for-ai-these.webp', 960), '/editorial/covers/en/only-45-of-americans-pay-for-ai-these.webp')
+  assert.equal(coverImageSrc('/editorial/covers/en/20240318a08dcj00.jpg', 640), '/editorial/covers/en/20240318a08dcj00.jpg')
   assert.equal(coverImageSrc('/editorial/covers/zh/zhcoverjpgfixture.jpeg', 640), null)
+  assert.equal(coverImageSrc('/editorial/covers/en/encover.jpg.jpeg', 640), null)
   assert.equal(coverImageSrc('/editorial/covers/zh/../secret.webp', 640), null)
+  assert.equal(coverImageSrc('/editorial/covers/en/../secret.webp', 640), null)
   assert.equal(coverImageSrc('https://example.com/a.webp', 640), null)
 })
 
@@ -76,15 +82,72 @@ test.describe('chinese cover resolution', { concurrency: 1 }, () => {
   })
 })
 
+test.describe('english cover resolution', { concurrency: 1 }, () => {
+  test('english cards reuse a substack cover when no local file exists', () => {
+    assert.equal(coverForEnglishSlug('encoverlocalfixture'), '/editorial/covers/en/encoverlocalfixture.webp')
+    assert.match(coverForEnglishSlug('only-45-of-americans-pay-for-ai-these'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
+    assert.equal(coverForEnglishSlug('20240318a08dcj00'), null)
+    assert.equal(coverForEnglishSlug('../package'), null)
+    assert.equal(coverForEnglishSlug('en/../secret'), null)
+  })
+
+  test('a local en file wins over a substack first image', () => {
+    const fixture = path.join(enCoverDir, 'encoverlocalfixture.webp')
+    assert.equal(fs.statSync(fixture).isFile(), true)
+
+    const mapped = path.join(enCoverDir, 'only-45-of-americans-pay-for-ai-these.webp')
+    const backfill = path.join(enCoverDir, '20240318a08dcj00.webp')
+    const jpgOnly = path.join(enCoverDir, 'encoverjpgfixture.jpg')
+    const pngOnly = path.join(enCoverDir, 'encoverpngfixture.png')
+    const bothWebp = path.join(enCoverDir, 'encoverbothfixture.webp')
+    const bothJpg = path.join(enCoverDir, 'encoverbothfixture.jpg')
+    fs.copyFileSync(fixture, mapped)
+    fs.copyFileSync(fixture, backfill)
+    fs.writeFileSync(jpgOnly, TINY_JPG)
+    fs.writeFileSync(pngOnly, TINY_PNG)
+    fs.copyFileSync(fixture, bothWebp)
+    fs.writeFileSync(bothJpg, TINY_JPG)
+    try {
+      assert.equal(
+        coverForEnglishSlug('only-45-of-americans-pay-for-ai-these'),
+        '/editorial/covers/en/only-45-of-americans-pay-for-ai-these.webp',
+      )
+      assert.equal(coverForEnglishSlug('20240318a08dcj00'), '/editorial/covers/en/20240318a08dcj00.webp')
+      assert.equal(coverForEnglishSlug('encoverjpgfixture'), '/editorial/covers/en/encoverjpgfixture.jpg')
+      assert.equal(coverForEnglishSlug('encoverpngfixture'), '/editorial/covers/en/encoverpngfixture.png')
+      assert.equal(coverForEnglishSlug('encoverbothfixture'), '/editorial/covers/en/encoverbothfixture.webp')
+    } finally {
+      for (const file of [mapped, backfill, jpgOnly, pngOnly, bothWebp, bothJpg]) fs.rmSync(file, { force: true })
+    }
+    assert.match(coverForEnglishSlug('only-45-of-americans-pay-for-ai-these'), /^https:\/\/substackcdn\.com\/image\/fetch\//)
+    assert.equal(coverForEnglishSlug('20240318a08dcj00'), null)
+  })
+})
+
+test('english list and detail resolve covers through coverForEnglishSlug', async () => {
+  const list = await readFile(new URL('../src/app/en/research/page.tsx', import.meta.url), 'utf8')
+  const detail = await readFile(new URL('../src/app/en/research/[slug]/page.tsx', import.meta.url), 'utf8')
+  const hub = await readFile(new URL('../src/components/editorial-home/EnglishCuratedHub.tsx', import.meta.url), 'utf8')
+  assert.match(list, /coverForEnglishSlug/)
+  assert.match(detail, /coverForEnglishSlug/)
+  assert.match(hub, /coverForEnglishSlug/)
+  assert.doesNotMatch(list, /firstSubstackImage/)
+  assert.match(detail, /withoutLeadingCover/)
+})
+
 test('home announcements expose a cover only when one already exists', () => {
   const en = homeLatestEnglishAnnouncement()
   const zh = homeLatestAnnouncement()
-  assert.match(en.coverSrc, /^https:\/\/substackcdn\.com\/image\/fetch\//)
-  assert.equal(substackVariant(en.coverSrc, 640) !== en.coverSrc, true)
+  assert.ok(en.coverSrc)
+  if (en.coverSrc.startsWith('https://substackcdn.com/image/fetch/')) {
+    assert.equal(substackVariant(en.coverSrc, 640) !== en.coverSrc, true)
+  } else {
+    assert.match(en.coverSrc, /^\/editorial\/covers\/en\/[a-z0-9]+(?:-[a-z0-9]+)*\.(webp|jpg|png)$/)
+  }
   assert.ok(
     zh.coverSrc === null ||
     zh.coverSrc.startsWith('https://substackcdn.com/image/fetch/') ||
-    /^\/editorial\/covers\/zh\/[a-z0-9]+\.(webp|jpg|png)$/.test(zh.coverSrc),
+    /^\/editorial\/covers\/(?:zh\/[a-z0-9]+|en\/[a-z0-9]+(?:-[a-z0-9]+)*)\.(webp|jpg|png)$/.test(zh.coverSrc),
   )
 })
 
