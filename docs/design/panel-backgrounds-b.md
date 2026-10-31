@@ -2,7 +2,7 @@
 
 产品大格用 D 地形墨线，右下角再叠一张低透明度手绘。阅读枢纽只留安静等高线，不放手绘。气质靠近 Felt 的暖纸地图：线条慢、纸留白多，不做弹跳和重视差。
 
-站点 chrome 色板仍是 paper `#f7f6f1`、accent `#3f6b52`、muted `#5c6758`，不把整站改成 terracotta。静止时等高线与手绘轻去饱和，保持暖纸淡墨线稿；悬停或键盘 `:focus-within` 时先 `grayscale` 去掉林绿，再用 `sepia` + `hue-rotate` + `saturate` 转到封面式 terracotta / 暖琥珀（不是林绿 `saturate(1.4)`），并叠一层很淡的 terracotta / amber 晕。透明度是等高线约 15%→24%、手绘约 30%→52%，窄屏静止 26%。装饰层 `pointer-events: none`，不挡链接。
+站点 chrome 色板仍是 paper `#f7f6f1`、accent `#3f6b52`、muted `#5c6758`。静止时等高线与手绘保持去饱和的单色淡墨线稿。悬停或键盘 `:focus-within` 去掉 `grayscale`，让植物标本手绘自己的绿 / cream 透出来，并叠一层很淡的 cream / amber 径向晕（等高线约 15%→20%，手绘约 30%→40%，窄屏静止 26%）。不用 `sepia` / `hue-rotate` 的 terracotta 滤镜，也不用林绿 `saturate(1.4)`。手绘文件仍是现有植物标本线稿，`public/editorial/motifs/` 不替换。装饰层 `pointer-events: none`，不挡链接。
 
 ## 类
 
@@ -12,6 +12,6 @@
 | `[data-motif]` | 手绘文件名，不是新产品。`uniqueresearch`、`uniquebase`、`uniquebloom`、`goodprojects`（产品 id 为 `good-projects`） |
 | `.ed-reading-hub` | 联系页「站内阅读与数据入口 / On-site reading and data」。盖住原来的平面米色块，只留纸色和安静等高线 |
 
-手绘在 `public/editorial/motifs/`。动效在 `src/app/editorial-motion.css`：hub / hero / 阅读枢纽的等高线仍可 56 秒往复漂移；产品格 `.ed-panel::before` 静止时不循环，只在悬停或 `:focus-within` 时短位移。`prefers-reduced-motion: reduce` 时关闭循环与位移，仍允许透明度 / `filter` 着色。
+手绘在 `public/editorial/motifs/`。动效在 `src/app/editorial-motion.css`：hub / hero / 阅读枢纽的等高线仍可 56 秒往复漂移；产品格 `.ed-panel::before` 静止时不循环，只在悬停或 `:focus-within` 时短位移。`prefers-reduced-motion: reduce` 时关闭循环与位移，仍允许透明度与去掉灰度的过渡。
 
 产品详情是正文列，不是大格，不加手绘。社媒 `cover-style` 不改。
