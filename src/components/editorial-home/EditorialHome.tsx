@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
 import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, productsHubPath, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
+import { panelMotif } from './panel-motifs.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -12,6 +13,8 @@ function ProductCard({ product, lang }: { product: (typeof PRODUCTS)[number]; la
   const primary = productPrimaryHref(product, lang)
   const external = productExternalHref(product, lang)
   const secondary = typeof external === 'string' && external.startsWith('http') && external !== primary
+  const motif = panelMotif(product.id)
+  const panelProps = motif ? { 'data-motif': motif } : {}
   const body = (
     <>
       <div className="ed-product-top"><span>{product.audience[lang]}</span></div>
@@ -25,11 +28,11 @@ function ProductCard({ product, lang }: { product: (typeof PRODUCTS)[number]; la
   )
   if (!secondary) {
     return primary.startsWith('/')
-      ? <Link href={primary} className="ed-product">{body}</Link>
-      : <OutLink href={primary} className="ed-product">{body}</OutLink>
+      ? <Link href={primary} className="ed-product ed-panel" {...panelProps}>{body}</Link>
+      : <OutLink href={primary} className="ed-product ed-panel" motif={motif}>{body}</OutLink>
   }
   return (
-    <article className="ed-product">
+    <article className="ed-product ed-panel" {...panelProps}>
       <Link href={primary} className="ed-product-main">{body}</Link>
       <OutLink href={external} className="ed-product-external">{product.action[lang]}<ArrowUpRight size={14}/></OutLink>
     </article>

@@ -483,3 +483,32 @@ test('source end dates are inclusive and ended activities remain archived', () =
   assert.equal(eventStatus(event, '2026-03-30T00:00:00+08:00'), 'past');
   assert.equal(eventStatus({ ...event, status: 'ended' }, '2026-03-24T12:00:00+08:00'), 'past');
 });
+
+test("option B panels keep topo, per-product motifs, and reduced motion", async () => {
+  const [css, motion, hub, home, contact, motifs] = await Promise.all([
+    "../src/app/editorial-home.css",
+    "../src/app/editorial-motion.css",
+    "../src/components/editorial-home/ProductsHub.tsx",
+    "../src/components/editorial-home/EditorialHome.tsx",
+    "../src/components/editorial-home/EditorialContact.tsx",
+    "../src/components/editorial-home/panel-motifs.mjs",
+  ].map(file => readFile(new URL(file, import.meta.url), "utf8")));
+  assert.match(css, /\.ed-panel/);
+  assert.match(css, /\.ed-reading-hub/);
+  assert.match(css, /topo-contour\.svg/);
+  assert.doesNotMatch(css, /@keyframes/);
+  for (const name of ["uniqueresearch", "uniquebase", "uniquebloom", "goodprojects"]) {
+    assert.match(css, new RegExp(`/editorial/motifs/${name}\\.jpg`));
+  }
+  assert.match(motion, /ed-topo-drift/);
+  assert.match(motion, /prefers-reduced-motion:\s*reduce/);
+  assert.match(hub, /productPrimaryHref/);
+  assert.match(hub, /data-motif/);
+  assert.match(hub, /ed-panel/);
+  assert.doesNotMatch(hub, /href=\{product\.href\}/);
+  assert.match(home, /ed-panel/);
+  assert.match(home, /data-motif/);
+  assert.match(contact, /ed-reading-hub/);
+  assert.doesNotMatch(contact, /editorial\/motifs/);
+  assert.match(motifs, /"good-projects": "goodprojects"/);
+});

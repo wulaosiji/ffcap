@@ -12,8 +12,8 @@ import { useSwitchSiteLanguage } from '@/hooks/useSwitchSiteLanguage'
 import { SocialLinks } from './SocialLinks'
 import { IcpFilingLink } from '@/components/IcpFilingLink'
 
-export function OutLink({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: () => void }) {
-  return <a href={href} className={className} target="_blank" rel="noopener noreferrer" onClick={onClick}>{children}</a>
+export function OutLink({ href, children, className, onClick, motif }: { href: string; children: ReactNode; className?: string; onClick?: () => void; motif?: string }) {
+  return <a href={href} className={className} target="_blank" rel="noopener noreferrer" onClick={onClick} {...(motif ? { 'data-motif': motif } : {})}>{children}</a>
 }
 
 function FooterNavGroup({ eyebrow, items }: { eyebrow: string; items: { label: string; href: string }[] }) {
