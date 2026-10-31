@@ -25,6 +25,7 @@ test('research hubs switch as exact language pairs', () => {
   assert.equal(researchLanguageCounterpart('/en/research', 'zh'), '/research')
   assert.equal(researchLanguageCounterpart('/research/20261014a0cmpf00', 'en'), null)
   assert.equal(researchLanguageCounterpart('/en/research/some-english-slug', 'zh'), null)
+  assert.equal(researchRouteLang('/'), 'zh')
   assert.equal(researchRouteLang('/en'), 'en')
   assert.equal(researchRouteLang('/en/'), 'en')
   assert.equal(siteLanguageCounterpart('/', 'en'), '/en')

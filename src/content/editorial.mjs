@@ -57,11 +57,11 @@ function normalizePath(pathname) {
   return String(pathname || "").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
 }
 
-/** Route language for research pages and the English homepage. Null elsewhere keeps the saved language. */
+/** Route language for homepages and research pages. Null elsewhere keeps the saved language. */
 export function researchRouteLang(pathname) {
   const path = normalizePath(pathname);
   if (path === "/en" || path === "/en/research" || path.startsWith("/en/research/")) return "en";
-  if (path === "/research" || path.startsWith("/research/")) return "zh";
+  if (path === "/" || path === "/research" || path.startsWith("/research/")) return "zh";
   return null;
 }
 
