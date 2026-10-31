@@ -3,7 +3,7 @@
 .ed-site{overflow-x:clip;min-height:100vh}
 .ed-site *,.ed-dialog *{box-sizing:border-box}
 .ed-site h1,.ed-site h2,.ed-site h3,.ed-site h4,.ed-dialog h2,.ed-dialog h3{font-family:inherit;font-weight:500;line-height:1.25;letter-spacing:-.03em;color:inherit;margin:0}
-.ed-site :is(.ed-research-hero__copy h1,.ed-section-heading h2,.ed-closing h2,.ed-about-intro h1,.ed-feature-copy h2,.ed-about-ecosystem h2,.rs-intro h1){font-family:var(--ed-display);font-weight:400;letter-spacing:-.025em}
+.ed-site :is(.ed-research-hero__copy h1,.ed-section-heading h2,.ed-closing h2,.ed-about-intro h1,.ed-feature-copy h2,.ed-about-ecosystem h2,.rs-intro h1,.rs-article-header h1,.rs-related h2,.rs-page-heading){font-family:var(--ed-display);font-weight:400;letter-spacing:-.025em}
 .ed-site p,.ed-dialog p{margin:0}
 .ed-site a,.ed-dialog a{color:inherit;text-decoration:none}
 .ed-site button,.ed-dialog button,.ed-dialog input{font:inherit;color:inherit}

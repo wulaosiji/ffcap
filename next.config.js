@@ -103,7 +103,7 @@ const nextConfig = {
       },
       {
         source: '/en/products/uniqueclub',
-        destination: '/products/uniquebase',
+        destination: '/en/products/uniquebase',
         permanent: true,
       },
       {

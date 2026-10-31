@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
-import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
+import { EVENTS, LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, eventStatus, legacyTopicFromHash, productExternalHref, productPrimaryHref, productsHubPath, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
 import { homePublicEvents } from '@/content/event-articles.mjs'
 import { EditorialShell, OutLink } from './EditorialShell'
 
@@ -127,7 +127,7 @@ export function EditorialHome({ hero, tail }: { hero: ReactNode; tail?: ReactNod
       </div></section>
 
       <section id="products" className="ed-container ed-section ed-reveal">
-        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '为构建者而生' : 'Built for builders'}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href="/products" className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
+        <div className="ed-section-heading"><div><p className="ed-eyebrow">{zh ? '为构建者而生' : 'Built for builders'}</p><h2>{zh ? '从洞察，到行动。' : 'From insight to action.'}</h2></div><Link href={productsHubPath(lang)} className="ed-link">{zh ? '产品矩阵' : 'All products'}<ArrowRight size={19}/></Link></div>
         <div className="ed-products">{PRODUCTS.map(p => <ProductCard key={p.id} product={p} lang={lang} />)}</div>
       </section>
 

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { AgentCopyBlocks } from './AgentCopyBlocks'
 import { DocumentTitle } from './DocumentTitle'
-import { LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, researchHubPath } from '@/content/editorial.mjs'
+import { LINKS, PRODUCTS, TOPICS, eventChromeTitle, eventScheduleLine, productDetailPath, researchHubPath } from '@/content/editorial.mjs'
 import { AGENT_CURL_ARTICLE, AGENT_CURL_LATEST, AGENT_CURL_LLMS, AGENT_PROMPT_TEXT, AGENT_PROMPT_TEXT_EN } from '@/content/home-agent-kit.mjs'
 import { AGENT_READ_ORDER, AGENT_SURFACES, absoluteAgentUrl } from '@/content/agent-surfaces.mjs'
 
@@ -49,7 +49,6 @@ export function TopicsHubView({ topics }: { topics: TopicCard[] }) {
       <DocumentTitle zh="研究方向 · 非凡资本" en="Research directions · UniqueCapital" />
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">{zh ? '研究方向' : 'Research directions'}</p>
           <h1>{zh ? '研究方向' : 'Research directions'}</h1>
           <p>{zh ? '三个长期关注议题：智能体与企业应用、物理世界与智能硬件、内容创作与文娱。' : 'Three ongoing fields: agents in business, hardware and embodied intelligence, and content and entertainment.'}</p>
           <p>
@@ -432,7 +431,7 @@ export function ForModelsView() {
         <h2>{zh ? '研究方向' : 'Research directions'}</h2>
         <ul>{TOPICS.map(topic => <li key={topic.id}><Link href={`/topics/${topic.id}`}>{topic.name}</Link>{zh ? '：' : ': '}{topic.description[lang]}</li>)}</ul>
         <h2>{zh ? '产品与入口' : 'Products'}</h2>
-        <ul>{PRODUCTS.map(product => <li key={product.id}><Link href={`/products/${product.id}`}>{product.name[lang]}</Link>{zh ? '：' : ': '}{product.description[lang]}</li>)}</ul>
+        <ul>{PRODUCTS.map(product => <li key={product.id}><Link href={productDetailPath(product, lang)}>{product.name[lang]}</Link>{zh ? '：' : ': '}{product.description[lang]}</li>)}</ul>
         <h2>{zh ? '公开数据格式' : 'Public data formats'}</h2>
         <ul>
           <li><Link href="/for-ai">{zh ? '给 AI 的读取接口' : 'For AI'}</Link>{zh ? '：机器 URL 目录与单篇 Markdown 取法。' : ': machine URLs and how to fetch one Markdown article.'}</li>

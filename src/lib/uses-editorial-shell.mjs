@@ -19,6 +19,7 @@ export function usesEditorialShell(pathname) {
     '/en/research',
     '/events',
     '/products',
+    '/en/products',
     '/topics',
   ])
   if (exact.has(pathname)) return true
@@ -28,6 +29,7 @@ export function usesEditorialShell(pathname) {
     '/en/research/',
     '/events/',
     '/products/',
+    '/en/products/',
     '/topics/',
   ]
   return prefixes.some((prefix) => pathname.startsWith(prefix))

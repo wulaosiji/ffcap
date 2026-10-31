@@ -25,7 +25,7 @@ export default function ResearchRankingsHubPage() {
     <main id="main-content" className="ed-container rs-library">
       <div className="rs-intro">
         <div>
-          <p className="ed-eyebrow">非凡产研 / 数据与榜单</p>
+          <p className="ed-eyebrow">非凡产研</p>
           <h1>数据与榜单</h1>
           <p>融资、订阅收入、流量与百强等数据文章与榜单解读。在 ffcap.cn 阅读全文与引用说明。</p>
           <p>

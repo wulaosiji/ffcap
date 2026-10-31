@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useLang } from '@/context/LangContext'
-import { PRODUCTS, productExternalHref, researchHubPath } from '@/content/editorial.mjs'
+import { useDisplayedLang } from '@/hooks/useSwitchSiteLanguage'
+import { PRODUCTS, productDetailPath, productExternalHref, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 
 const copy = {
@@ -27,7 +27,7 @@ const copy = {
 }
 
 export function ProductDetail({ slug }: { slug: string }) {
-  const { lang } = useLang()
+  const lang = useDisplayedLang()
   const text = copy[lang]
   const product = PRODUCTS.find(item => item.id === slug)
   if (!product) return null
@@ -70,11 +70,11 @@ export function ProductDetail({ slug }: { slug: string }) {
             </Link>
           )}
         </p>
-        <h2>{text.other}</h2>
+        <h2 className="rs-page-heading">{text.other}</h2>
         <ul>
           {PRODUCTS.filter(other => other.id !== product.id).map(other => (
             <li key={other.id}>
-              <Link href={`/products/${other.id}`}>{other.name[lang]}</Link>
+              <Link href={productDetailPath(other, lang)}>{other.name[lang]}</Link>
               {lang === 'zh' ? '：' : ': '}
               {other.description[lang]}
             </li>

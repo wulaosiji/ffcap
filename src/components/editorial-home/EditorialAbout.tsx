@@ -40,9 +40,9 @@ const copy = {
     intro: 'Grounded in UniqueResearch, UniqueCapital connects AI founders, investors, and industry partners through research into technology and business practice.',
     detail: 'Across research, rankings, focused events, and collaboration tools, we ask one question: how does new technology become part of real work and everyday life?',
     pillars: [
-      ['01 / RESEARCH', 'Build understanding', 'Study changes in frontier technology, products, and industries. Bring questions that matter into the conversation through research, rankings, and industry observations.'],
-      ['02 / CONNECT', 'Bring people together', 'Organize focused events, learning programs, and community conversations where founders, investors, and industry partners can meet.'],
-      ['03 / BUILD', 'Support collaboration', 'Build tools for project presentation, onsite events, and founder-investor connections, giving each introduction a practical next step.'],
+      ['01 / Research', 'Build understanding', 'Study changes in frontier technology, products, and industries. Bring questions that matter into the conversation through research, rankings, and industry observations.'],
+      ['02 / Connect', 'Bring people together', 'Organize focused events, learning programs, and community conversations where founders, investors, and industry partners can meet.'],
+      ['03 / Build', 'Support collaboration', 'Build tools for project presentation, onsite events, and founder-investor connections, giving each introduction a practical next step.'],
     ],
     directionsEyebrow: 'Research focus',
     directionsTitle: 'Three paths in the evolution of AI.',
@@ -69,7 +69,6 @@ export function EditorialAbout() {
       <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
         <section className="rs-intro" id="top" aria-labelledby="about-title">
           <div>
-            <p className="ed-eyebrow">{text.eyebrow}</p>
             <h1 id="about-title">{text.title}</h1>
             <p>{text.intro}</p>
             <p>{text.detail}</p>

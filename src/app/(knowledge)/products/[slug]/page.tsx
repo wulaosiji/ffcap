@@ -15,7 +15,13 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     ? {
         title: `${product.name.zh} | 非凡资本产品`,
         description: product.description.zh,
-        alternates: { canonical: `${SITE_URL}/products/${product.id}` },
+        alternates: {
+          canonical: `${SITE_URL}/products/${product.id}`,
+          languages: {
+            'zh-CN': `${SITE_URL}/products/${product.id}`,
+            en: `${SITE_URL}/en/products/${product.id}`,
+          },
+        },
       }
     : { title: '产品未找到' }
 }

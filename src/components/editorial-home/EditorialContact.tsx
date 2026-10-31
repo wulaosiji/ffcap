@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { useLang } from '@/context/LangContext'
 import { CONTACT } from '@/content/contact.mjs'
-import { LINKS, researchHubPath } from '@/content/editorial.mjs'
+import { LINKS, productDetailPath, researchHubPath } from '@/content/editorial.mjs'
 import { DocumentTitle } from './DocumentTitle'
 import { EditorialShell, OutLink } from './EditorialShell'
 import '@/app/research/research.css'
@@ -43,7 +43,6 @@ export function EditorialContact() {
       <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
         <section className="rs-intro" id="top" aria-labelledby="contact-title">
           <div>
-            <p className="ed-eyebrow">{text.eyebrow}</p>
             <h1 id="contact-title">{text.title}</h1>
             <p>{text.intro}</p>
           </div>
@@ -68,14 +67,13 @@ export function EditorialContact() {
         </section>
 
         <section className="ed-about-ecosystem" aria-labelledby="contact-links-title">
-          <p className="ed-eyebrow">{lang === 'zh' ? '研究 · 榜单 · 数据' : 'RESEARCH · RANKINGS · DATA'}</p>
-          <h2 id="contact-links-title">{lang === 'zh' ? '站内阅读与数据入口' : 'On-site reading & data'}</h2>
+          <h2 id="contact-links-title">{lang === 'zh' ? '站内阅读与数据入口' : 'On-site reading and data'}</h2>
           <p>{lang === 'zh' ? '研究报告与榜单文章在本站阅读；需要结构化公司事实时可使用 UniqueBase。' : 'Read reports and ranking articles on ffcap.cn; use UniqueBase when you need structured company facts.'}</p>
           <div>
             <Link className="ed-link" href={lang === 'zh' ? '/research' : '/en/research'}>{text.research}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <Link className="ed-link" href={researchHubPath('rankings', lang)}>{text.rankings}<ArrowUpRight size={18} aria-hidden="true" /></Link>
             <OutLink className="ed-link" href={uniqueBase}>{text.uniqueBase}<ArrowUpRight size={18} aria-hidden="true" /></OutLink>
-            <Link className="ed-link" href="/products/uniquebase">{lang === 'zh' ? 'UniqueBase 产品介绍' : 'UniqueBase product details'}<ArrowUpRight size={18} aria-hidden="true" /></Link>
+            <Link className="ed-link" href={productDetailPath('uniquebase', lang)}>{lang === 'zh' ? 'UniqueBase 产品介绍' : 'UniqueBase product details'}<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
         </section>
       </main>
