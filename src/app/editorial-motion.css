@@ -1,6 +1,6 @@
 /* Felt-like page motion for the topographic chrome.
    Slow contour drift stays on hubs/hero. Product panels stay still at rest
-   and bloom (color + a short shift) on hover / :focus-within.
+   and bloom (cover terracotta color + a short shift) on hover / :focus-within.
    ::before/::after sit outside `.ed-site *`, so reduced motion is declared here. */
 
 @keyframes ed-topo-drift {
