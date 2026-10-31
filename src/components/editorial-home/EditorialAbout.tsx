@@ -66,7 +66,7 @@ export function EditorialAbout() {
   return (
     <EditorialShell>
       <DocumentTitle zh="关于我们 · 非凡资本" en="About · UniqueCapital" />
-      <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
+      <main className="ed-container rs-library ed-secondary ed-about ed-topo-quiet" id="main-content">
         <section className="rs-intro" id="top" aria-labelledby="about-title">
           <div>
             <h1 id="about-title">{text.title}</h1>

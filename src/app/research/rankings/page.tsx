@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
 import { LINKS, uniqueBaseHref } from '@/content/editorial.mjs'
+import { coverForChineseSlug } from '@/content/research/article-cover.mjs'
 import { getCuratedRankingArticles } from '@/content/rankings-curation.mjs'
 import { DIRECTIONS } from '@/content/research/taxonomy.mjs'
 import { getResearchCatalog } from '@/lib/research'
@@ -22,7 +24,7 @@ export default function ResearchRankingsHubPage() {
   const articles = getCuratedRankingArticles(getResearchCatalog()) as ReturnType<typeof getResearchCatalog>
 
   return (
-    <main id="main-content" className="ed-container rs-library">
+    <main id="main-content" className="ed-container rs-library ed-topo-hub">
       <div className="rs-intro">
         <div>
           <p className="ed-eyebrow">非凡产研</p>
@@ -45,13 +47,16 @@ export default function ResearchRankingsHubPage() {
       </div>
 
       <div className="rs-grid">
-        {articles.map(article => (
+        {articles.map(article => {
+          const cover = coverForChineseSlug(article.slug)
+          return (
           <article key={article.id} className="rs-card">
             <div className="rs-meta">
               <span>{DIRECTIONS.find(d => d.id === article.topic)?.name ?? '综合'}</span>
               <span>数据与榜单</span>
             </div>
             <Link href={`/research/${article.slug}`} className="rs-card-link">
+              {cover ? <ArticleCoverImage src={cover} variant="card" /> : null}
               <h2>{article.title}</h2>
               <p>{article.excerpt}</p>
             </Link>
@@ -61,7 +66,8 @@ export default function ResearchRankingsHubPage() {
               <Link href={`/research/${article.slug}`} aria-label={`阅读：${article.title}`}>↗</Link>
             </div>
           </article>
-        ))}
+          )
+        })}
       </div>
 
       <p className="rs-source-note">

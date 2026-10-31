@@ -40,7 +40,7 @@ export function EditorialContact() {
   return (
     <EditorialShell>
       <DocumentTitle zh="联系我们 · 非凡资本 UniqueCapital" en="Contact · UniqueCapital" />
-      <main className="ed-container rs-library ed-secondary ed-about" id="main-content">
+      <main className="ed-container rs-library ed-secondary ed-about ed-topo-quiet" id="main-content">
         <section className="rs-intro" id="top" aria-labelledby="contact-title">
           <div>
             <h1 id="contact-title">{text.title}</h1>

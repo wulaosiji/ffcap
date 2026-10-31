@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
+import { coverForChineseSlug } from '@/content/research/article-cover.mjs'
 import { DIRECTIONS, ARTICLE_TYPES, searchArticles } from '@/content/research/taxonomy.mjs'
 import { getResearchCatalog, researchUrl, type ResearchEntry } from '@/lib/research'
 
@@ -24,7 +26,7 @@ export default function ResearchPage({ searchParams }: { searchParams: Params })
   for (const article of catalog) for (const item of article.tags) tagCounts.set(item, (tagCounts.get(item) || 0) + 1)
   const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])
   const active = Boolean(q || topic || type || tag || year)
-  return <main id="main-content" className="ed-container rs-library">
+  return <main id="main-content" className="ed-container rs-library ed-topo-hub">
     <div className="rs-intro"><div><p className="ed-eyebrow">非凡产研 / 文章库</p><h1>研究与洞察</h1><p>把分散的行业信号，放回同一张图景。</p><p><Link href="/for-ai">给 AI</Link> · <Link href="/for-models">引用说明</Link> · <a href="/research/index.json">公开文章索引 JSON</a></p></div><div className="rs-total"><strong>{catalog.length.toLocaleString('zh-CN')}</strong><span>篇文章 · 非凡产研</span></div></div>
     <nav className="rs-directions" aria-label="研究方向">
       <Link href={researchUrl({ ...filters, topic: '' })} aria-current={!topic ? 'page' : undefined}>全部方向<span>{catalog.length}</span></Link>
@@ -40,12 +42,14 @@ export default function ResearchPage({ searchParams }: { searchParams: Params })
       <button type="submit">检索文章 ↗</button>
     </form>
     <div className="rs-result-bar"><p role="status">{active ? `找到 ${matches.length} 篇文章` : `全部 ${matches.length} 篇文章`}{tag ? ` · ${tag}` : ''}{q ? ` · “${q}”` : ''}</p>{active && <Link href="/research">清除筛选 ×</Link>}<span>第 {page} / {totalPages} 页</span></div>
-    {articles.length ? <div className="rs-grid">{articles.map(article => <article key={article.id} className="rs-card">
+    {articles.length ? <div className="rs-grid">{articles.map(article => {
+      const cover = coverForChineseSlug(article.slug)
+      return <article key={article.id} className="rs-card">
       <div className="rs-meta"><span>{DIRECTIONS.find(d => d.id === article.topic)?.name}</span><span>{ARTICLE_TYPES.find(t => t.id === article.type)?.label}</span></div>
-      <Link href={`/research/${article.slug}`} className="rs-card-link"><h2>{article.title}</h2><p>{article.excerpt}</p></Link>
+      <Link href={`/research/${article.slug}`} className="rs-card-link">{cover ? <ArticleCoverImage src={cover} variant="card" /> : null}<h2>{article.title}</h2><p>{article.excerpt}</p></Link>
       <div className="rs-tags">{article.tags.slice(0, 4).map(t => <Link key={t} href={researchUrl({ tag: t })}>{t}</Link>)}</div>
       <div className="rs-card-bottom"><time dateTime={article.publishedAt}>{article.publishedAt.slice(0, 10).replaceAll('-', '.')}</time><span>{article.readingMinutes} 分钟阅读</span><Link href={`/research/${article.slug}`} aria-label={`阅读：${article.title}`}>↗</Link></div>
-    </article>)}</div> : <div className="rs-empty"><h2>暂未找到匹配文章</h2><p>试试更短的关键词，或减少筛选条件。</p><Link href="/research">查看全部文章 ↗</Link></div>}
+    </article>})}</div> : <div className="rs-empty"><h2>暂未找到匹配文章</h2><p>试试更短的关键词，或减少筛选条件。</p><Link href="/research">查看全部文章 ↗</Link></div>}
     <nav className="rs-pagination" aria-label="文章分页">{page > 1 && <Link href={researchUrl({ ...filters, page: String(page - 1) })}>← 上一页</Link>}<span>{page} / {totalPages}</span>{page < totalPages && <Link href={researchUrl({ ...filters, page: String(page + 1) })}>下一页 →</Link>}</nav>
     <p className="rs-source-note">本文库收录非凡产研腾讯新闻账号公开文章，保留原文内容、署名和发布时间。历史活动与数据以原文日期为准。<a href="https://news.qq.com/omn/author/21759984" target="_blank" rel="noopener noreferrer">查看来源 ↗</a></p>
   </main>

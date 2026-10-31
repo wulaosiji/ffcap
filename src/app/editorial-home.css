@@ -200,12 +200,20 @@
 /* Four product entries share a two-column layout; research-direction grids stay unchanged. */
 /* Split research-journal hero: left copy, right tools. No directory pill wall. */
 .ed-research-hero{position:relative;padding:96px 0 80px;border-bottom:1px solid var(--ed-rule);background:var(--ed-paper);text-align:left;overflow:visible}
-.ed-research-hero:before{content:'';position:absolute;left:0;right:0;top:0;height:min(760px,100%);background:radial-gradient(ellipse at 12% 88%,rgba(63,107,82,.08),transparent 62%);pointer-events:none}
+.ed-research-hero:before{content:'';position:absolute;inset:0;background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:right -4% center;background-size:min(980px,64vw) auto;opacity:.15;pointer-events:none;-webkit-mask-image:radial-gradient(ellipse at 90% 42%,#000 0%,transparent 68%);mask-image:radial-gradient(ellipse at 90% 42%,#000 0%,transparent 68%)}
 .ed-research-hero__main{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,5fr);gap:48px 56px;align-items:start}
 .ed-research-hero__dot{width:5px;height:5px;border-radius:50%;background:var(--ed-accent);flex:none}
 .ed-site .ed-research-hero__kicker{display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;margin:0 0 28px;color:var(--ed-caption);font-size:12px;font-weight:500;letter-spacing:.01em;line-height:1.5}
 .ed-research-hero__status{display:flex;justify-content:flex-start;width:100%;margin-top:0}
 .ed-research-hero__announce-link{display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:100%;padding:7px 14px 7px 12px;border:1px solid var(--ed-rule);border-radius:var(--ed-radius-pill);background:rgba(255,255,255,.84);font-size:12px;line-height:1.4;color:var(--ed-muted);text-align:left;transition:border-color .2s,color .2s}
+.ed-research-hero__announce-link--cover{display:grid;grid-template-columns:88px minmax(0,1fr) auto;grid-template-areas:"thumb kicker arrow" "thumb title arrow" "thumb meta arrow" "thumb time arrow";column-gap:10px;row-gap:1px;align-items:center;width:100%;border-radius:var(--ed-radius-card);padding:8px 12px 8px 8px;background:#fff}
+.ed-research-hero__announce-link--cover .ed-cover--thumb{grid-area:thumb;align-self:center}
+.ed-research-hero__announce-link--cover .ed-research-hero__status-kicker{grid-area:kicker}
+.ed-research-hero__announce-link--cover .ed-research-hero__announce-title{grid-area:title;max-width:100%}
+.ed-research-hero__announce-link--cover .ed-research-hero__announce-meta{grid-area:meta;max-width:100%}
+.ed-research-hero__announce-link--cover time{grid-area:time}
+.ed-research-hero__announce-link--cover svg{grid-area:arrow}
+.ed-cover--thumb{width:88px;height:50px;object-fit:cover;border-radius:var(--ed-radius-tag);flex:none;background:var(--ed-cell)}
 .ed-research-hero__announce-link:hover{border-color:var(--ed-card-line);color:var(--ed-ink)}
 .ed-research-hero__status-kicker{flex:none;font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--ed-caption)}
 .ed-research-hero__announce-title{min-width:0;max-width:22rem;font-weight:500;color:var(--ed-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -310,12 +318,19 @@
 @media(max-width:600px){.ed-footer-main{grid-template-columns:1fr 1fr;gap:30px}}
 @media(max-width:600px){.ed-research-dense__row{gap:8px 10px;padding:14px 0}.ed-research-dense__title h3{font-size:17px}}
 @media(max-width:1100px){.ed-research-hero__cards{grid-template-columns:repeat(2,minmax(0,1fr))}.ed-research-hero__card:nth-child(2){border-right:0}}
-@media(max-width:860px){.ed-research-hero__main{grid-template-columns:1fr;gap:32px}.ed-research-hero{padding:72px 0 56px}}
-@media(max-width:600px){.ed-research-hero{padding:56px 0 40px}.ed-site .ed-research-hero__scale{font-size:13px;margin-top:16px}.ed-site .ed-research-hero__kicker{margin-bottom:18px}.ed-research-hero__copy h1{margin-bottom:16px}.ed-research-hero__tools{margin-top:0}.ed-research-hero__status{margin-top:0}.ed-research-hero__agents-wrap{margin-top:0}.ed-research-hero__announce-title{max-width:9rem}.ed-research-hero__announce-meta{max-width:6.5rem}.ed-world-teaser__card{grid-template-columns:1fr}.ed-world-teaser__visual{min-height:140px}}
+@media(max-width:860px){.ed-research-hero__main{grid-template-columns:1fr;gap:32px}.ed-research-hero{padding:72px 0 56px}.ed-research-hero:before{background-position:right top;background-size:min(720px,120vw) auto;opacity:.1;-webkit-mask-image:radial-gradient(ellipse at 100% 0%,#000 0%,transparent 52%);mask-image:radial-gradient(ellipse at 100% 0%,#000 0%,transparent 52%)}}
+@media(max-width:600px){.ed-research-hero{padding:56px 0 40px}.ed-site .ed-research-hero__scale{font-size:13px;margin-top:16px}.ed-site .ed-research-hero__kicker{margin-bottom:18px}.ed-research-hero__copy h1{margin-bottom:16px}.ed-research-hero__tools{margin-top:0}.ed-research-hero__status{margin-top:0}.ed-research-hero__agents-wrap{margin-top:0}.ed-research-hero__announce-title{max-width:9rem}.ed-research-hero__announce-meta{max-width:6.5rem}.ed-research-hero__announce-link--cover .ed-research-hero__announce-title,.ed-research-hero__announce-link--cover .ed-research-hero__announce-meta{max-width:100%}.ed-world-teaser__card{grid-template-columns:1fr}.ed-world-teaser__visual{min-height:140px}}
 @media(max-height:860px) and (min-width:861px){.ed-research-hero{padding:72px 0 56px}.ed-site .ed-research-hero__kicker{margin-bottom:20px}.ed-research-hero__copy h1{margin-bottom:20px}.ed-research-hero__tools{margin-top:0}.ed-research-hero__status{margin-top:0}.ed-site .ed-research-hero__scale{margin-top:16px}}
 @media(max-width:860px){.ed-contact-card{grid-template-columns:1fr}}
 .ed-secondary .rs-intro p+p{margin-top:12px}
 .ed-secondary>.rs-prose{margin-left:0;margin-right:auto;margin-top:4px}
+
+/* Chrome layer D: faint topographic ink. Reading type stays on solid paper. */
+.ed-topo-hub,.ed-topo-quiet{position:relative;isolation:isolate}
+.ed-topo-hub:before,.ed-topo-quiet:before{content:'';position:absolute;z-index:0;pointer-events:none;left:-7vw;right:-3vw;top:0;background-image:url('/editorial/topo-contour.svg');background-repeat:no-repeat;background-position:right -20px top -40px}
+.ed-topo-hub>*,.ed-topo-quiet>*{position:relative;z-index:1}
+.ed-topo-hub:before{height:440px;background-size:980px auto;opacity:.16;-webkit-mask-image:radial-gradient(ellipse at 96% 0%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse at 96% 0%,#000 0%,transparent 72%)}
+.ed-topo-quiet:before{height:200px;background-size:760px auto;opacity:.09;-webkit-mask-image:radial-gradient(ellipse at 100% 0%,#000 0%,transparent 68%);mask-image:radial-gradient(ellipse at 100% 0%,#000 0%,transparent 68%)}
 
 @media(min-width:601px){
   .ed-products,.ed-about-directions[aria-labelledby="about-products-title"] .ed-about-grid{grid-template-columns:repeat(2,minmax(0,1fr))}

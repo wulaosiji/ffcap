@@ -12,7 +12,7 @@
     "start": "node server.js",
     "lint": "next lint",
     "typecheck": "tsc --noEmit --incremental false",
-    "test:content": "node --test tests/research.test.mjs tests/english-research.test.mjs tests/english-research-hubs.test.mjs tests/english-backfill.test.mjs tests/llm-content.test.mjs tests/agent-surfaces.test.mjs tests/editorial.test.mjs tests/editorial-shell-routes.test.mjs tests/rankings-curation.test.mjs tests/events-awards-curation.test.mjs tests/event-articles.test.mjs tests/redirects.test.mjs tests/robots.test.mjs tests/home-hero.test.mjs tests/ui-language.test.mjs tests/narrative-links.test.mjs tests/research-feed.test.mjs tests/analytics-runtime.test.cjs tests/icp-filing.test.mjs",
+    "test:content": "node --test tests/research.test.mjs tests/english-research.test.mjs tests/english-research-hubs.test.mjs tests/english-backfill.test.mjs tests/llm-content.test.mjs tests/agent-surfaces.test.mjs tests/editorial.test.mjs tests/editorial-shell-routes.test.mjs tests/rankings-curation.test.mjs tests/events-awards-curation.test.mjs tests/event-articles.test.mjs tests/redirects.test.mjs tests/robots.test.mjs tests/home-hero.test.mjs tests/cover-image.test.mjs tests/ui-language.test.mjs tests/narrative-links.test.mjs tests/research-feed.test.mjs tests/analytics-runtime.test.cjs tests/icp-filing.test.mjs",
     "test:world": "node --test tests/cloud-*.test.mjs tests/blender-assets.test.mjs tests/settlement-physics.test.mjs tests/settlement-layout.test.mjs",
     "test": "npm run test:content"
   },

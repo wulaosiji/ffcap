@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { ArticleCoverImage } from '@/components/editorial-home/ArticleCover'
 import { LINKS, researchHubPath, uniqueBaseHref } from '@/content/editorial.mjs'
+import { coverForEnglishSlug } from '@/content/research/article-cover.mjs'
 
 const CJK = /[\u3400-\u9fff]/
 
@@ -54,7 +56,7 @@ export function EnglishCuratedHub({
   const badge = rankings ? 'Data & rankings' : 'Events & awards'
 
   return (
-    <main id="main-content" className="ed-container rs-library" lang="en">
+    <main id="main-content" className="ed-container rs-library ed-topo-hub" lang="en">
       <div className="rs-intro">
         <div>
           <p className="ed-eyebrow">Unique research</p>
@@ -92,13 +94,16 @@ export function EnglishCuratedHub({
 
       {articles.length ? (
         <div className="rs-grid">
-          {articles.map(article => (
+          {articles.map(article => {
+            const cover = coverForEnglishSlug(article.slug)
+            return (
             <article key={article.id} className="rs-card">
               <div className="rs-meta">
                 {article.topic ? <span>{topicLabel(article.topic)}</span> : null}
                 <span>{badge}</span>
               </div>
               <Link href={`/en/research/${article.slug}`} className="rs-card-link">
+                {cover ? <ArticleCoverImage src={cover} variant="card" /> : null}
                 <h2 lang={storedLang(article.title)}>{article.title}</h2>
                 {article.excerpt ? <p lang={storedLang(article.excerpt)}>{article.excerpt}</p> : null}
               </Link>
@@ -108,7 +113,8 @@ export function EnglishCuratedHub({
                 <Link className="rs-card-read" href={`/en/research/${article.slug}`} aria-label={`Read article: ${article.title}`}>Read →</Link>
               </div>
             </article>
-          ))}
+            )
+          })}
         </div>
       ) : (
         <div className="rs-empty">
