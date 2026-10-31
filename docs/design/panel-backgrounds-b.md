@@ -2,7 +2,7 @@
 
 产品大格用 D 地形墨线，右下角再叠一张低透明度手绘。阅读枢纽只留安静等高线，不放手绘。气质靠近 Felt 的暖纸地图：线条慢、纸留白多，不做弹跳和重视差。
 
-色板仍是 paper `#f7f6f1`、accent `#3f6b52`、muted `#5c6758`。静止时等高线与手绘轻去饱和，保持暖纸淡墨线稿；悬停或键盘 `:focus-within` 时饱和到林绿 / sage（等高线约 15%→22%，手绘约 30%→44%，窄屏静止 26%）。装饰层 `pointer-events: none`，不挡链接。
+站点 chrome 色板仍是 paper `#f7f6f1`、accent `#3f6b52`、muted `#5c6758`，不把整站改成 terracotta。静止时等高线与手绘轻去饱和，保持暖纸淡墨线稿；悬停或键盘 `:focus-within` 时先 `grayscale` 去掉林绿，再用 `sepia` + `hue-rotate` + `saturate` 转到封面式 terracotta / 暖琥珀（不是林绿 `saturate(1.4)`），并叠一层很淡的 terracotta / amber 晕。透明度是等高线约 15%→24%、手绘约 30%→52%，窄屏静止 26%。装饰层 `pointer-events: none`，不挡链接。
 
 ## 类
 

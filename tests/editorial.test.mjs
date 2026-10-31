@@ -485,13 +485,14 @@ test('source end dates are inclusive and ended activities remain archived', () =
 });
 
 test("option B panels keep topo, per-product motifs, and reduced motion", async () => {
-  const [css, motion, hub, home, contact, motifs] = await Promise.all([
+  const [css, motion, hub, home, contact, motifs, docs] = await Promise.all([
     "../src/app/editorial-home.css",
     "../src/app/editorial-motion.css",
     "../src/components/editorial-home/ProductsHub.tsx",
     "../src/components/editorial-home/EditorialHome.tsx",
     "../src/components/editorial-home/EditorialContact.tsx",
     "../src/components/editorial-home/panel-motifs.mjs",
+    "../docs/design/panel-backgrounds-b.md",
   ].map(file => readFile(new URL(file, import.meta.url), "utf8")));
   assert.match(css, /\.ed-panel/);
   assert.match(css, /\.ed-reading-hub/);
@@ -510,7 +511,11 @@ test("option B panels keep topo, per-product motifs, and reduced motion", async 
   assert.doesNotMatch(motion, /\.ed-panel::(?:before|after)[\s\S]{0,80}transition:\s*none\s*!important/);
   assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::after/);
   assert.match(css, /filter:grayscale/);
-  assert.match(css, /saturate\(1\.4\)/);
+  assert.match(css, /cover-style[\s\S]{0,80}terracotta/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::before\{[^}]*sepia\([^)]+\)[^}]*hue-rotate\(-/);
+  assert.match(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::after\{[^}]*sepia\([^)]+\)[^}]*hue-rotate\(-/);
+  assert.match(css, /rgba\(196,112,74/);
+  assert.doesNotMatch(css, /\.ed-panel\.ed-product:is\(:hover,:focus-within\)::(?:before|after)\{[^}]*grayscale\(0\)\s+saturate\(1\.[24]\)/);
   assert.match(hub, /productPrimaryHref/);
   assert.match(hub, /data-motif/);
   assert.match(hub, /ed-panel/);
@@ -520,4 +525,7 @@ test("option B panels keep topo, per-product motifs, and reduced motion", async 
   assert.match(contact, /ed-reading-hub/);
   assert.doesNotMatch(contact, /editorial\/motifs/);
   assert.match(motifs, /"good-projects": "goodprojects"/);
+  assert.match(docs, /terracotta/);
+  assert.match(docs, /sepia/);
+  assert.doesNotMatch(docs, /饱和到林绿/);
 });
