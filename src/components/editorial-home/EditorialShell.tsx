@@ -1,11 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRight, ArrowUpRight, Menu, Search, X } from 'lucide-react'
-import logo from '@/assets/ffcap-logo-mark.png'
+import { BrandMark } from '@/components/BrandMark'
 import { CONTENT, LINKS, PRODUCTS, eventChromeTitle, filterContent, filterProducts, footerExploreGroups, primaryNavItems, productPrimaryHref } from '@/content/editorial.mjs'
 import { LangToggle } from '@/components/LangToggle'
 import { useSwitchSiteLanguage } from '@/hooks/useSwitchSiteLanguage'
@@ -51,7 +50,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     <a className="ed-skip" href="#main-content">{zh ? '跳到正文' : 'Skip to content'}</a>
     <header className="ed-header">
       <Link className="ed-brand" href={zh ? '/' : '/en'} aria-label={zh ? '非凡资本首页' : 'UniqueCapital home'}>
-        <Image src={logo} alt="" width={58} height={33} priority />
+        <BrandMark size={32} />
         <span>{zh ? '非凡资本' : 'UniqueCapital'}</span>
       </Link>
       <nav className="ed-desktop-nav" aria-label={zh ? '主导航' : 'Main navigation'}>
@@ -97,7 +96,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
           <Dialog.Portal>
             <Dialog.Overlay className="ed-overlay"/>
             <Dialog.Content className={`ed-dialog ed-menu-dialog ${cinematic ? 'ed-menu-from-left' : ''}`} lang={displayed}>
-              <div className="ed-dialog-top"><Dialog.Title>{zh ? '非凡资本' : 'UniqueCapital'}</Dialog.Title><Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭导航菜单' : 'Close navigation menu'}><X size={24} strokeWidth={1.4}/></Dialog.Close></div>
+              <div className="ed-dialog-top"><div className="ed-menu-brand"><BrandMark size={28} animated={false} /><Dialog.Title>{zh ? '非凡资本' : 'UniqueCapital'}</Dialog.Title></div><Dialog.Close className="ed-icon-button" aria-label={zh ? '关闭导航菜单' : 'Close navigation menu'}><X size={24} strokeWidth={1.4}/></Dialog.Close></div>
               <Dialog.Description className="ed-eyebrow">{zh ? '研究。连接。构建。' : 'Research. Connect. Build.'}</Dialog.Description>
               <nav aria-label={zh ? '完整导航' : 'Full navigation'}>{nav.map((n, i) => n.href.startsWith('http') ? <OutLink key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowUpRight size={23}/></OutLink> : <Link key={n.href} href={n.href} onClick={() => setMenuOpen(false)}><span className="ed-menu-index">0{i+1}</span>{n.label}<ArrowRight size={23}/></Link>)}</nav>
               <div className="ed-menu-bottom"><p>{zh ? '让研究进入真实世界。' : 'Bring research into the real world.'}</p><Link href={zh ? "/research" : "/en/research"} className="ed-link" onClick={() => setMenuOpen(false)}>{zh ? '非凡产研 · 文章库' : 'UniqueResearch articles'}<ArrowRight size={17}/></Link><OutLink href={LINKS.events} className="ed-link">{zh ? '活动日历' : 'Event calendar'}<ArrowUpRight size={17}/></OutLink></div>
@@ -109,7 +108,7 @@ export function EditorialShell({ children, cinematic = false }: { children: Reac
     {children}
     <footer className="ed-footer">
       <div className="ed-container ed-footer-main">
-        <div><Link href={zh ? '/' : '/en'} className="ed-brand"><Image src={logo} alt="" width={58} height={33}/><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={displayed} /></div>
+        <div><Link href={zh ? '/' : '/en'} className="ed-brand"><BrandMark size={32} animated={false} /><span>{zh ? '非凡资本' : 'UniqueCapital'}</span></Link><p>{zh ? '研究 AI 的下一步，连接创造下一步的人。' : 'Research what comes next. Connect the people building it.'}</p><SocialLinks lang={displayed} /></div>
         <FooterNavGroup eyebrow={explore.site.eyebrow} items={explore.site.items} />
         <FooterNavGroup eyebrow={explore.ai.eyebrow} items={explore.ai.items} />
         <div className="ed-footer-links"><span className="ed-eyebrow">{zh ? '进入产品' : 'Our Products'}</span>{PRODUCTS.map(p => {

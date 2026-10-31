@@ -325,7 +325,7 @@
 }
 
 .narrative-home .narrative-brand .brand-logo-mark {
-  filter: drop-shadow(0 0 24px rgba(234, 27, 140, 0.24));
+  filter: none;
 }
 
 .narrative-home .narrative-brand .brand-wordmark {
@@ -1594,8 +1594,8 @@
   }
 
   .narrative-home .narrative-brand .brand-logo-mark {
-    width: auto !important;
-    height: 34px !important;
+    width: 32px !important;
+    height: 32px !important;
   }
 
   .narrative-home .narrative-brand .brand-wordmark {

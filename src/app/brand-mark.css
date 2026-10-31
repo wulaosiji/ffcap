@@ -1,0 +1,52 @@
+/* Shared UniqueBase four-tile BrandMark. Hop is header-only (ff-brand-icon--hop). */
+.ff-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dce1d8;
+  background: #f8f9f6;
+  line-height: 0;
+}
+
+.ff-brand-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ff-brand-icon--hop .ff-mark-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ff-mark-bounce 1.6s infinite;
+  animation-delay: var(--ff-mark-delay, 0s);
+}
+
+@keyframes ff-mark-bounce {
+  0% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(.22, .8, .32, 1);
+  }
+  35% {
+    transform: translateY(-3.2px);
+    animation-timing-function: cubic-bezier(.45, 0, .75, .6);
+  }
+  58% {
+    transform: translateY(.4px);
+    animation-timing-function: cubic-bezier(.2, .8, .3, 1);
+  }
+  72%, to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-brand-icon--hop .ff-mark-bar {
+    animation: none;
+    transform: none;
+  }
+}

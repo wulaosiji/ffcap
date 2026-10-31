@@ -1,11 +1,10 @@
 "use client"
 
-import Image from 'next/image'
-import logoMark from '@/assets/ffcap-logo-mark.png'
+import { BrandMark } from '@/components/BrandMark'
 import { useLang } from '@/context/LangContext'
 import { useSubdomain } from '@/hooks/useSubdomain'
 
-export function Logo({ size = 32 }: { size?: number }) {
+export function Logo({ size = 32, animated = true }: { size?: number; animated?: boolean }) {
   const { lang } = useLang()
   const { isSubdomain, mainSiteUrl } = useSubdomain()
 
@@ -19,16 +18,7 @@ export function Logo({ size = 32 }: { size?: number }) {
       aria-label={homeLabel}
       className="inline-flex items-center gap-2 select-none transition-opacity hover:opacity-80"
     >
-      <Image
-        src={logoMark}
-        alt=""
-        width={Math.round(size * (logoMark.width / logoMark.height))}
-        height={size}
-        className="brand-logo-mark shrink-0"
-        style={{ height: size, width: 'auto' }}
-        aria-hidden="true"
-        priority
-      />
+      <BrandMark size={size} animated={animated} className="brand-logo-mark" />
       <span
         className="brand-wordmark whitespace-nowrap text-lg font-semibold leading-none tracking-normal [font-family:inherit]"
         suppressHydrationWarning

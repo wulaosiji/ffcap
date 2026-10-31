@@ -10,6 +10,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ffcap.cn"),
   title: "非凡资本 UniqueCapital | AI 研究、资本与生态",
   description: IDENTITY.description,
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png" }],
+  },
   verification: {
     other: {
       "baidu-site-verification": "codeva-0YLvK3GiMy",

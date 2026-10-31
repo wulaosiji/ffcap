@@ -29,7 +29,7 @@ test('public index uses an explicit field allowlist and surfaces source limitati
 test('identity links only verified official profiles and structured JSON cannot terminate its script', () => {
   const graph = organizationGraph()
   assert.deepEqual(graph['@graph'][0].sameAs, VERIFIED_SAME_AS)
-  assert.equal(graph['@graph'][0].logo, 'https://ffcap.cn/globe.svg')
+  assert.equal(graph['@graph'][0].logo, 'https://ffcap.cn/favicon.svg')
   assert.equal(graph['@graph'][0].brand.name, '非凡产研')
   assert.equal(graph['@graph'][1].potentialAction['@type'], 'SearchAction')
   const value = { headline: '</script><script>alert(1)</script>' }
